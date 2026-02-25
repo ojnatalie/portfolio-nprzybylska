@@ -720,6 +720,217 @@ footer {
   height: 24px;
   stroke-width: 2px;
 }
+
+/* ============================================
+   HAMBURGER / MOBILE NAV
+   ============================================ */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+  z-index: 300;
+  flex-shrink: 0;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--fg);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+.nav-mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(244,249,247,0.97);
+  backdrop-filter: blur(20px);
+  z-index: 250;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.nav-mobile-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.nav-mobile-overlay a {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: color 0.2s;
+}
+.nav-mobile-overlay a:hover { color: var(--muted); }
+.nav-mobile-close-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 28px;
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* --- Tablet (max 1024px) --- */
+@media (max-width: 1024px) {
+  nav { padding: 18px 32px; }
+
+  .hero {
+    padding: 120px 32px 80px;
+    grid-template-columns: 1fr 320px;
+    gap: 40px;
+  }
+
+  .about-layout { gap: 48px; }
+  .tools-layout { grid-template-columns: 200px 1fr; gap: 60px; }
+  section { padding: 72px 32px; }
+  footer { padding: 22px 32px; }
+  .cta-section { padding: 100px 32px; }
+}
+
+/* --- Mobile (max 768px) --- */
+@media (max-width: 768px) {
+  /* NAV */
+  nav {
+    padding: 16px 20px;
+  }
+  .nav-links { display: none !important; }
+  .nav-hamburger { display: flex; }
+  .nav-mobile-overlay { display: flex; }
+
+  /* HERO */
+  .hero {
+    padding: 100px 20px 60px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    min-height: auto;
+  }
+  .hero .blob { width: 350px; height: 350px; top: -60px; right: -80px; }
+  .hero-name { font-size: clamp(52px, 14vw, 80px); }
+  .hero-title { font-size: clamp(18px, 5vw, 28px); }
+  .hero-desc { font-size: 15px; }
+
+  .hero-card {
+    padding: 24px;
+    border-radius: 16px;
+  }
+  .hero-photo { height: 200px; }
+
+  /* SECTIONS */
+  section { padding: 60px 20px; }
+  .section-label { margin-bottom: 36px; }
+
+  /* ABOUT */
+  .about-layout {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .stats-row {
+    grid-template-columns: repeat(3,1fr);
+    gap: 8px;
+    margin-top: 28px;
+  }
+  .stat { padding: 18px 12px; }
+  .stat-num { font-size: 30px; }
+
+  /* SERVICES */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .svc { padding: 30px 24px; }
+
+  /* COMPETENCIES */
+  .comp-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* TOOLS */
+  .tools-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .tools-hl {
+    position: static;
+    font-size: clamp(28px, 8vw, 42px);
+  }
+
+  /* CAROUSEL */
+  .card-3d {
+    width: 240px;
+    height: 210px;
+    border-radius: 16px;
+  }
+  .carousel-track { gap: 20px; }
+  .carousel-viewport { padding: 24px 0; }
+
+  /* EDUCATION */
+  .edu-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* OPINIONS */
+  .ops-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* CTA */
+  .cta-section { padding: 80px 20px; }
+  .cta-hl { font-size: clamp(34px, 10vw, 60px); }
+
+  /* FOOTER */
+  footer {
+    padding: 20px;
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  /* MARQUEE */
+  .marquee-item { padding: 0 18px; }
+}
+
+/* --- Small Mobile (max 480px) --- */
+@media (max-width: 480px) {
+  .hero { padding: 90px 16px 50px; }
+  section { padding: 48px 16px; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .stat:last-child { grid-column: span 2; }
+  .stat { padding: 16px; }
+  .stat-num { font-size: 28px; }
+  nav { padding: 14px 16px; }
+  footer { padding: 18px 16px; }
+  .cta-section { padding: 60px 16px; }
+  .hero-cta { padding: 13px 24px; font-size: 10px; }
+  .about-headline { font-size: clamp(28px, 9vw, 44px); }
+  .card-3d { width: 200px; height: 175px; }
+}
 </style>
 </head>
 <body>
@@ -736,7 +947,22 @@ footer {
     <li><a href="#opinions">Opinie</a></li>    
     <li><a href="#contact">Kontakt</a></li>
   </ul>
+  <button class="nav-hamburger" id="js-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="nav-mobile-overlay" id="js-mobile-nav">
+  <a href="#about" class="mobile-nav-link">O mnie</a>
+  <a href="#services" class="mobile-nav-link">W tym pomogę</a>
+  <a href="#competencies" class="mobile-nav-link">Kompetencje</a>
+  <a href="#tools" class="mobile-nav-link">Narzędzia</a>
+  <a href="#projects" class="mobile-nav-link">Projekty</a>
+  <a href="#edu" class="mobile-nav-link">Edukacja</a>
+  <a href="#opinions" class="mobile-nav-link">Opinie</a>
+  <a href="#contact" class="mobile-nav-link">Kontakt</a>
+  <span class="nav-mobile-close-label">kliknij link lub ESC, by zamknąć</span>
+</div>
 
 <header class="hero">
   <div class="blob"></div>
@@ -1079,6 +1305,27 @@ footer {
   }, { threshold: 0.1 });
   document.querySelectorAll('.fi').forEach(el => obs.observe(el));
 
+  // --- HAMBURGER ---
+  const hamburger = document.getElementById('js-hamburger');
+  const mobileNav = document.getElementById('js-mobile-nav');
+  function openMenu() {
+    hamburger.classList.add('open');
+    mobileNav.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    hamburger.classList.remove('open');
+    mobileNav.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
   // --- KARUZELA 1 (Prawo -> Lewo) ---
   const viewport1 = document.getElementById('js-carousel-1');
   const track1 = document.getElementById('js-track-1');
@@ -1091,12 +1338,11 @@ footer {
   const viewport2 = document.getElementById('js-carousel-2');
   const track2 = document.getElementById('js-track-2');
   let scrollPos2 = -100;
-  let speed2 = -0.6; // Prędkość ujemna, by leciało w drugą stronę
+  let speed2 = -0.6;
   let isDragging2 = false;
   let startX2;
 
   function animate() {
-    // Animacja rzędu 1
     if (!isDragging1) {
       scrollPos1 -= speed1;
       const halfWidth1 = track1.scrollWidth / 2;
@@ -1104,8 +1350,6 @@ footer {
       if (scrollPos1 > 0) scrollPos1 = -halfWidth1;
       track1.style.transform = `translateX(${scrollPos1}px)`;
     }
-
-    // Animacja rzędu 2
     if (!isDragging2) {
       scrollPos2 -= speed2;
       const halfWidth2 = track2.scrollWidth / 2;
@@ -1113,11 +1357,10 @@ footer {
       if (scrollPos2 > 0) scrollPos2 = -halfWidth2;
       track2.style.transform = `translateX(${scrollPos2}px)`;
     }
-
     requestAnimationFrame(animate);
   }
 
-  // Obsługa myszki Rząd 1
+  // Mouse — Rząd 1
   viewport1.addEventListener('mousedown', (e) => {
     isDragging1 = true;
     startX1 = e.pageX - scrollPos1;
@@ -1130,7 +1373,19 @@ footer {
     track1.style.transform = `translateX(${scrollPos1}px)`;
   });
 
-  // Obsługa myszki Rząd 2
+  // Touch — Rząd 1
+  viewport1.addEventListener('touchstart', (e) => {
+    isDragging1 = true;
+    startX1 = e.touches[0].pageX - scrollPos1;
+  }, { passive: true });
+  viewport1.addEventListener('touchend', () => { isDragging1 = false; });
+  viewport1.addEventListener('touchmove', (e) => {
+    if (!isDragging1) return;
+    scrollPos1 = e.touches[0].pageX - startX1;
+    track1.style.transform = `translateX(${scrollPos1}px)`;
+  }, { passive: true });
+
+  // Mouse — Rząd 2
   viewport2.addEventListener('mousedown', (e) => {
     isDragging2 = true;
     startX2 = e.pageX - scrollPos2;
@@ -1143,7 +1398,19 @@ footer {
     track2.style.transform = `translateX(${scrollPos2}px)`;
   });
 
-  // Hover stop
+  // Touch — Rząd 2
+  viewport2.addEventListener('touchstart', (e) => {
+    isDragging2 = true;
+    startX2 = e.touches[0].pageX - scrollPos2;
+  }, { passive: true });
+  viewport2.addEventListener('touchend', () => { isDragging2 = false; });
+  viewport2.addEventListener('touchmove', (e) => {
+    if (!isDragging2) return;
+    scrollPos2 = e.touches[0].pageX - startX2;
+    track2.style.transform = `translateX(${scrollPos2}px)`;
+  }, { passive: true });
+
+  // Hover stop (desktop only)
   viewport1.addEventListener('mouseenter', () => speed1 = 0);
   viewport1.addEventListener('mouseleave', () => speed1 = 0.6);
   viewport2.addEventListener('mouseenter', () => speed2 = 0);
