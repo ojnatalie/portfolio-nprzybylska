@@ -518,6 +518,14 @@ section { padding: 96px 60px; position: relative; }
   background: #e5eae8;
   position: relative;
   overflow: hidden;
+}
+
+.proj-thumb-luno {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #e5eae8;
+  position: relative;
+  overflow: hidden;
   background-color: var(--bg);
   background-image: url("../portfolio-nprzybylska/img/luno-1.png");
   background-size: cover;
@@ -525,6 +533,8 @@ section { padding: 96px 60px; position: relative; }
   background-repeat: no-repeat;
   overflow: hidden;
 }
+
+  
 .proj-thumb::after {
   content: '';
   position: absolute;
@@ -564,8 +574,7 @@ section { padding: 96px 60px; position: relative; }
 .proj-thumb-overlay svg {
   width: 38px; height: 38px;
   color: var(--fg);
-  /* background: rgba(244,249,247,0.92); */
-  background-image: url("../portfolio-nprzybylska/img/luno-1.png" alt="LUNO"); no-repeat fixed center;
+  background: rgba(244,249,247,0.92); 
   border-radius: 50%;
   padding: 9px;
 }
@@ -1606,8 +1615,8 @@ footer {
   <div class="projects-grid">
 
     <div class="proj-card span-2 fi">
-      <div class="proj-thumb">
-        <span class="proj-thumb-cat">Brand Experience</span>
+      <div class="proj-thumb proj-thumb-luno">
+        <span class="proj-thumb-cat">Web & Design</span>
         <a href="https://ojnatalie.github.io/luno/" target="_blank">
         <div class="proj-thumb-overlay">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -2067,6 +2076,7 @@ footer {
 </script>
 </body>
 </html>
+
 
 
 
