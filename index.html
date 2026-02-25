@@ -1097,6 +1097,33 @@ footer {
 }
 .foot-link:hover { color: var(--fg); }
 
+/* ─── HERO CANVAS BACKGROUND ─── */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── HERO ENTRANCE ANIMATIONS ─── */
+@keyframes heroUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroUpCard {
+  from { opacity: 0; transform: translateY(22px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero-tag   { animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+.hero-name  { animation: heroUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.22s both; }
+.hero-title { animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.38s both; }
+.hero-desc  { animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.5s both; }
+.hero-cta   { animation: heroUp 0.65s cubic-bezier(0.16,1,0.3,1) 0.66s both; }
+.hero-card  { animation: heroUpCard 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s both !important; }
+
 /* ANIMATIONS */
 .fi { opacity: 0; transform: translateY(18px); transition: opacity 0.75s ease, transform 0.75s ease; }
 .fi.vis { opacity: 1; transform: translateY(0); }
@@ -1362,6 +1389,7 @@ footer {
 </div>
 
 <header class="hero">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="blob"></div>
   <div class="hero-content">
     <span class="hero-tag">Marketing · Design · Generatywna AI</span>
@@ -1379,7 +1407,7 @@ footer {
     <div class="card-name">Natalia Przybylska</div>
     <div class="card-role">AI Creative &amp; Marketing Specialist</div>
     <div class="card-contacts">
-      <a href="mailto:natalie.kreatywnie@gmail.com" class="card-contact"><span class="cdot"></span>
+      <a href="mailto:natalie.kreatywnie@gmail.com" class="card-contact"><span class="cdot"></span>natalie.kreatywnie@gmail.com</a>
       <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="card-contact"><span class="cdot"></span>Linkedin: nat-przybylska</a>
       <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="card-contact"><span class="cdot"></span>IG: @natalie.kreatywnie</a>
     </div>
@@ -1467,12 +1495,12 @@ footer {
     <div class="svc fi" style="background:#111; display:flex; flex-direction:column; justify-content:center;">
       <span style="font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(244,249,247,0.22); margin-bottom:10px; display:block;">Masz projekt?</span>
       <a href="mailto:natalie.kreatywnie@gmail.com" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:#51f500; text-decoration:none;">natalie.kreatywnie@gmail.com →</a>
-      <a href="/cdn-cgi/l/email-protection#157b746174797c703b7e677074616c627b7c70557278747c793b767a78" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:#51f500; text-decoration:none;"><span class="__cf_email__" data-cfemail="3957584d5855505c17524b5c584d404e57505c795e54585055175a5654">[email&#160;protected]</span> →</a>
+      <a href="mailto:natalie.kreatywnie@gmail.com" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:#51f500; text-decoration:none;">natalie.kreatywnie@gmail.com →</a>
     </div>
   </div>
 </section>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <section id="competencies">
   <div class="section-label">Zakres kompetencji</div>
@@ -1898,7 +1926,7 @@ footer {
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   lucide.createIcons();
   
   const obs = new IntersectionObserver(entries => {
@@ -1943,10 +1971,93 @@ footer {
       document.querySelectorAll('.modal-panel.open').forEach(m => closeModal(m.id));
     }
   });
-</script></body>
+
+  // ─── HERO CANVAS BACKGROUND ───
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, raf;
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Thin rotating lines — modernist / Bauhaus feel
+    const pivots = [
+      { x: 0.72, y: 0.18, len: 0.38, speed: 0.00018, angle: 0.5,   color: 'rgba(17,16,16,0.055)' },
+      { x: 0.15, y: 0.65, len: 0.28, speed: -0.00013, angle: 2.1,  color: 'rgba(17,16,16,0.04)'  },
+      { x: 0.88, y: 0.55, len: 0.22, speed: 0.00022,  angle: 1.2,  color: 'rgba(81,245,0,0.08)'  },
+      { x: 0.42, y: 0.12, len: 0.32, speed: -0.00016, angle: 3.8,  color: 'rgba(17,16,16,0.035)' },
+      { x: 0.60, y: 0.80, len: 0.25, speed: 0.00014,  angle: 0.9,  color: 'rgba(17,16,16,0.04)'  },
+    ];
+
+    // Slowly breathing circles
+    const circles = [
+      { x: 0.78, y: 0.22, r: 0.14, phase: 0,    speed: 0.0004, color: 'rgba(81,245,0,0.045)'  },
+      { x: 0.20, y: 0.75, r: 0.10, phase: 2.1,  speed: 0.0003, color: 'rgba(17,16,16,0.035)'  },
+      { x: 0.50, y: 0.45, r: 0.22, phase: 1.1,  speed: 0.00025, color: 'rgba(17,16,16,0.025)' },
+    ];
+
+    // Drifting horizontal hairlines
+    const hairlines = [
+      { y: 0.30, speed: 0.000055, phase: 0,   color: 'rgba(17,16,16,0.03)' },
+      { y: 0.58, speed: -0.000040, phase: 1.4, color: 'rgba(17,16,16,0.025)' },
+      { y: 0.82, speed: 0.000035, phase: 2.8,  color: 'rgba(81,245,0,0.04)' },
+    ];
+
+    let t = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Hairlines
+      hairlines.forEach(h => {
+        const offset = Math.sin(t * h.speed * 1000 + h.phase) * 0.04;
+        const y = (h.y + offset) * H;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(W, y);
+        ctx.strokeStyle = h.color;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+
+      // Circles (breathing)
+      circles.forEach(c => {
+        const scale = 1 + Math.sin(t * c.speed * 1000 + c.phase) * 0.08;
+        const r = c.r * Math.min(W, H) * scale;
+        ctx.beginPath();
+        ctx.arc(c.x * W, c.y * H, r, 0, Math.PI * 2);
+        ctx.strokeStyle = c.color;
+        ctx.lineWidth = 0.75;
+        ctx.stroke();
+      });
+
+      // Rotating pivot lines
+      pivots.forEach(p => {
+        p.angle += p.speed * 16;
+        const len = p.len * Math.min(W, H);
+        const cx = p.x * W;
+        const cy = p.y * H;
+        ctx.beginPath();
+        ctx.moveTo(cx - Math.cos(p.angle) * len, cy - Math.sin(p.angle) * len);
+        ctx.lineTo(cx + Math.cos(p.angle) * len, cy + Math.sin(p.angle) * len);
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+
+      t++;
+      raf = requestAnimationFrame(draw);
+    }
+
+    draw();
+  })();
+
+</script>
+</body>
 </html>
-
-
-
-
-
