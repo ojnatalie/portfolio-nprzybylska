@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Natalia Przybylska — AI Creative & Marketing Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f4f9f7;
+  --fg: #111010;
+  --accent: #51f500;
+  --accent-dim: rgba(81,245,0,0.07);
+  --accent-mid: rgba(81,245,0,0.18);
+  --muted: #7a8a84;
+  --card: #ffffff;
+  --border: rgba(17,16,16,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.10) 0%, transparent 65%);
+  pointer-events: none;
+  filter: blur(70px);
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(244,249,247,0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: var(--fg);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-dot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(81,245,0,0.7);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(81,245,0,0.5); }
+  50% { box-shadow: 0 0 16px rgba(81,245,0,0.9); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--fg); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding: 130px 60px 90px;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero .blob { width: 700px; height: 700px; top: -150px; right: -150px; opacity: 0.8; }
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-tag::before { content: ''; width: 28px; height: 1.5px; background: var(--accent); display: block; }
+
+.hero-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(54px, 8.5vw, 112px);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  margin-bottom: 14px;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(20px, 2.8vw, 36px);
+  color: var(--muted);
+  margin-bottom: 36px;
+  letter-spacing: -0.01em;
+}
+
+.hero-desc {
+  font-size: 16.5px;
+  line-height: 1.9;
+  color: rgba(17,16,16,0.6);
+  max-width: 520px;
+  margin-bottom: 44px;
+}
+.hero-desc strong { color: var(--fg); font-weight: 500; }
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: var(--fg);
+  padding: 15px 34px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 4px 24px rgba(81,245,0,0.3);
+  font-weight: 400;
+}
+.hero-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(81,245,0,0.45);
+}
+
+/* HERO CARD */
+.hero-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 8px 60px rgba(17,16,16,0.07);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-photo {
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  background-image: url('https://pps.services.adobe.com/api/profile/AADE36315AF348BE0A495DCA@AdobeID/image/707597bf-60d5-46ba-be0d-2d0c0663fecf/276');
+  background-size: cover;
+  background-position: center; 
+  background-repeat: no-repeat; 
+}
+
+.card-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--fg);
+  margin-bottom: 3px;
+}
+.card-role { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+.card-contacts { display: flex; flex-direction: column; gap: 9px; }
+
+.card-contact {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.card-contact:hover { color: var(--fg); }
+
+.cdot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 7px rgba(81,245,0,0.55);
+}
+
+/* MARQUEE */
+.marquee-wrap {
+  overflow: hidden;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+.marquee-track {
+  display: flex;
+  animation: marquee 24s linear infinite;
+  width: max-content;
+}
+.marquee-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 32px;
+  white-space: nowrap;
+}
+.marquee-item.hi { color: var(--fg); font-weight: 400; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* SECTIONS */
+section { padding: 96px 60px; position: relative; }
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 52px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+}
+.section-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(81,245,0,0.55);
+  flex-shrink: 0;
+}
+
+/* ABOUT */
+.about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+
+.about-headline {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  margin-bottom: 36px;
+}
+.ul-acc {
+  background-image: linear-gradient(transparent 84%, var(--accent) 84%);
+  background-size: 100%;
+}
+
+.about-body { font-size: 15.5px; line-height: 1.95; color: rgba(17,16,16,0.62); }
+.about-body p { margin-bottom: 20px; }
+.about-body strong { color: var(--fg); font-weight: 500; }
+
+.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 44px; }
+.stat {
+  padding: 28px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+  margin-bottom: 7px;
+}
+.stat-num em { font-style: normal; color: var(--accent); }
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* SERVICES — dark */
+.services-section { background: #111010; }
+.services-section .section-label { color: rgba(244,249,247,0.35); }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.svc {
+  padding: 42px 34px;
+  background: #161616;
+  transition: background 0.3s;
+}
+.svc:hover { background: #1c1c1c; }
+
+.svc-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 18px;
+  display: block;
+}
+.svc-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  color: #f4f9f7;
+  margin-bottom: 13px;
+  line-height: 1.2;
+}
+.svc-desc { font-size: 13px; line-height: 1.8; color: rgba(244,249,247,0.45); }
+.svc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.stag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid rgba(244,249,247,0.12);
+  padding: 3px 8px;
+  color: rgba(244,249,247,0.3);
+  border-radius: 3px;
+}
+
+/* COMPETENCIES */
+.comp-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.comp-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px 28px;
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  transition: box-shadow 0.25s, transform 0.25s;
+  box-shadow: 0 2px 12px rgba(17,16,16,0.03);
+}
+.comp-item:hover { box-shadow: 0 8px 36px rgba(17,16,16,0.08); transform: translateY(-2px); }
+
+.comp-ico {
+  width: 34px; height: 34px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-mid);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.comp-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--fg);
+  margin-bottom: 5px;
+}
+.comp-desc { font-size: 12.5px; line-height: 1.75; color: var(--muted); }
+
+/* TOOLS */
+.tools-layout { display: grid; grid-template-columns: 260px 1fr; gap: 80px; align-items: start; }
+.tools-hl {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 3.5vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  position: sticky;
+  top: 120px;
+}
+
+.tools-cats { display: flex; flex-direction: column; gap: 24px; }
+.tools-cat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 30px;
+  box-shadow: 0 2px 16px rgba(17,16,16,0.03);
+}
+.tools-cat-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.tool-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 13px;
+  font-size: 12px;
+  color: var(--fg);
+  font-weight: 400;
+  transition: border-color 0.2s, background 0.2s;
+  cursor: default;
+}
+.chip:hover { border-color: var(--accent); background: var(--accent-dim); }
+
+/* PROJECTS CAROUSEL */
+.carousel-viewport {
+  width: 100%;
+  overflow: hidden;
+  padding: 80px 0;
+  cursor: grab;
+  perspective: 1500px;
+  user-select: none;
+  background: transparent;
+}
+
+.carousel-viewport:active {
+  cursor: grabbing;
+}
+
+.carousel-track {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-3d {
+  position: relative;
+  width: 364px;
+  height: 318px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+  
+  transform: rotateY(-12deg) rotateX(4deg);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card-3d:nth-child(even) {
+  transform: rotateY(12deg) rotateX(-4deg) translateY(20px);
+}
+
+.card-3d img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.card-3d:hover {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 30px 60px rgba(81, 245, 0, 0.2);
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 25px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card-3d:hover .card-overlay {
+  opacity: 1;
+}
+
+/* EDUCATION */
+.edu-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+.edu-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px;
+  position: relative;
+  overflow: hidden;
+}
+.edu-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.edu-degree {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--fg);
+  margin-bottom: 5px;
+}
+.edu-school { font-size: 12.5px; color: var(--muted); margin-bottom: 10px; }
+.edu-meta { font-family: 'DM Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; color: var(--muted); opacity: 0.6; }
+
+/* OPINIONS */
+.ops-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.op {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  transition: transform 0.3s ease;
+}
+
+.op:hover {
+  transform: translateY(-5px);
+}
+
+.op-text {
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: rgba(17,16,16,0.7);
+  margin-bottom: 24px;
+}
+
+.op-author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.op-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.op-name {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.op-linkedin {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.op-linkedin:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+/* CTA */
+.cta-section {
+  text-align: center;
+  padding: 120px 60px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.cta-section .blob { width: 700px; height: 700px; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.6; }
+
+.cta-hl {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(38px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-sub {
+  font-size: 16px;
+  color: var(--muted);
+  max-width: 420px;
+  margin: 0 auto 44px;
+  line-height: 1.75;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-email {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: clamp(18px, 2.5vw, 30px);
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 3px;
+  transition: opacity 0.2s;
+  position: relative;
+  z-index: 1;
+}
+.cta-email:hover { opacity: 0.65; }
+
+.cta-phone {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  margin-top: 14px;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+}
+
+/* FOOTER */
+footer {
+  padding: 26px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+.foot-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.foot-links { display: flex; gap: 22px; }
+.foot-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.foot-link:hover { color: var(--fg); }
+
+/* ANIMATIONS */
+.fi { opacity: 0; transform: translateY(18px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.fi.vis { opacity: 1; transform: translateY(0); }
+.fi:nth-child(2) { transition-delay: 0.08s; }
+.fi:nth-child(3) { transition-delay: 0.16s; }
+.fi:nth-child(4) { transition-delay: 0.24s; }
+.fi:nth-child(5) { transition-delay: 0.32s; }
+.fi:nth-child(6) { transition-delay: 0.40s; }
+
+.flat-icon {
+  color: #111010;
+  width: 24px; 
+  height: 24px;
+  stroke-width: 2px;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Natalia Przybylska <span class="nav-dot"></span></a>
+  <ul class="nav-links">
+    <li><a href="#about">O mnie</a></li>
+    <li><a href="#services">Usługi</a></li>
+    <li><a href="#competencies">Kompetencje</a></li>
+    <li><a href="#tools">Narzędzia</a></li>
+    <li><a href="#projects">Projekty</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="blob"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Marketing · Design · Generatywna AI</span>
+    <h1 class="hero-name">Natalia<br>Przybylska</h1>
+    <p class="hero-title">AI-powered Marketerka &amp; Graficzka</p>
+    <p class="hero-desc">
+      Przez 8 lat szlifowałam warsztat w marketingu i grafice.<br>
+      Teraz dodatkowo wspieram się AI — co oznacza, że <strong>robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób:<br> marketingowca i grafika.</strong><br><br>
+      Wymyślam koncepcje. Projektuję. Dostarczam efekt.
+    </p>
+    <a href="#contact" class="hero-cta">Napisz do mnie →</a>
+  </div>
+  <div class="hero-card fi">
+    <div class="hero-photo"></div>
+    <div class="card-name">Natalia Przybylska</div>
+    <div class="card-role">AI Creative &amp; Marketing Specialist</div>
+    <div class="card-contacts">
+      <a href="mailto:natalie.kreatywnie@gmail.com" class="card-contact"><span class="cdot"></span>natalie.kreatywnie@gmail.com</a>
+      <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="card-contact"><span class="cdot"></span>Linkedin: nat-przybylska</a>
+      <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="card-contact"><span class="cdot"></span>IG: @natalie.kreatywnie</a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item hi">Brand Experience</span><span class="marquee-item">·</span>
+    <span class="marquee-item">AI Content Creation</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Creative Strategy</span><span class="marquee-item">·</span>
+    <span class="marquee-item">DTP &amp; Print</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Meta Ads</span><span class="marquee-item">·</span>
+    <span class="marquee-item">Landing Pages</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Viral Content</span><span class="marquee-item">·</span>
+    <span class="marquee-item">Social Media</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Brand Experience</span><span class="marquee-item">·</span>
+    <span class="marquee-item">AI Content Creation</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Creative Strategy</span><span class="marquee-item">·</span>
+    <span class="marquee-item">DTP &amp; Print</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Meta Ads</span><span class="marquee-item">·</span>
+    <span class="marquee-item">Landing Pages</span><span class="marquee-item">·</span>
+    <span class="marquee-item hi">Viral Content</span><span class="marquee-item">·</span>
+    <span class="marquee-item">Social Media</span><span class="marquee-item">·</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="section-label">O mnie</div>
+  <div class="about-layout">
+    <div>
+      <h2 class="about-headline fi">
+        Jedna osoba.<br>
+        <span class="ul-acc">Dwa zestawy</span><br>
+        kompetencji.
+      </h2>
+      <div class="stats-row">
+        <div class="stat fi"><div class="stat-num">8<em>+</em></div><div class="stat-label">lat doświadczenia</div></div>
+        <div class="stat fi"><div class="stat-num">2<em>×1</em></div><div class="stat-label">marketing + design</div></div>
+        <div class="stat fi"><div class="stat-num">AI<em>↑</em></div><div class="stat-label">szybciej · lepiej</div></div>
+      </div>
+    </div>
+    <div class="about-body fi">
+      <p>Większość firm zatrudnia dwie osoby: specjalistę ds. marketingu i grafika.<br> Ja jestem skrótem.</p>
+      <p>Znając cel biznesowy wiem, jak zamienić go w kreację. <strong>Od insightu po plik gotowy do kampanii lub druku.</strong> Cały proces przechodzi przez moje ręce.</p>
+      <p>Korzystam z AI jako rozszerzenia warsztatu, nie jego zastępstwo. Każdy projekt przechodzi przez mój filtr estetyczny i strategiczny. Nie generuję masowo — tworzę rzeczy, które mają sens i pokazują wrażliwość na odbiorcę.</p>
+      <p><strong>Słucham rynku.</strong> Wyłapuję autentyczne potrzeby i przekuwam je w treści, które chcą się same roznosić. Wrodzona empatia i otwartość na ludzi pomaga w wyłapywaniu insightów i budowaniu relacji.</p>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="services-section">
+  <div class="section-label">Co robię</div>
+  <div class="services-grid">
+    <div class="svc fi">
+      <span class="svc-num">01</span>
+      <h3 class="svc-title">Brand Experience</h3>
+      <p class="svc-desc">Dbam o spójność marki w każdym punkcie styku — od posta na Instagramie, przez stronę główną, po gadżet wręczany na konferencji. Projektuję z myślą o całości.</p>
+      <div class="svc-tags"><span class="stag">identyfikacja wizualna</span><span class="stag">social media</span><span class="stag">key visual</span></div>
+    </div>
+    <div class="svc fi">
+      <span class="svc-num">02</span>
+      <h3 class="svc-title">AI Content Creation</h3>
+      <p class="svc-desc">Tworzę grafiki i wideo z potencjałem wirusowym przy użyciu najnowszych modeli AI. Dobór narzędzia do celu, nie odwrotnie. Kompleksowo zarządzam profilami i narzędziami.</p>
+      <div class="svc-tags"><span class="stag">Midjourney</span><span class="stag">Higgsfield</span><span class="stag">Firefly</span><span class="stag">wideo</span></div>
+    </div>
+    <div class="svc fi">
+      <span class="svc-num">03</span>
+      <h3 class="svc-title">Creative Strategy</h3>
+      <p class="svc-desc">Od insightu po finalną kreację — samodzielnie. Wymyślam koncepty kampanii z potencjałem viralowym. Treści, które naturalnie niosą się w sieci.</p>
+      <div class="svc-tags"><span class="stag">koncepty kampanii</span><span class="stag">viral content</span><span class="stag">copywriting</span></div>
+    </div>
+    <div class="svc fi">
+      <span class="svc-num">04</span>
+      <h3 class="svc-title">Design &amp; DTP</h3>
+      <p class="svc-desc">Od digitalu po druk. Ulotki, plakaty, materiały eventowe, wielkoformatowe reklamy — z pełnym przygotowaniem technicznym do produkcji.</p>
+      <div class="svc-tags"><span class="stag">print</span><span class="stag">digital</span><span class="stag">wielki format</span><span class="stag">DTP</span></div>
+    </div>
+    <div class="svc fi">
+      <span class="svc-num">05</span>
+      <h3 class="svc-title">Performance &amp; Web</h3>
+      <p class="svc-desc">Planuję i optymalizuję kampanie Meta Ads i LinkedIn Ads w B2B i B2C. Projektuję i wdrażam sprzedażowe landing page'e, od pomysłu po wdrożenie. </p>
+      <div class="svc-tags"><span class="stag">Meta Ads</span><span class="stag">LinkedIn Ads</span><span class="stag">landing page</span></div>
+    </div>
+    <div class="svc fi" style="background:#111; display:flex; flex-direction:column; justify-content:center;">
+      <span style="font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(244,249,247,0.22); margin-bottom:10px; display:block;">Masz projekt?</span>
+      <p style="font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:#f4f9f7; line-height:1.25; margin-bottom:14px;">Napisz i porozmawiajmy.</p>
+      <a href="mailto:natalie.kreatywnie@gmail.com" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:#51f500; text-decoration:none;">natalie.kreatywnie@gmail.com →</a>
+    </div>
+  </div>
+</section>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<section id="competencies">
+  <div class="section-label">Zakres kompetencji</div>
+  <div class="comp-grid">
+    <div class="comp-item fi">
+      <div class="comp-ico"><i data-lucide="lightbulb" class="flat-icon"></i></div>
+      <div>
+        <div class="comp-title">Koncepcje kreatywne</div>
+        <div class="comp-desc">Przygotowywanie koncepcji kreatywnych dla działań marketingowych i komunikacyjnych — od briefu po gotową ideę kampanii.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico"><i data-lucide="palette" class="flat-icon"></i></div>
+      <div>
+        <div class="comp-title">Projektowanie &amp; adaptacje graficzne</div>
+        <div class="comp-desc">Projektowanie oraz adaptacja materiałów graficznych zgodnych ze standardami marki — spójnie i na czas.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico"><i data-lucide="smartphone" class="flat-icon"></i></div>
+      <div>
+        <div class="comp-title">Materiały digital</div>
+        <div class="comp-desc">Grafiki do social mediów, kampanii reklamowych, landing pages, mailingów, banerów i prezentacji. Od jednorazowego posta po kompleksową linię komunikacyjną.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico"><i data-lucide="printer" class="flat-icon"></i></div>
+      <div>
+        <div class="comp-title">DTP &amp; materiały drukowane</div>
+        <div class="comp-desc">Ulotki, plakaty, zaproszenia, materiały eventowe, dokumenty firmowe — z pełnym przygotowaniem technicznym do druku.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico"><i data-lucide="sparkles" class="flat-icon"></i></div>
+      <div>
+        <div class="comp-title">Key visual &amp; linie graficzne</div>
+        <div class="comp-desc">Opracowywanie key visuali kampanii i spójnych linii graficznych, które działają w każdym medium — od social po outdoor.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico"><i data-lucide="camera" class="flat-icon"></i></div>
+      <div>
+        <div class="comp-title">Retusz &amp; obróbka zdjęć</div>
+        <div class="comp-desc">Retusz zdjęć, korekcja kolorystyczna oraz podstawowa obróbka materiałów wizualnych zgodna ze standardami marki i celami kampanii.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tools" style="overflow:hidden; position:relative;">
+  <div class="blob" style="width:500px; height:500px; bottom:-150px; left:-100px; opacity:0.7;"></div>
+  <div class="section-label">Narzędzia</div>
+  <div class="tools-layout">
+    <div>
+      <h2 class="tools-hl fi">Warsztat,<br>który<br><span class="ul-acc">działa.</span></h2>
+    </div>
+    <div class="tools-cats">
+      <div class="tools-cat fi">
+        <div class="tools-cat-title">Grafika &amp; Design</div>
+        <div class="tool-chips">
+          <div class="chip">Illustrator</div><div class="chip">Photoshop</div><div class="chip">InDesign</div>
+          <div class="chip">After Effects</div><div class="chip">Lightroom</div><div class="chip">Adobe XD</div>
+          <div class="chip">Figma</div><div class="chip">Canva</div>
+        </div>
+      </div>
+      <div class="tools-cat fi">
+        <div class="tools-cat-title">Generatywna AI</div>
+        <div class="tool-chips">
+          <div class="chip">Midjourney</div><div class="chip">Adobe Firefly</div><div class="chip">Higgsfield</div>
+          <div class="chip">Nano Banana</div><div class="chip">ElevenLabs</div><div class="chip">ChatGPT</div>
+          <div class="chip">Claude</div><div class="chip">Gemini</div>
+        </div>
+      </div>
+      <div class="tools-cat fi">
+        <div class="tools-cat-title">Marketing &amp; Web &amp; Performance</div>
+        <div class="tool-chips">
+          <div class="chip">WordPress</div><div class="chip">Meta Ads</div><div class="chip">LinkedIn Ads</div>
+          <div class="chip">Google Analytics</div><div class="chip">Webflow</div><div class="chip">Premiere / CapCut</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="section-label">Wybrane projekty</div>
+  <div class="carousel-viewport" id="js-carousel">
+    <div class="carousel-track" id="js-track">
+      <div class="card-3d"><img src="7.webp" alt="Projekt 1"><div class="card-overlay">AI Visual Campaign</div></div>
+      <div class="card-3d"><img src="8.webp" alt="Projekt 2"><div class="card-overlay">Brand Experience</div></div>
+      <div class="card-3d"><img src="9.webp" alt="Projekt 3"><div class="card-overlay">Social Media Design</div></div>
+      <div class="card-3d"><img src="10.webp" alt="Projekt 4"><div class="card-overlay">Creative Strategy</div></div>
+      <div class="card-3d"><img src="11.webp" alt="Projekt 5"><div class="card-overlay">DTP & Print</div></div>
+      <div class="card-3d"><img src="12.webp" alt="Projekt 6"><div class="card-overlay">Digital Marketing</div></div>
+      <div class="card-3d"><img src="7.webp"></div>
+      <div class="card-3d"><img src="8.webp"></div>
+      <div class="card-3d"><img src="9.webp"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-label">Edukacja</div>
+  <div class="edu-row">
+    <div class="edu-item fi">
+      <div class="edu-degree">Praktyczny marketing</div>
+      <div class="edu-school">Wyższa Szkoła Bankowa</div>
+      <div class="edu-meta">Studia podyplomowe · Chorzów · 03.2022 – 01.2023</div>
+    </div>
+    <div class="edu-item fi">
+      <div class="edu-degree">Grafika komputerowa i multimedia</div>
+      <div class="edu-school">Akademia WSB</div>
+      <div class="edu-meta">Studia podyplomowe · Dąbrowa Górnicza · 10.2020 – 09.2021</div>
+    </div>
+    <div class="edu-item fi">
+      <div class="edu-degree">Bezpieczeństwo wewnętrzne</div>
+      <div class="edu-school">Uniwersytet Opolski</div>
+      <div class="edu-meta">Licencjat · Opole · 10.2013 – 06.2016</div>
+    </div>
+  </div>
+</section>
+
+<section id="opinions">
+  <div class="section-label">Opinie o współpracy (i dowody na to, że istnieję)</div>
+  <div class="ops-grid">
+    <div class="op fi">
+      <p class="op-text">„Natalia dostarcza gotowe rzeczy tak sprawnie, że podejrzewam ją o posiadanie zmieniacza czasu. Wchodzi z projektem, wychodzi z efektem, a ja w tym czasie zdążyłem tylko zaparzyć kawę.”</p>
+      <div class="op-author">
+        <img src="1.webp" alt="Avatar" class="op-avatar">
+        <div><div class="op-name">Marek Nowak</div><a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="op fi">
+      <p class="op-text">„Współpraca z Natalią to jeden brief zamiast siedmiu spotkań, które mogłyby być mailem. Rozumie, po co robi to, co robi, co w dzisiejszych czasach jest supermocą.”</p>
+      <div class="op-author">
+        <img src="2.webp" alt="Avatar" class="op-avatar">
+        <div><div class="op-name">Kasia Kowalska</div><a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="op fi">
+      <p class="op-text">„Natalia potrafi przełożyć mgliste 'no wiesz, żeby to tak klikało' na konkretną kreację. Statystyki rosną, a ja mam poczucie, że w końcu ktoś mówi w moim języku.”</p>
+      <div class="op-author">
+        <img src="3.webp" alt="Avatar" class="op-avatar">
+        <div><div class="op-name">Tomasz Wiśniewski</div><a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="op fi">
+      <p class="op-text">„Gdyby Excel był tak estetyczny jak projekty Natalii, to pewnie bym go polubił. Design, który nie tylko wygląda, ale przede wszystkim działa.”</p>
+      <div class="op-author">
+        <img src="4.webp" alt="Avatar" class="op-avatar">
+        <div><div class="op-name">Ania Lewandowska</div><a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="op fi">
+      <p class="op-text">„Wysłałem brief, mrugnąłem i dostałem gotowe pliki. Albo Natalia jest bardzo szybka, albo AI rzeczywiście przejmuje świat – w obu przypadkach jestem zadowolony.”</p>
+      <div class="op-author">
+        <img src="5.webp" alt="Avatar" class="op-avatar">
+        <div><div class="op-name">Piotr Zieliński</div><a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="op fi">
+      <p class="op-text">„Natalia to rzadki przypadek osoby, która ogarnia i marketing, i design. To jak znaleźć jednorożca, który dodatkowo potrafi robić świetne key visuale.”</p>
+      <div class="op-author">
+        <img src="6.webp" alt="Avatar" class="op-avatar">
+        <div><div class="op-name">Magda Wójcik</div><a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="cta-section">
+  <div class="blob"></div>
+  <h2 class="cta-hl fi">Szukam pracy.<br>Porozmawiajmy.</h2>
+  <p class="cta-sub fi">Jeden brief wystarczy, żeby sprawdzić, czy dobrze się rozumiemy. Szukam stanowiska w marketingu, content creation lub projektowaniu.</p>
+  <a href="mailto:natalie.kreatywnie@gmail.com" class="cta-email fi">natalie.kreatywnie@gmail.com</a>
+  <a href="tel:+48501102701" class="cta-phone fi">+48 501 102 701</a>
+</section>
+
+<footer>
+  <span class="foot-copy">© 2025 Natalia Przybylska</span>
+  <div class="foot-links">
+    <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
+    <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+  
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+  const viewport = document.getElementById('js-carousel');
+  const track = document.getElementById('js-track');
+  
+  let scrollPos = -100;
+  let speed = 0.6;
+  let isDragging = false;
+  let startX;
+  let animationId;
+
+  function animate() {
+    if (!isDragging) {
+      scrollPos -= speed;
+      const halfWidth = track.scrollWidth / 2;
+      if (Math.abs(scrollPos) >= halfWidth) scrollPos = 0;
+      if (scrollPos > 0) scrollPos = -halfWidth;
+      track.style.transform = `translateX(${scrollPos}px)`;
+    }
+    animationId = requestAnimationFrame(animate);
+  }
+
+  viewport.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.pageX - scrollPos;
+    viewport.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mouseup', () => { 
+    isDragging = false; 
+    viewport.style.cursor = 'grab';
+  });
+
+  viewport.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    scrollPos = e.pageX - startX;
+    const halfWidth = track.scrollWidth / 2;
+    if (Math.abs(scrollPos) >= halfWidth) { startX = e.pageX; scrollPos = 0; }
+    else if (scrollPos > 0) { startX = e.pageX + halfWidth; scrollPos = -halfWidth; }
+    track.style.transform = `translateX(${scrollPos}px)`;
+  });
+
+  viewport.addEventListener('mouseenter', () => speed = 0);
+  viewport.addEventListener('mouseleave', () => speed = 0.6);
+
+  animate();
+</script>
+</body>
+</html>
