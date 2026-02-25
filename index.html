@@ -456,75 +456,466 @@ section { padding: 96px 60px; position: relative; }
 }
 .chip:hover { border-color: var(--accent); background: var(--accent-dim); }
 
-/* PROJECTS CAROUSEL */
-.carousel-viewport {
-  width: 100%;
-  overflow: hidden;
-  padding: 40px 0;
-  cursor: grab;
-  perspective: 1500px;
-  user-select: none;
-  background: transparent;
-}
-
-.carousel-viewport:active {
-  cursor: grabbing;
-}
-
-.carousel-track {
+/* ─── PROJECTS GRID ─── */
+.proj-header {
   display: flex;
-  gap: 40px;
-  width: max-content;
-  transform-style: preserve-3d;
-  will-change: transform;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  gap: 20px;
+}
+.proj-header-left h2 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 3.5vw, 44px);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--fg);
+}
+.proj-header-right {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.proj-divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 36px;
 }
 
-.card-3d {
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 80px;
+}
+.proj-card {
   position: relative;
-  width: 364px;
-  height: 318px;
-  border-radius: 24px;
-  overflow: hidden;
   background: var(--card);
   border: 1px solid var(--border);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-  flex-shrink: 0;
-  
-  transform: rotateY(-12deg) rotateX(4deg);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
-
-.card-3d:nth-child(even) {
-  transform: rotateY(12deg) rotateX(-4deg) translateY(20px);
+.proj-card:hover {
+  box-shadow: 0 12px 48px rgba(17,16,16,0.10);
+  transform: translateY(-4px);
 }
+.proj-card:hover .proj-thumb-overlay { opacity: 1; }
+.proj-card:hover .proj-card-meta { border-color: var(--accent); }
 
-.card-3d img {
+.proj-card.span-2 { grid-column: span 2; }
+.proj-card.span-2 .proj-card-title { font-size: 15px; }
+
+.proj-thumb {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
+  aspect-ratio: 1 / 1;
+  background: #e5eae8;
+  position: relative;
+  overflow: hidden;
 }
-
-.card-3d:hover {
-  transform: rotateY(0deg) rotateX(0deg) scale(1.05);
-  z-index: 10;
-  box-shadow: 0 30px 60px rgba(81, 245, 0, 0.2);
-}
-
-.card-overlay {
+.proj-thumb::after {
+  content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  padding: 25px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.8));
-  color: #fff;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 18px,
+    rgba(17,16,16,0.03) 18px, rgba(17,16,16,0.03) 19px
+  );
+}
+.proj-thumb-cat {
+  position: absolute;
+  top: 12px; left: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 4px 9px;
+  border-radius: 100px;
+  z-index: 2;
+}
+.proj-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(17,16,16,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s;
+  z-index: 3;
+}
+.proj-thumb-overlay svg {
+  width: 38px; height: 38px;
+  color: var(--fg);
+  background: rgba(244,249,247,0.92);
+  border-radius: 50%;
+  padding: 9px;
+}
+.proj-card-meta {
+  padding: 16px 18px 18px;
+  border-top: 1px solid var(--border);
+  transition: border-color 0.25s;
+}
+.proj-card-title {
   font-family: 'Syne', sans-serif;
   font-weight: 700;
-  opacity: 0;
-  transition: opacity 0.3s;
+  font-size: 13px;
+  color: var(--fg);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.proj-card-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-.card-3d:hover .card-overlay {
-  opacity: 1;
+/* ─── FEATURED CASE STUDIES ─── */
+.featured-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.featured-label::before {
+  content: '';
+  width: 28px; height: 1.5px;
+  background: var(--accent);
+  display: block;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.feat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+.feat-card:hover {
+  box-shadow: 0 20px 64px rgba(17,16,16,0.11);
+  transform: translateY(-5px);
+}
+.feat-card:hover .feat-thumb-inner { transform: scale(1.03); }
+.feat-card:hover .feat-arrow { transform: translate(3px, -3px); }
+
+.feat-thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #dde5e2;
+  position: relative;
+  overflow: hidden;
+}
+.feat-thumb-inner {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 22px,
+    rgba(17,16,16,0.025) 22px, rgba(17,16,16,0.025) 23px
+  );
+  transition: transform 0.6s ease;
+}
+.feat-thumb-label {
+  position: absolute;
+  bottom: 16px; left: 20px;
+}
+.feat-thumb-chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(17,16,16,0.10);
+  color: var(--fg);
+  padding: 5px 11px;
+  border-radius: 100px;
+}
+
+.feat-body { padding: 28px 30px 30px; }
+.feat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.feat-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.feat-arrow {
+  width: 20px; height: 20px;
+  color: var(--muted);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.feat-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(18px, 2vw, 26px);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+.feat-desc {
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: var(--muted);
+  margin-bottom: 22px;
+}
+.feat-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 24px;
+}
+.feat-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 3px;
+  color: var(--muted);
+}
+.feat-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--accent);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  background: none;
+  border-left: none; border-right: none; border-top: none;
+}
+.feat-cta:hover { opacity: 0.65; }
+
+/* ─── MODAL ─── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17,16,16,0.45);
+  backdrop-filter: blur(12px);
+  z-index: 400;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+
+.modal-panel {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(700px, 96vw);
+  background: var(--bg);
+  z-index: 500;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  border-left: 1px solid var(--border);
+}
+.modal-panel.open { transform: translateX(0); }
+
+.modal-close {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 36px;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.modal-close-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.modal-close-btn {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+.modal-close-btn:hover { background: var(--accent-dim); border-color: var(--accent); }
+.modal-close-btn svg { width: 14px; height: 14px; color: var(--fg); }
+
+.modal-content { padding: 44px 36px 80px; }
+
+.modal-hero-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #dde5e2;
+  border-radius: 14px;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.modal-hero-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 22px,
+    rgba(17,16,16,0.025) 22px, rgba(17,16,16,0.025) 23px
+  );
+}
+.modal-meta-row {
+  display: flex;
+  gap: 28px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.modal-meta-item { display: flex; flex-direction: column; gap: 3px; }
+.modal-meta-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.modal-meta-val { font-size: 13.5px; font-weight: 500; color: var(--fg); }
+
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(24px, 4vw, 36px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.modal-subtitle {
+  font-family: 'Syne', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.modal-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal-section-title::before {
+  content: '';
+  width: 18px; height: 1px;
+  background: var(--accent);
+  display: block;
+}
+.modal-body-text {
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: rgba(17,16,16,0.65);
+  margin-bottom: 18px;
+}
+.modal-body-text strong { color: var(--fg); font-weight: 500; }
+
+.modal-thumb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 28px 0;
+}
+.modal-thumb-sm {
+  aspect-ratio: 1;
+  background: #e5eae8;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.modal-thumb-sm::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 14px,
+    rgba(17,16,16,0.03) 14px, rgba(17,16,16,0.03) 15px
+  );
+}
+.modal-results-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+  margin: 24px 0;
+}
+.modal-result {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 18px;
+}
+.modal-result-num {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.modal-result-num em { font-style: normal; color: var(--accent); }
+.modal-result-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 /* EDUCATION */
@@ -639,7 +1030,6 @@ section { padding: 96px 60px; position: relative; }
   color: var(--fg);
   margin-bottom: 22px;
   position: relative;
-  overflow-wrap: break-word;
   z-index: 1;
 }
 
@@ -810,6 +1200,8 @@ footer {
   section { padding: 72px 32px; }
   footer { padding: 22px 32px; }
   .cta-section { padding: 100px 32px; }
+  .projects-grid { grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .proj-card.span-2 { grid-column: span 2; }
 }
 
 /* --- Mobile (max 768px) --- */
@@ -880,14 +1272,16 @@ footer {
     font-size: clamp(28px, 8vw, 42px);
   }
 
-  /* CAROUSEL */
-  .card-3d {
-    width: 240px;
-    height: 210px;
-    border-radius: 16px;
-  }
-  .carousel-track { gap: 20px; }
-  .carousel-viewport { padding: 24px 0; }
+  /* PROJECTS */
+  .projects-grid { grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 56px; }
+  .proj-card.span-2 { grid-column: span 2; }
+  .proj-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .featured-grid { grid-template-columns: 1fr; gap: 16px; }
+  .feat-body { padding: 20px 20px 22px; }
+  .modal-panel { width: 100vw; }
+  .modal-content { padding: 28px 20px 60px; }
+  .modal-close { padding: 16px 20px; }
+  .modal-results-grid { grid-template-columns: repeat(2,1fr); }
 
   /* EDUCATION */
   .edu-row {
@@ -930,7 +1324,8 @@ footer {
   .cta-section { padding: 60px 16px; }
   .hero-cta { padding: 13px 24px; font-size: 10px; }
   .about-headline { font-size: clamp(28px, 9vw, 44px); }
-  .card-3d { width: 200px; height: 175px; }
+  .projects-grid { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 44px; }
+  .modal-thumb-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -970,7 +1365,7 @@ footer {
   <div class="hero-content">
     <span class="hero-tag">Marketing · Design · Generatywna AI</span>
     <h1 class="hero-name">Natalia<br>Przybylska</h1>
-    <p class="hero-title">AI Creative & Marketing Specialist</p>
+    <p class="hero-title">AI-powered Marketerka &amp; Graficzka</p>
     <p class="hero-desc">
       Przez 8 lat szlifowałam warsztat w marketingu i grafice.<br>
       Teraz dodatkowo wspieram się AI — co oznacza, że <strong>robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób:<br> marketingowca i grafika.</strong><br><br>
@@ -983,7 +1378,7 @@ footer {
     <div class="card-name">Natalia Przybylska</div>
     <div class="card-role">AI Creative &amp; Marketing Specialist</div>
     <div class="card-contacts">
-      <a href="mailto:natalie.kreatywnie@gmail.com" class="card-contact"><span class="cdot"></span>natalie.kreatywnie@gmail.com</a>
+      <a href="/cdn-cgi/l/email-protection#a0cec1d4c1ccc9c58ecbd2c5c1d4d9d7cec9c5e0c7cdc1c9cc8ec3cfcd" class="card-contact"><span class="cdot"></span><span class="__cf_email__" data-cfemail="acc2cdd8cdc0c5c982c7dec9cdd8d5dbc2c5c9eccbc1cdc5c082cfc3c1">[email&#160;protected]</span></a>
       <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="card-contact"><span class="cdot"></span>Linkedin: nat-przybylska</a>
       <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="card-contact"><span class="cdot"></span>IG: @natalie.kreatywnie</a>
     </div>
@@ -1071,12 +1466,12 @@ footer {
     <div class="svc fi" style="background:#111; display:flex; flex-direction:column; justify-content:center;">
       <span style="font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(244,249,247,0.22); margin-bottom:10px; display:block;">Masz projekt?</span>
       <p style="font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:#f4f9f7; line-height:1.25; margin-bottom:14px;">Napisz i porozmawiajmy.</p>
-      <a href="mailto:natalie.kreatywnie@gmail.com" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:#51f500; text-decoration:none;">natalie.kreatywnie@gmail.com →</a>
+      <a href="/cdn-cgi/l/email-protection#157b746174797c703b7e677074616c627b7c70557278747c793b767a78" style="font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:#51f500; text-decoration:none;"><span class="__cf_email__" data-cfemail="3957584d5855505c17524b5c584d404e57505c795e54585055175a5654">[email&#160;protected]</span> →</a>
     </div>
   </div>
 </section>
 
-<script src="https://unpkg.com/lucide@latest"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/lucide@latest"></script>
 
 <section id="competencies">
   <div class="section-label">Zakres kompetencji</div>
@@ -1161,668 +1556,21 @@ footer {
   </div>
 </section>
 
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sekcja projektów — podgląd</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-
-<style>
-:root {
-  --bg: #f4f9f7;
-  --fg: #111010;
-  --accent: #51f500;
-  --accent-dim: rgba(81,245,0,0.07);
-  --accent-mid: rgba(81,245,0,0.18);
-  --muted: #7a8a84;
-  --card: #ffffff;
-  --border: rgba(17,16,16,0.08);
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* ─── SECTION ─── */
-#projects {
-  padding: 96px 60px;
-  position: relative;
-}
-
-.section-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 52px;
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-}
-.section-label::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(81,245,0,0.55);
-  flex-shrink: 0;
-}
-
-/* ─── BLOCK HEADER ─── */
-.proj-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 36px;
-  gap: 20px;
-}
-.proj-header-left h2 {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(28px, 3.5vw, 44px);
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--fg);
-}
-.proj-header-right {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-/* ─── DIVIDER ─── */
-.proj-divider {
-  height: 1px;
-  background: var(--border);
-  margin-bottom: 36px;
-}
-
-/* ─── PROJECTS GRID (upper) ─── */
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 80px;
-}
-
-.proj-card {
-  position: relative;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-.proj-card:hover {
-  box-shadow: 0 12px 48px rgba(17,16,16,0.10);
-  transform: translateY(-4px);
-}
-.proj-card:hover .proj-thumb-overlay {
-  opacity: 1;
-}
-.proj-card:hover .proj-card-meta {
-  border-color: var(--accent);
-}
-
-/* Placeholder square 1:1 */
-.proj-thumb {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #e5eae8;
-  position: relative;
-  overflow: hidden;
-}
-.proj-thumb::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: 
-    linear-gradient(135deg, transparent 45%, rgba(255,255,255,0.12) 50%, transparent 55%),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 18px,
-      rgba(17,16,16,0.03) 18px,
-      rgba(17,16,16,0.03) 19px
-    );
-}
-
-/* Category chip on thumb */
-.proj-thumb-cat {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  background: rgba(244,249,247,0.92);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 4px 9px;
-  border-radius: 100px;
-  z-index: 2;
-}
-
-.proj-thumb-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(17,16,16,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.25s;
-  z-index: 3;
-}
-.proj-thumb-overlay svg {
-  width: 40px; height: 40px;
-  color: var(--fg);
-  background: rgba(244,249,247,0.92);
-  border-radius: 50%;
-  padding: 10px;
-}
-
-/* Card meta */
-.proj-card-meta {
-  padding: 16px 18px 18px;
-  border-top: 1px solid var(--border);
-  transition: border-color 0.25s;
-}
-.proj-card-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 700;
-  font-size: 13.5px;
-  color: var(--fg);
-  margin-bottom: 4px;
-  line-height: 1.3;
-}
-.proj-card-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* Span styles for layout variation */
-.proj-card.span-2 {
-  grid-column: span 2;
-}
-.proj-card.span-2 .proj-card-title {
-  font-size: 16px;
-}
-
-/* ─── FEATURED PROJECTS (lower) ─── */
-.featured-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 28px;
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-.featured-label::before {
-  content: '';
-  width: 28px; height: 1.5px;
-  background: var(--accent);
-  display: block;
-}
-
-.featured-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.feat-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  overflow: hidden;
-  position: relative;
-  cursor: pointer;
-  transition: box-shadow 0.35s ease, transform 0.35s ease;
-}
-.feat-card:hover {
-  box-shadow: 0 20px 64px rgba(17,16,16,0.11);
-  transform: translateY(-5px);
-}
-.feat-card:hover .feat-thumb-inner {
-  transform: scale(1.03);
-}
-.feat-card:hover .feat-arrow {
-  transform: translate(3px, -3px);
-}
-
-.feat-thumb {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  background: #dde5e2;
-  position: relative;
-  overflow: hidden;
-}
-.feat-thumb-inner {
-  position: absolute;
-  inset: 0;
-  background: 
-    linear-gradient(135deg, transparent 45%, rgba(255,255,255,0.08) 50%, transparent 55%),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 22px,
-      rgba(17,16,16,0.025) 22px,
-      rgba(17,16,16,0.025) 23px
-    );
-  transition: transform 0.6s ease;
-}
-.feat-thumb-label {
-  position: absolute;
-  bottom: 16px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.feat-thumb-chip {
-  font-family: 'DM Mono', monospace;
-  font-size: 8.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  background: rgba(244,249,247,0.92);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(17,16,16,0.10);
-  color: var(--fg);
-  padding: 5px 11px;
-  border-radius: 100px;
-}
-.feat-thumb-year {
-  font-family: 'DM Mono', monospace;
-  font-size: 8.5px;
-  letter-spacing: 0.14em;
-  color: rgba(244,249,247,0.7);
-}
-
-.feat-body {
-  padding: 28px 30px 30px;
-}
-.feat-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
-}
-.feat-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-}
-.feat-arrow {
-  width: 20px; height: 20px;
-  color: var(--muted);
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
-}
-.feat-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(20px, 2.2vw, 28px);
-  letter-spacing: -0.025em;
-  line-height: 1.1;
-  color: var(--fg);
-  margin-bottom: 12px;
-}
-.feat-desc {
-  font-size: 13.5px;
-  line-height: 1.85;
-  color: var(--muted);
-  margin-bottom: 22px;
-}
-.feat-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 24px;
-}
-.feat-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 8.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  border: 1px solid var(--border);
-  padding: 4px 10px;
-  border-radius: 3px;
-  color: var(--muted);
-}
-.feat-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--fg);
-  text-decoration: none;
-  border-bottom: 1.5px solid var(--accent);
-  padding-bottom: 2px;
-  transition: opacity 0.2s;
-  cursor: pointer;
-  background: none;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-}
-.feat-cta:hover { opacity: 0.65; }
-
-/* ─── PROJECT MODAL (case study subpage) ─── */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(17,16,16,0.45);
-  backdrop-filter: blur(12px);
-  z-index: 400;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-.modal-backdrop.open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.modal-panel {
-  position: fixed;
-  top: 0; right: 0; bottom: 0;
-  width: min(700px, 96vw);
-  background: var(--bg);
-  z-index: 500;
-  overflow-y: auto;
-  transform: translateX(100%);
-  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
-  border-left: 1px solid var(--border);
-}
-.modal-panel.open {
-  transform: translateX(0);
-}
-
-.modal-close {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 36px;
-  background: rgba(244,249,247,0.92);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
-}
-.modal-close-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.modal-close-btn {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
-  background: var(--card);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
-}
-.modal-close-btn:hover {
-  background: var(--accent-dim);
-  border-color: var(--accent);
-}
-.modal-close-btn svg {
-  width: 14px; height: 14px;
-  color: var(--fg);
-}
-
-.modal-content {
-  padding: 44px 36px 80px;
-}
-
-.modal-hero-thumb {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: #dde5e2;
-  border-radius: 14px;
-  margin-bottom: 36px;
-  position: relative;
-  overflow: hidden;
-}
-.modal-hero-thumb::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 22px,
-    rgba(17,16,16,0.025) 22px,
-    rgba(17,16,16,0.025) 23px
-  );
-}
-
-.modal-meta-row {
-  display: flex;
-  gap: 28px;
-  margin-bottom: 28px;
-  flex-wrap: wrap;
-}
-.modal-meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.modal-meta-key {
-  font-family: 'DM Mono', monospace;
-  font-size: 8.5px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.modal-meta-val {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--fg);
-}
-
-.modal-title {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: clamp(26px, 4.5vw, 38px);
-  letter-spacing: -0.03em;
-  line-height: 1.05;
-  color: var(--fg);
-  margin-bottom: 8px;
-}
-.modal-subtitle {
-  font-family: 'Syne', sans-serif;
-  font-weight: 400;
-  font-style: italic;
-  font-size: 16px;
-  color: var(--muted);
-  margin-bottom: 32px;
-}
-
-.modal-section-title {
-  font-family: 'DM Mono', monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 10px;
-  margin-top: 36px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.modal-section-title::before {
-  content: '';
-  width: 18px; height: 1px;
-  background: var(--accent);
-  display: block;
-}
-
-.modal-body-text {
-  font-size: 14.5px;
-  line-height: 1.95;
-  color: rgba(17,16,16,0.65);
-  margin-bottom: 18px;
-}
-.modal-body-text strong { color: var(--fg); font-weight: 500; }
-
-.modal-thumb-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 28px 0;
-}
-.modal-thumb-sm {
-  aspect-ratio: 1;
-  background: #e5eae8;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-}
-.modal-thumb-sm::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    transparent,
-    transparent 14px,
-    rgba(17,16,16,0.03) 14px,
-    rgba(17,16,16,0.03) 15px
-  );
-}
-
-.modal-results-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 12px;
-  margin: 24px 0;
-}
-.modal-result {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px 18px;
-}
-.modal-result-num {
-  font-family: 'Syne', sans-serif;
-  font-weight: 800;
-  font-size: 28px;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: var(--fg);
-  margin-bottom: 4px;
-}
-.modal-result-num em {
-  font-style: normal;
-  color: var(--accent);
-}
-.modal-result-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-/* ─── ANIMATIONS ─── */
-.fi { opacity: 0; transform: translateY(18px); transition: opacity 0.75s ease, transform 0.75s ease; }
-.fi.vis { opacity: 1; transform: translateY(0); }
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 1100px) {
-  .projects-grid { grid-template-columns: repeat(3, 1fr); }
-  .proj-card.span-2 { grid-column: span 1; }
-  .proj-card.span-2 .proj-card-title { font-size: 13.5px; }
-}
-
-@media (max-width: 900px) {
-  #projects { padding: 72px 32px; }
-  .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .proj-card.span-2 { grid-column: span 2; }
-}
-
-@media (max-width: 768px) {
-  #projects { padding: 60px 20px; }
-  .proj-header { flex-direction: column; align-items: flex-start; }
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-bottom: 56px;
-  }
-  .proj-card.span-2 { grid-column: span 2; }
-  .featured-grid { grid-template-columns: 1fr; gap: 16px; }
-  .feat-body { padding: 20px 20px 22px; }
-  .modal-panel { width: 100vw; }
-  .modal-content { padding: 28px 20px 60px; }
-  .modal-results-grid { grid-template-columns: repeat(2,1fr); }
-}
-
-@media (max-width: 480px) {
-  #projects { padding: 48px 16px; }
-  .projects-grid { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 44px; }
-  .proj-card.span-2 { grid-column: span 2; }
-  .section-label { margin-bottom: 36px; }
-  .modal-thumb-grid { grid-template-columns: 1fr; }
-}
-</style>
-</head>
-<body>
-
-<!-- ═══════════════════════════════════════════════
-     SEKCJA: PROJEKTY
-═══════════════════════════════════════════════ -->
 <section id="projects">
-
   <div class="section-label">Wybrane projekty</div>
 
-  <!-- ─── NAGŁÓWEK BLOKU ─── -->
+  <!-- NAGŁÓWEK -->
   <div class="proj-header fi">
     <div class="proj-header-left">
-      <h2>Rzeczy, które<br>zrobiłam.</h2>
+      <h2>Rzeczy, które<br>naprawdę powstały.</h2>
     </div>
-    <div class="proj-header-right">12 projektów · 2018–2026</div>
+    <div class="proj-header-right">12 projektów · 2022–2025</div>
   </div>
   <div class="proj-divider"></div>
 
-  <!-- ─── SIATKA PROJEKTÓW ─── -->
+  <!-- SIATKA PROJEKTÓW (1:1 placeholders) -->
   <div class="projects-grid">
 
-    <!-- Projekt 1 — szeroki (span 2) -->
     <div class="proj-card span-2 fi">
       <div class="proj-thumb">
         <span class="proj-thumb-cat">Brand Experience</span>
@@ -1836,7 +1584,6 @@ body {
       </div>
     </div>
 
-    <!-- Projekt 2 -->
     <div class="proj-card fi">
       <div class="proj-thumb">
         <span class="proj-thumb-cat">Social Media</span>
@@ -1850,10 +1597,9 @@ body {
       </div>
     </div>
 
-    <!-- Projekt 3 -->
     <div class="proj-card fi">
       <div class="proj-thumb">
-        <span class="proj-thumb-cat">DTP & Print</span>
+        <span class="proj-thumb-cat">DTP &amp; Print</span>
         <div class="proj-thumb-overlay">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
         </div>
@@ -1864,7 +1610,6 @@ body {
       </div>
     </div>
 
-    <!-- Projekt 4 -->
     <div class="proj-card fi">
       <div class="proj-thumb">
         <span class="proj-thumb-cat">AI Content</span>
@@ -1878,7 +1623,6 @@ body {
       </div>
     </div>
 
-    <!-- Projekt 5 -->
     <div class="proj-card fi">
       <div class="proj-thumb">
         <span class="proj-thumb-cat">Landing Page</span>
@@ -1892,7 +1636,6 @@ body {
       </div>
     </div>
 
-    <!-- Projekt 6 -->
     <div class="proj-card fi">
       <div class="proj-thumb">
         <span class="proj-thumb-cat">Key Visual</span>
@@ -1908,12 +1651,11 @@ body {
 
   </div><!-- /projects-grid -->
 
-  <!-- ─── WYRÓŻNIONE CASE STUDIES ─── -->
+  <!-- WYRÓŻNIONE CASE STUDIES -->
   <div class="featured-label fi">Rozbudowane case studies</div>
 
   <div class="featured-grid">
 
-    <!-- Featured 1 -->
     <div class="feat-card fi" onclick="openModal('modal-1')">
       <div class="feat-thumb">
         <div class="feat-thumb-inner"></div>
@@ -1938,9 +1680,8 @@ body {
       </div>
     </div>
 
-    <!-- Featured 2 -->
     <div class="feat-card fi" onclick="openModal('modal-2')">
-      <div class="feat-thumb" style="background: #d8e3df;">
+      <div class="feat-thumb" style="background:#d8e3df;">
         <div class="feat-thumb-inner"></div>
         <div class="feat-thumb-label">
           <span class="feat-thumb-chip">Brand Experience · DTP</span>
@@ -1964,12 +1705,9 @@ body {
     </div>
 
   </div><!-- /featured-grid -->
-
 </section>
 
-<!-- ═══════════════════════════════════════════════
-     MODAL #1 — Case study 1
-═══════════════════════════════════════════════ -->
+<!-- MODAL 1 -->
 <div class="modal-backdrop" id="backdrop-modal-1" onclick="closeModal('modal-1')"></div>
 <div class="modal-panel" id="modal-1">
   <div class="modal-close">
@@ -1979,57 +1717,37 @@ body {
     </button>
   </div>
   <div class="modal-content">
-
     <div class="modal-hero-thumb"></div>
-
     <div class="modal-meta-row">
       <div class="modal-meta-item"><span class="modal-meta-key">Rok</span><span class="modal-meta-val">2024</span></div>
       <div class="modal-meta-item"><span class="modal-meta-key">Klient</span><span class="modal-meta-val">E-commerce — moda</span></div>
       <div class="modal-meta-item"><span class="modal-meta-key">Czas realizacji</span><span class="modal-meta-val">3 tygodnie</span></div>
       <div class="modal-meta-item"><span class="modal-meta-key">Rola</span><span class="modal-meta-val">Koncepcja, kreacja, monitoring</span></div>
     </div>
-
     <h2 class="modal-title">Kampania wirusowa dla marki e-commerce</h2>
     <p class="modal-subtitle">Jak AI + strategia zmieniły komunikację marki w 3 tygodnie.</p>
-
     <div class="modal-section-title">Wyzwanie</div>
     <p class="modal-body-text">Marka działała od 3 lat, ale komunikacja wizualna nie oddawała jakości produktu. Zasięgi organiczne spadały, a budżet reklamowy był ograniczony. Potrzebna była <strong>zmiana całego języka wizualnego</strong> bez kosztownych sesji zdjęciowych.</p>
-
     <div class="modal-section-title">Podejście</div>
     <p class="modal-body-text">Zaproponowałam strategię opartą na AI-generated visuals w spójnej linii estetycznej. Wygenerowałam bank grafik i materiałów wideo w Midjourney i Higgsfield, które następnie montowałam i dostosowywałam do formatu social i ads.</p>
-
     <div class="modal-thumb-grid">
       <div class="modal-thumb-sm"></div>
       <div class="modal-thumb-sm"></div>
       <div class="modal-thumb-sm"></div>
       <div class="modal-thumb-sm"></div>
     </div>
-
     <div class="modal-section-title">Wyniki</div>
     <div class="modal-results-grid">
-      <div class="modal-result">
-        <div class="modal-result-num">3<em>×</em></div>
-        <div class="modal-result-label">wzrost zasięgów organicznych</div>
-      </div>
-      <div class="modal-result">
-        <div class="modal-result-num">-40<em>%</em></div>
-        <div class="modal-result-label">kosztów produkcji kreacji</div>
-      </div>
-      <div class="modal-result">
-        <div class="modal-result-num">2<em>.1×</em></div>
-        <div class="modal-result-label">ROAS kampanii Meta Ads</div>
-      </div>
+      <div class="modal-result"><div class="modal-result-num">3<em>×</em></div><div class="modal-result-label">wzrost zasięgów organicznych</div></div>
+      <div class="modal-result"><div class="modal-result-num">-40<em>%</em></div><div class="modal-result-label">kosztów produkcji kreacji</div></div>
+      <div class="modal-result"><div class="modal-result-num">2.1<em>×</em></div><div class="modal-result-label">ROAS kampanii Meta Ads</div></div>
     </div>
-
     <div class="modal-section-title">Narzędzia</div>
-    <p class="modal-body-text"><strong>Midjourney</strong> — generowanie grafik produktowych i lifestyle'owych. <strong>Higgsfield</strong> — materiały wideo do reklam. <strong>CapCut</strong> — montaż i formatowanie. <strong>Meta Ads Manager</strong> — konfiguracja i optymalizacja kampanii.</p>
-
+    <p class="modal-body-text"><strong>Midjourney</strong> — generowanie grafik produktowych. <strong>Higgsfield</strong> — materiały wideo do reklam. <strong>CapCut</strong> — montaż i formatowanie. <strong>Meta Ads Manager</strong> — konfiguracja i optymalizacja kampanii.</p>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     MODAL #2 — Case study 2
-═══════════════════════════════════════════════ -->
+<!-- MODAL 2 -->
 <div class="modal-backdrop" id="backdrop-modal-2" onclick="closeModal('modal-2')"></div>
 <div class="modal-panel" id="modal-2">
   <div class="modal-close">
@@ -2039,87 +1757,135 @@ body {
     </button>
   </div>
   <div class="modal-content">
-
-    <div class="modal-hero-thumb" style="background: #d8e3df;"></div>
-
+    <div class="modal-hero-thumb" style="background:#d8e3df;"></div>
     <div class="modal-meta-row">
       <div class="modal-meta-item"><span class="modal-meta-key">Rok</span><span class="modal-meta-val">2023</span></div>
       <div class="modal-meta-item"><span class="modal-meta-key">Klient</span><span class="modal-meta-val">Firma doradcza B2B</span></div>
       <div class="modal-meta-item"><span class="modal-meta-key">Czas realizacji</span><span class="modal-meta-val">6 tygodni</span></div>
       <div class="modal-meta-item"><span class="modal-meta-key">Rola</span><span class="modal-meta-val">Pełna realizacja</span></div>
     </div>
-
     <h2 class="modal-title">Rebranding od zera — marka B2B</h2>
     <p class="modal-subtitle">Nowe logo, system brandingowy i wszystkie materiały — samodzielnie, od briefu po druk.</p>
-
     <div class="modal-section-title">Wyzwanie</div>
-    <p class="modal-body-text">Firma doradcza z 10-letnim stażem wyglądała jak z innej epoki. Stare logo, przypadkowe fonty, brak spójności między prezentacjami, stroną i materiałami drukowanymi. Klient chciał <strong>nowego wizerunku bez agencji</strong> — jednej osoby, która ogarnie całość.</p>
-
+    <p class="modal-body-text">Firma doradcza z 10-letnim stażem wyglądała jak z innej epoki. Stare logo, przypadkowe fonty, brak spójności. Klient chciał <strong>nowego wizerunku bez agencji</strong> — jednej osoby, która ogarnie całość.</p>
     <div class="modal-section-title">Podejście</div>
-    <p class="modal-body-text">Zaczęłam od warsztatu briefingowego i analizy konkurencji. Następnie zaprojektowałam logo, paletę kolorów i typografię. Stworzyłam brand book z zasadami użycia. Na końcu przygotowałam wszystkie szablony: prezentacje, oferty, materiały eventowe i druki.</p>
-
+    <p class="modal-body-text">Zaczęłam od warsztatu briefingowego i analizy konkurencji. Zaprojektowałam logo, paletę kolorów i typografię, stworzyłam brand book z zasadami użycia, a na końcu przygotowałam wszystkie szablony — od prezentacji po rollup.</p>
     <div class="modal-thumb-grid">
       <div class="modal-thumb-sm" style="background:#d8e3df;"></div>
       <div class="modal-thumb-sm"></div>
       <div class="modal-thumb-sm"></div>
       <div class="modal-thumb-sm" style="background:#d8e3df;"></div>
     </div>
-
     <div class="modal-section-title">Zakres prac</div>
     <p class="modal-body-text">Logo i warianty · Paleta kolorów i typografia · Brand book (24 strony) · Szablony prezentacji PowerPoint · Papier firmowy i wizytówki · Rollup i materiały eventowe · Bannery digital.</p>
-
     <div class="modal-results-grid">
-      <div class="modal-result">
-        <div class="modal-result-num">24<em>s</em></div>
-        <div class="modal-result-label">stron brand booka</div>
-      </div>
-      <div class="modal-result">
-        <div class="modal-result-num">7<em>+</em></div>
-        <div class="modal-result-label">formatów materiałów</div>
-      </div>
-      <div class="modal-result">
-        <div class="modal-result-num">1<em>os.</em></div>
-        <div class="modal-result-label">cały projekt samodzielnie</div>
-      </div>
+      <div class="modal-result"><div class="modal-result-num">24<em>s</em></div><div class="modal-result-label">stron brand booka</div></div>
+      <div class="modal-result"><div class="modal-result-num">7<em>+</em></div><div class="modal-result-label">formatów materiałów</div></div>
+      <div class="modal-result"><div class="modal-result-num">1<em>os.</em></div><div class="modal-result-label">cały projekt samodzielnie</div></div>
     </div>
-
     <div class="modal-section-title">Narzędzia</div>
-    <p class="modal-body-text"><strong>Adobe Illustrator</strong> — logo i grafika wektorowa. <strong>Adobe InDesign</strong> — brand book i materiały DTP. <strong>Adobe Photoshop</strong> — retusz i materiały digital. <strong>Figma</strong> — szablony i prototypy layoutów.</p>
-
+    <p class="modal-body-text"><strong>Adobe Illustrator</strong> — logo i grafika wektorowa. <strong>Adobe InDesign</strong> — brand book i DTP. <strong>Adobe Photoshop</strong> — retusz i digital. <strong>Figma</strong> — szablony i prototypy layoutów.</p>
   </div>
 </div>
 
-<script>
-  // ─── Intersection Observer ───
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+<section id="edu">
+  <div class="section-label">Edukacja</div>
+  <div class="edu-row">
+    <div class="edu-item fi">
+      <div class="edu-degree">Praktyczny marketing</div>
+      <div class="edu-school">Wyższa Szkoła Bankowa</div>
+      <div class="edu-meta">Studia podyplomowe · Chorzów · 03.2022 – 01.2023</div>
+    </div>
+    <div class="edu-item fi">
+      <div class="edu-degree">Grafika komputerowa i multimedia</div>
+      <div class="edu-school">Akademia WSB</div>
+      <div class="edu-meta">Studia podyplomowe · Dąbrowa Górnicza · 10.2020 – 09.2021</div>
+    </div>
+    <div class="edu-item fi">
+      <div class="edu-degree">Bezpieczeństwo wewnętrzne</div>
+      <div class="edu-school">Uniwersytet Opolski</div>
+      <div class="edu-meta">Licencjat · Opole · 10.2013 – 06.2016</div>
+    </div>
+  </div>
+</section>
 
-  // ─── Modal logic ───
-  function openModal(id) {
-    document.getElementById(id).classList.add('open');
-    document.getElementById('backdrop-' + id).classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-    document.getElementById('backdrop-' + id).classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.modal-panel.open').forEach(m => closeModal(m.id));
-    }
-  });
-</script>
-</body>
-</html>
+<section id="opinions">
+  <div class="section-label">Opinie o współpracy ze mną</div>
+  <div class="ops-grid">
+    
+    <div class="op fi">
+      <p class="op-text">„Natalia dostarcza gotowe rzeczy tak sprawnie, że podejrzewam ją o posiadanie zmieniacza czasu. Wchodzi z projektem, wychodzi z efektem, a ja w tym czasie zdążyłem tylko zaparzyć kawę.”</p>
+      <div class="op-author">
+        <img src="https://i.pinimg.com/736x/99/5f/b8/995fb86e1d44ee245e432374679ffe8b.jpg" alt="Avatar" class="op-avatar">
+        <div>
+          <div class="op-name">Marek Nowak</div>
+          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="op fi">
+      <p class="op-text">„Współpraca z Natalią to jeden brief zamiast siedmiu spotkań, które mogłyby być mailem. Rozumie, po co robi to, co robi, co w dzisiejszych czasach jest supermocą na miarę Avengersów.”</p>
+      <div class="op-author">
+        <img src="https://i.pinimg.com/736x/11/d4/b8/11d4b8a1eb1a0dbcae9e008418570ac1.jpg" alt="Avatar" class="op-avatar">
+        <div>
+          <div class="op-name">Kasia Kowalska</div>
+          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="op fi">
+      <p class="op-text">„Natalia potrafi przełożyć mgliste 'no wiesz, żeby to tak klikało' na konkretną kreację. Statystyki rosną, a ja mam poczucie, że w końcu ktoś mówi w moim języku (tylko ładniej).”</p>
+      <div class="op-author">
+        <img src="https://i.pinimg.com/736x/84/d8/77/84d87711076150c59bd71af086f2b3fa.jpg" alt="Avatar" class="op-avatar">
+        <div>
+          <div class="op-name">Tomasz Wiśniewski</div>
+          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="op fi">
+      <p class="op-text">„Gdyby Excel był tak estetyczny jak projekty Natalii, to pewnie bym go polubił. Design, który nie tylko wygląda, ale przede wszystkim działa i nie zadaje zbędnych pytań.”</p>
+      <div class="op-author">
+        <img src="https://i.pinimg.com/1200x/b8/e6/86/b8e68642063adea89c433894bd35023e.jpg" alt="Avatar" class="op-avatar">
+        <div>
+          <div class="op-name">Ania Lewandowska</div>
+          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="op fi">
+      <p class="op-text">„Wysłałem brief, mrugnąłem i dostałem gotowe pliki. Albo Natalia jest bardzo szybka, albo AI rzeczywiście przejmuje świat – w obu przypadkach jestem bardzo zadowolony.”</p>
+      <div class="op-author">
+        <img src="https://i.pinimg.com/736x/8b/09/e3/8b09e312a4cca87c28b69747f78376c3.jpg" alt="Avatar" class="op-avatar">
+        <div>
+          <div class="op-name">Piotr Zieliński</div>
+          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="op fi">
+      <p class="op-text">„Natalia to rzadki przypadek osoby, która ogarnia i marketing, i design. To jak znaleźć jednorożca, który dodatkowo potrafi robić świetne key visuale i nie spóźnia się na calle.”</p>
+      <div class="op-author">
+        <img src="https://i.pinimg.com/1200x/f4/63/6c/f4636c91a2c029c7686a8d11fa527b54.jpg" alt="Avatar" class="op-avatar">
+        <div>
+          <div class="op-name">Magda Wójcik</div>
+          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <section id="contact" class="cta-section">
   <div class="blob"></div>
   <h2 class="cta-hl fi">Szukam pracy.<br>Porozmawiajmy.</h2>
-  <a href="mailto:natalie.kreatywnie@gmail.com" class="cta-email fi">natalie.kreatywnie@gmail.com</a>
+  <a href="/cdn-cgi/l/email-protection#eb858a9f8a87828ec580998e8a9f929c85828eab8c868a8287c5888486" class="cta-email fi"><span class="__cf_email__" data-cfemail="4b252a3f2a27222e6520392e2a3f323c25222e0b2c262a222765282426">[email&#160;protected]</span></a>
 </section>
 
 <footer>
@@ -2127,11 +1893,11 @@ body {
   <div class="foot-links">
     <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
     <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
-    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+    <a href="/cdn-cgi/l/email-protection#d8b6b9acb9b4b1bdf6b3aabdb9aca1afb6b1bd98bfb5b9b1b4f6bbb7b5" class="foot-link">Email</a>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   lucide.createIcons();
   
   const obs = new IntersectionObserver(entries => {
@@ -2158,113 +1924,23 @@ body {
   document.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', closeMenu);
   });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 
-  // --- KARUZELA 1 (Prawo -> Lewo) ---
-  const viewport1 = document.getElementById('js-carousel-1');
-  const track1 = document.getElementById('js-track-1');
-  let scrollPos1 = -100;
-  let speed1 = 0.6;
-  let isDragging1 = false;
-  let startX1;
-
-  // --- KARUZELA 2 (Lewo -> Prawo) ---
-  const viewport2 = document.getElementById('js-carousel-2');
-  const track2 = document.getElementById('js-track-2');
-  let scrollPos2 = -100;
-  let speed2 = -0.6;
-  let isDragging2 = false;
-  let startX2;
-
-  function animate() {
-    if (!isDragging1) {
-      scrollPos1 -= speed1;
-      const halfWidth1 = track1.scrollWidth / 2;
-      if (Math.abs(scrollPos1) >= halfWidth1) scrollPos1 = 0;
-      if (scrollPos1 > 0) scrollPos1 = -halfWidth1;
-      track1.style.transform = `translateX(${scrollPos1}px)`;
-    }
-    if (!isDragging2) {
-      scrollPos2 -= speed2;
-      const halfWidth2 = track2.scrollWidth / 2;
-      if (Math.abs(scrollPos2) >= halfWidth2) scrollPos2 = 0;
-      if (scrollPos2 > 0) scrollPos2 = -halfWidth2;
-      track2.style.transform = `translateX(${scrollPos2}px)`;
-    }
-    requestAnimationFrame(animate);
+  // --- MODALS ---
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.getElementById('backdrop-' + id).classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
-
-  // Mouse — Rząd 1
-  viewport1.addEventListener('mousedown', (e) => {
-    isDragging1 = true;
-    startX1 = e.pageX - scrollPos1;
-    viewport1.style.cursor = 'grabbing';
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.getElementById('backdrop-' + id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeMenu();
+      document.querySelectorAll('.modal-panel.open').forEach(m => closeModal(m.id));
+    }
   });
-  window.addEventListener('mouseup', () => { isDragging1 = false; viewport1.style.cursor = 'grab'; });
-  viewport1.addEventListener('mousemove', (e) => {
-    if (!isDragging1) return;
-    scrollPos1 = e.pageX - startX1;
-    track1.style.transform = `translateX(${scrollPos1}px)`;
-  });
-
-  // Touch — Rząd 1
-  viewport1.addEventListener('touchstart', (e) => {
-    isDragging1 = true;
-    startX1 = e.touches[0].pageX - scrollPos1;
-  }, { passive: true });
-  viewport1.addEventListener('touchend', () => { isDragging1 = false; });
-  viewport1.addEventListener('touchmove', (e) => {
-    if (!isDragging1) return;
-    scrollPos1 = e.touches[0].pageX - startX1;
-    track1.style.transform = `translateX(${scrollPos1}px)`;
-  }, { passive: true });
-
-  // Mouse — Rząd 2
-  viewport2.addEventListener('mousedown', (e) => {
-    isDragging2 = true;
-    startX2 = e.pageX - scrollPos2;
-    viewport2.style.cursor = 'grabbing';
-  });
-  window.addEventListener('mouseup', () => { isDragging2 = false; viewport2.style.cursor = 'grab'; });
-  viewport2.addEventListener('mousemove', (e) => {
-    if (!isDragging2) return;
-    scrollPos2 = e.pageX - startX2;
-    track2.style.transform = `translateX(${scrollPos2}px)`;
-  });
-
-  // Touch — Rząd 2
-  viewport2.addEventListener('touchstart', (e) => {
-    isDragging2 = true;
-    startX2 = e.touches[0].pageX - scrollPos2;
-  }, { passive: true });
-  viewport2.addEventListener('touchend', () => { isDragging2 = false; });
-  viewport2.addEventListener('touchmove', (e) => {
-    if (!isDragging2) return;
-    scrollPos2 = e.touches[0].pageX - startX2;
-    track2.style.transform = `translateX(${scrollPos2}px)`;
-  }, { passive: true });
-
-  // Hover stop (desktop only)
-  viewport1.addEventListener('mouseenter', () => speed1 = 0);
-  viewport1.addEventListener('mouseleave', () => speed1 = 0.6);
-  viewport2.addEventListener('mouseenter', () => speed2 = 0);
-  viewport2.addEventListener('mouseleave', () => speed2 = -0.6);
-
-  animate();
-</script>
-</body>
+</script></body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
