@@ -6,7 +6,7 @@
 <title>Natalia Przybylska — AI Creative & Marketing Specialist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -30,9 +30,9 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 300;
-  line-height: 1.6;
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -43,7 +43,7 @@ img { max-width: 100%; display: block; }
 .blob {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(81,245,0,0.10) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(81,245,0,0.12) 0%, transparent 65%);
   pointer-events: none;
   filter: blur(70px);
   z-index: 0;
@@ -118,8 +118,7 @@ nav {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  width: 44px;
-  height: 44px;
+  width: 44px; height: 44px;
   cursor: pointer;
   background: none;
   border: none;
@@ -130,8 +129,7 @@ nav {
 }
 .nav-hamburger span {
   display: block;
-  width: 22px;
-  height: 1.5px;
+  width: 22px; height: 1.5px;
   background: var(--fg);
   border-radius: 2px;
   transition: transform 0.3s ease, opacity 0.3s ease;
@@ -159,10 +157,7 @@ nav {
   transition: opacity 0.3s ease;
   padding-bottom: var(--safe-bottom);
 }
-.nav-mobile-overlay.open {
-  opacity: 1;
-  pointer-events: all;
-}
+.nav-mobile-overlay.open { opacity: 1; pointer-events: all; }
 .nav-mobile-overlay a {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 700;
@@ -184,31 +179,98 @@ nav {
   margin-top: 24px;
 }
 
-/* ─── HERO ─── */
+/* ═══════════════════════════════════════════════════════
+   NEW HERO — Centered typographic layout
+   ═══════════════════════════════════════════════════════ */
+
 .hero {
   min-height: 100svh;
-  padding: clamp(96px, 18vw, 140px) clamp(16px, 5vw, 60px) clamp(60px, 8vw, 90px);
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(100px, 14vw, 150px) clamp(20px, 5vw, 80px) clamp(64px, 8vw, 96px);
   position: relative;
   overflow: hidden;
 }
 
-.hero .blob { width: 700px; height: 700px; top: -150px; right: -150px; opacity: 0.8; }
+/* Dot grid background */
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(17,16,16,0.075) 1px, transparent 1px);
+  background-size: 28px 28px;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  pointer-events: none;
+}
 
+/* Center blob */
+.hero .blob {
+  width: 900px; height: 900px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -54%);
+  opacity: 0.45;
+}
+
+/* Canvas bg */
 #hero-canvas {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   z-index: 0;
   pointer-events: none;
 }
 
-.hero-content { position: relative; z-index: 1; }
+/* ─── Corner decorations ─── */
+.hero-corner {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: fadeCorner 1.2s ease 0.8s forwards;
+}
+@keyframes fadeCorner {
+  to { opacity: 1; }
+}
+.hero-corner--tl { top: clamp(16px, 3vw, 36px); left: clamp(16px, 3vw, 36px); }
+.hero-corner--tr { top: clamp(16px, 3vw, 36px); right: clamp(16px, 3vw, 36px); }
+.hero-corner--bl { bottom: clamp(16px, 3vw, 36px); left: clamp(16px, 3vw, 36px); }
+.hero-corner--br { bottom: clamp(16px, 3vw, 36px); right: clamp(16px, 3vw, 36px); }
 
+/* Content wrapper */
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Status pill */
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 18px 7px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+  box-shadow: 0 2px 16px rgba(17,16,16,0.06);
+}
+
+/* Tag line */
 .hero-tag {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
@@ -218,40 +280,85 @@ nav {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.14s both;
 }
-.hero-tag::before { content: ''; width: 24px; height: 1.5px; background: var(--accent); display: block; flex-shrink: 0; }
+.hero-tag-dot {
+  width: 4px; height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
 
+/* Huge name */
 .hero-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
-  font-size: clamp(42px, 10.5vw, 108px);
-  line-height: 0.92;
+  font-size: clamp(54px, 12.5vw, 136px);
+  line-height: 0.88;
   letter-spacing: -0.04em;
   color: var(--fg);
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   word-break: break-word;
+  animation: heroUp 0.85s cubic-bezier(0.16,1,0.3,1) 0.22s both;
 }
 
+/* Accent underline on second name */
+.hero-name-line2 {
+  display: block;
+  position: relative;
+  padding-bottom: 6px;
+}
+.hero-name-line2::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  animation: expandLine 0.6s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
+  box-shadow: 0 0 18px rgba(81,245,0,0.5);
+}
+@keyframes expandLine {
+  to { width: 100%; }
+}
+
+/* Subtitle */
 .hero-title {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 300;
   font-style: italic;
-  font-size: clamp(16px, 2.4vw, 30px);
+  font-size: clamp(16px, 2.5vw, 27px);
   color: var(--muted);
   margin-bottom: 28px;
+  margin-top: 18px;
   letter-spacing: -0.01em;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.34s both;
 }
 
+/* Description */
 .hero-desc {
-  font-size: clamp(14px, 1.6vw, 16.5px);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14.5px, 1.5vw, 16.5px);
   line-height: 1.85;
-  color: rgba(17,16,16,0.6);
-  max-width: 520px;
-  margin-bottom: 36px;
+  color: rgba(17,16,16,0.68);
+  max-width: 560px;
+  margin: 0 auto 36px;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both;
 }
 .hero-desc strong { color: var(--fg); font-weight: 600; }
+
+/* CTA group */
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  animation: heroUp 0.65s cubic-bezier(0.16,1,0.3,1) 0.54s both;
+}
 
 .hero-cta {
   display: inline-flex;
@@ -276,52 +383,52 @@ nav {
   box-shadow: 0 10px 40px rgba(81,245,0,0.45);
 }
 
-/* ─── HERO CARD ─── */
-.hero-card {
+.hero-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted);
+  padding: 14px 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, color 0.2s;
+  font-weight: 400;
+  min-height: 48px;
+}
+.hero-cta-ghost:hover { border-color: rgba(17,16,16,0.25); color: var(--fg); }
+
+/* Contact chips row */
+.hero-chips {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 52px;
+  animation: heroUp 0.65s cubic-bezier(0.16,1,0.3,1) 0.62s both;
+}
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 8px 60px rgba(17,16,16,0.07);
-  position: relative;
-  z-index: 1;
-}
-
-.hero-photo {
-  width: 100%;
-  height: 220px;
-  border-radius: 12px;
-  background-image: url('https://pps.services.adobe.com/api/profile/AADE36315AF348BE0A495DCA@AdobeID/image/707597bf-60d5-46ba-be0d-2d0c0663fecf/276');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin-bottom: 20px;
-}
-
-.card-name {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--fg);
-  margin-bottom: 3px;
-}
-.card-role { font-size: 12px; color: var(--muted); margin-bottom: 18px; font-weight: 400; }
-
-.card-contacts { display: flex; flex-direction: column; gap: 9px; }
-
-.card-contact {
-  display: flex;
-  align-items: center;
-  gap: 9px;
+  border-radius: 100px;
+  padding: 6px 14px;
   font-family: 'DM Mono', monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.07em;
   color: var(--muted);
   text-decoration: none;
-  transition: color 0.2s;
-  min-height: 32px;
+  transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  white-space: nowrap;
 }
-.card-contact:hover { color: var(--fg); }
+.hero-chip:hover { color: var(--fg); border-color: rgba(17,16,16,0.18); transform: translateY(-1px); }
 
 .cdot {
   width: 6px; height: 6px;
@@ -329,6 +436,48 @@ nav {
   border-radius: 50%;
   flex-shrink: 0;
   box-shadow: 0 0 7px rgba(81,245,0,0.55);
+}
+
+/* Stats strip */
+.hero-stats {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(17,16,16,0.05);
+  animation: heroUpCard 0.9s cubic-bezier(0.16,1,0.3,1) 0.42s both;
+  overflow: hidden;
+}
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 20px 36px;
+}
+.hero-stat-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+}
+.hero-stat-num em { font-style: normal; color: var(--accent); }
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.hero-stat-sep {
+  width: 1px; height: 40px;
+  background: var(--border);
+  flex-shrink: 0;
 }
 
 /* ─── MARQUEE ─── */
@@ -399,7 +548,12 @@ section {
   background-size: 100%;
 }
 
-.about-body { font-size: 15px; line-height: 1.95; color: rgba(17,16,16,0.62); }
+.about-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 15.5px;
+  line-height: 2;
+  color: rgba(17,16,16,0.72);
+}
 .about-body p { margin-bottom: 18px; }
 .about-body strong { color: var(--fg); font-weight: 600; }
 
@@ -460,7 +614,13 @@ section {
   color: var(--fg);
   margin-bottom: 5px;
 }
-.comp-desc { font-size: 12px; line-height: 1.75; color: var(--muted); font-weight: 400; }
+.comp-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--muted);
+  font-weight: 400;
+}
 
 .flat-icon { color: #111010; width: 24px; height: 24px; stroke-width: 2px; }
 
@@ -526,7 +686,6 @@ section {
   line-height: 1.08;
   color: var(--fg);
 }
-  
 .proj-header-right {
   font-family: 'DM Mono', monospace;
   font-size: 9.5px;
@@ -571,12 +730,27 @@ section {
   width: 100%;
   aspect-ratio: 1 / 1;
   background-color: var(--bg);
-  background-image: url("img/luno-1.png");
+  background-image: url("../img/luno-1.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
+}
+.proj-thumb-metaads {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #0d1117;
+  position: relative;
+  overflow: hidden;
+}
+.proj-thumb-metaads img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0.88;
+  display: block;
 }
 .proj-thumb::after {
   content: '';
@@ -598,6 +772,11 @@ section {
   padding: 3px 8px;
   border-radius: 100px;
   z-index: 2;
+}
+.proj-thumb-cat.dark {
+  background: rgba(0,0,0,0.65);
+  color: rgba(255,255,255,0.8);
+  border-color: rgba(255,255,255,0.1);
 }
 .proj-thumb-overlay {
   position: absolute;
@@ -705,7 +884,13 @@ section {
   color: var(--fg);
   margin-bottom: 10px;
 }
-.feat-desc { font-size: 13px; line-height: 1.8; color: var(--muted); margin-bottom: 18px; }
+.feat-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: rgba(17,16,16,0.7);
+  margin-bottom: 18px;
+}
 .feat-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
 .feat-tag {
   font-family: 'DM Mono', monospace;
@@ -855,9 +1040,10 @@ section {
 }
 .modal-section-title::before { content: ''; width: 16px; height: 1px; background: var(--accent); display: block; }
 .modal-body-text {
-  font-size: 14px;
-  line-height: 1.9;
-  color: rgba(17,16,16,0.65);
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.95;
+  color: rgba(17,16,16,0.72);
   margin-bottom: 16px;
 }
 .modal-body-text strong { color: var(--fg); font-weight: 600; }
@@ -937,7 +1123,14 @@ section {
 }
 .op:hover { transform: translateY(-4px); }
 
-.op-text { font-style: italic; font-size: 14px; line-height: 1.8; color: rgba(17,16,16,0.7); margin-bottom: 22px; }
+.op-text {
+  font-family: 'Inter', sans-serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: rgba(17,16,16,0.75);
+  margin-bottom: 22px;
+}
 
 .op-author {
   display: flex;
@@ -974,7 +1167,8 @@ section {
   z-index: 1;
 }
 .cta-sub {
-  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15.5px;
   color: var(--muted);
   max-width: 400px;
   margin: 0 auto 36px;
@@ -1035,12 +1229,6 @@ footer {
   from { opacity: 0; transform: translateY(20px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.hero-tag   { animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
-.hero-name  { animation: heroUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.22s both; }
-.hero-title { animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.36s both; }
-.hero-desc  { animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.48s both; }
-.hero-cta   { animation: heroUp 0.65s cubic-bezier(0.16,1,0.3,1) 0.62s both; }
-.hero-card  { animation: heroUpCard 0.9s cubic-bezier(0.16,1,0.3,1) 0.28s both !important; }
 
 .fi { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .fi.vis { opacity: 1; transform: translateY(0); }
@@ -1050,42 +1238,38 @@ footer {
 .fi:nth-child(5) { transition-delay: 0.32s; }
 .fi:nth-child(6) { transition-delay: 0.40s; }
 
-/* ============================================
+/* ═══════════════════════════════════════════════════════
    RESPONSIVE — TABLET 1024px
-   ============================================ */
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .hero { grid-template-columns: 1fr 300px; gap: 32px; }
   .about-layout { gap: 44px; }
   .tools-layout { grid-template-columns: 180px 1fr; gap: 48px; }
   .projects-grid { grid-template-columns: repeat(3,1fr); }
+  .hero-stat { padding: 18px 24px; }
 }
 
-/* ============================================
+/* ═══════════════════════════════════════════════════════
    RESPONSIVE — MOBILE 768px
-   ============================================ */
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   /* NAV */
   .nav-links { display: none !important; }
   .nav-hamburger { display: flex; }
   .nav-mobile-overlay { display: flex; }
 
-  /* HERO — centered, stacked */
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding-top: calc(88px + var(--safe-top));
-    padding-bottom: 56px;
-    text-align: center;
-  }
-  .hero-tag { justify-content: center; }
-  .hero-tag::before { display: none; }
+  /* HERO */
+  .hero { padding-top: calc(88px + var(--safe-top)); padding-bottom: 48px; }
+  .hero-status { margin-bottom: 22px; font-size: 9px; }
   .hero-name { font-size: clamp(48px, 14vw, 80px); }
   .hero-title { font-size: clamp(15px, 4.5vw, 22px); }
-  .hero-desc { font-size: 14.5px; max-width: 100%; }
-  .hero-cta { margin: 0 auto; }
-  .hero-content { order: 1; }
-  .hero-card { order: 2; max-width: 340px; margin: 0 auto; }
-  .hero-photo { height: 180px; }
+  .hero-desc { font-size: 15px; max-width: 100%; }
+  .hero-chips { gap: 6px; }
+  .hero-chip { font-size: 9px; padding: 5px 11px; }
+  .hero-stats { width: 100%; border-radius: 14px; }
+  .hero-stat { padding: 16px 20px; }
+  .hero-stat-num { font-size: 24px; }
+  .hero-stat-label { font-size: 8px; }
+  .hero-corner { display: none; }
 
   /* SECTIONS */
   .section-label { margin-bottom: 32px; }
@@ -1132,12 +1316,17 @@ footer {
   .marquee-item { padding: 0 16px; }
 }
 
-/* ============================================
-   RESPONSIVE — SMALL MOBILE 480px (iPhone SE, etc.)
-   ============================================ */
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE — SMALL MOBILE 480px
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 480px) {
   .hero { padding-top: calc(80px + var(--safe-top)); }
   .hero-name { font-size: clamp(40px, 15vw, 64px); }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-chips { flex-direction: column; align-items: center; }
+  .hero-stats { flex-direction: column; width: 100%; }
+  .hero-stat-sep { width: 80%; height: 1px; }
+  .hero-stat { padding: 14px 20px; width: 100%; }
 
   .stats-row { grid-template-columns: 1fr 1fr; }
   .stat:last-child { grid-column: span 2; }
@@ -1158,13 +1347,11 @@ footer {
   .cta-hl { font-size: clamp(30px, 12vw, 52px); }
 }
 
-/* ============================================
+/* ═══════════════════════════════════════════════════════
    RESPONSIVE — TINY 360px
-   ============================================ */
+   ═══════════════════════════════════════════════════════ */
 @media (max-width: 360px) {
   .hero-name { font-size: clamp(36px, 14.5vw, 56px); }
-  .hero-card { padding: 18px; }
-  .hero-photo { height: 150px; }
 }
 </style>
 </head>
@@ -1197,31 +1384,125 @@ footer {
   <span class="nav-mobile-close-label">kliknij link lub ESC, by zamknąć</span>
 </div>
 
+<!-- ═══ NEW HERO ═══ -->
 <header class="hero">
   <canvas id="hero-canvas" aria-hidden="true"></canvas>
-  <div class="blob"></div>
+  <div class="blob" aria-hidden="true"></div>
+  <div class="hero-grid-bg" aria-hidden="true"></div>
 
-  <div class="hero-content">
-    <span class="hero-tag">Marketing · Design · Generatywna AI</span>
-    <h1 class="hero-name">Natalia<br>Przybylska</h1>
-    <p class="hero-title">AI Creative & Marketing Specialist</p>
-    <p class="hero-desc">
-      Przez 8 lat szlifowałam warsztat w marketingu i grafice.<br>
-      Teraz wspieram się AI — co oznacza, że <strong>robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób: marketingowca i grafika.</strong><br><br>
-      Wymyślam koncepcje. Projektuję. Dostarczam efekt.
-    </p>
-    <a href="#contact" class="hero-cta">Napisz do mnie →</a>
+  <!-- Corner decorations -->
+  <div class="hero-corner hero-corner--tl" aria-hidden="true">
+    <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
+      <line x1="0" y1="38" x2="76" y2="38" stroke="rgba(81,245,0,0.28)" stroke-width="0.8"/>
+      <line x1="38" y1="0" x2="38" y2="76" stroke="rgba(81,245,0,0.28)" stroke-width="0.8"/>
+      <circle cx="38" cy="38" r="20" stroke="rgba(81,245,0,0.15)" stroke-width="0.8" fill="none"/>
+      <circle cx="38" cy="38" r="4" fill="rgba(81,245,0,0.35)"/>
+      <circle cx="38" cy="38" r="8" stroke="rgba(81,245,0,0.18)" stroke-width="0.6" fill="none"/>
+    </svg>
   </div>
 
-  <div class="hero-card fi">
-    <div class="hero-photo"></div>
-    <div class="card-name">Natalia Przybylska</div>
-    <div class="card-role">AI Creative &amp; Marketing Specialist</div>
-    <div class="card-contacts">
-      <a href="mailto:natalie.kreatywnie@gmail.com" class="card-contact"><span class="cdot"></span>natalie.kreatywnie@gmail.com</a>
-      <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="card-contact"><span class="cdot"></span>Linkedin: nat-przybylska</a>
-      <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="card-contact"><span class="cdot"></span>IG: @natalie.kreatywnie</a>
+  <div class="hero-corner hero-corner--tr" aria-hidden="true">
+    <svg width="88" height="88" viewBox="0 0 88 88" fill="none">
+      <g fill="rgba(17,16,16,0.07)">
+        <circle cx="10" cy="10" r="2"/><circle cx="30" cy="10" r="2"/><circle cx="50" cy="10" r="2"/><circle cx="70" cy="10" r="2"/>
+        <circle cx="10" cy="30" r="2"/><circle cx="30" cy="30" r="2"/><circle cx="50" cy="30" r="2"/><circle cx="70" cy="30" r="2"/>
+        <circle cx="10" cy="50" r="2"/><circle cx="30" cy="50" r="2"/><circle cx="50" cy="50" r="2"/><circle cx="70" cy="50" r="2"/>
+        <circle cx="10" cy="70" r="2"/><circle cx="30" cy="70" r="2"/><circle cx="50" cy="70" r="2"/><circle cx="70" cy="70" r="2"/>
+      </g>
+      <circle cx="70" cy="10" r="4" fill="rgba(81,245,0,0.5)"/>
+      <circle cx="10" cy="10" r="3" fill="rgba(81,245,0,0.25)"/>
+    </svg>
+  </div>
+
+  <div class="hero-corner hero-corner--bl" aria-hidden="true">
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <line x1="0" y1="0" x2="64" y2="64" stroke="rgba(17,16,16,0.07)" stroke-width="0.8"/>
+      <line x1="64" y1="0" x2="0" y2="64" stroke="rgba(17,16,16,0.07)" stroke-width="0.8"/>
+      <rect x="24" y="24" width="16" height="16" stroke="rgba(17,16,16,0.09)" stroke-width="0.8" fill="none"/>
+      <circle cx="32" cy="32" r="3" fill="rgba(17,16,16,0.08)"/>
+    </svg>
+  </div>
+
+  <div class="hero-corner hero-corner--br" aria-hidden="true">
+    <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
+      <circle cx="38" cy="38" r="34" stroke="rgba(17,16,16,0.05)" stroke-width="0.8" fill="none"/>
+      <circle cx="38" cy="38" r="22" stroke="rgba(17,16,16,0.07)" stroke-width="0.8" fill="none"/>
+      <circle cx="38" cy="38" r="10" stroke="rgba(17,16,16,0.09)" stroke-width="0.8" fill="none"/>
+      <line x1="38" y1="4" x2="38" y2="72" stroke="rgba(17,16,16,0.05)" stroke-width="0.8"/>
+      <line x1="4" y1="38" x2="72" y2="38" stroke="rgba(17,16,16,0.05)" stroke-width="0.8"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+
+    <!-- Status badge -->
+    <div class="hero-status">
+      <span class="nav-dot" style="width:6px;height:6px;"></span>
+      Otwarta na nowe projekty · Warszawa
     </div>
+
+    <!-- Tag line -->
+    <p class="hero-tag">
+      Marketing
+      <span class="hero-tag-dot"></span>
+      Design
+      <span class="hero-tag-dot"></span>
+      Generatywna AI
+    </p>
+
+    <!-- Main name -->
+    <h1 class="hero-name">
+      Natalia<br>
+      <span class="hero-name-line2">Przybylska</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="hero-title">AI Creative &amp; Marketing Specialist</p>
+
+    <!-- Description -->
+    <p class="hero-desc">
+      Przez 8 lat szlifowałam warsztat w marketingu i grafice.
+      Teraz wspieram się AI — co oznacza, że <strong>robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób: marketingowca i grafika.</strong>
+      Wymyślam koncepcje. Projektuję. Dostarczam efekt.
+    </p>
+
+    <!-- CTAs -->
+    <div class="hero-actions">
+      <a href="#contact" class="hero-cta">Napisz do mnie →</a>
+      <a href="#projects" class="hero-cta-ghost">Zobacz projekty</a>
+    </div>
+
+    <!-- Contact chips -->
+    <div class="hero-chips">
+      <a href="mailto:natalie.kreatywnie@gmail.com" class="hero-chip">
+        <span class="cdot"></span>natalie.kreatywnie@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" rel="noopener" class="hero-chip">
+        <span class="cdot"></span>LinkedIn
+      </a>
+      <a href="https://instagram.com/natalie.kreatywnie" target="_blank" rel="noopener" class="hero-chip">
+        <span class="cdot"></span>@natalie.kreatywnie
+      </a>
+    </div>
+
+    <!-- Stats strip -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">8<em>+</em></span>
+        <span class="hero-stat-label">lat doświadczenia</span>
+      </div>
+      <span class="hero-stat-sep"></span>
+      <div class="hero-stat">
+        <span class="hero-stat-num">2<em>×1</em></span>
+        <span class="hero-stat-label">marketing + design</span>
+      </div>
+      <span class="hero-stat-sep"></span>
+      <div class="hero-stat">
+        <span class="hero-stat-num">AI<em>↑</em></span>
+        <span class="hero-stat-label">szybciej · lepiej</span>
+      </div>
+    </div>
+
   </div>
 </header>
 
@@ -1324,7 +1605,7 @@ footer {
   <div class="section-label">Narzędzia</div>
   <div class="tools-layout">
     <div>
-      <h2 class="tools-hl fi">Warsztat,<br>który<span class="ul-acc">działa.</span></h2>
+      <h2 class="tools-hl fi">Warsztat,<br>który <span class="ul-acc">działa.</span></h2>
     </div>
     <div class="tools-cats">
       <div class="tools-cat fi">
@@ -1369,15 +1650,33 @@ footer {
 
     <div class="proj-card span-2 fi">
       <div class="proj-thumb proj-thumb-luno">
-        <span class="proj-thumb-cat">Web & Design</span>
+        <span class="proj-thumb-cat">Web &amp; Design</span>
         <a href="https://ojnatalie.github.io/luno/" target="_blank">
-        <div class="proj-thumb-overlay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div></a>
+          <div class="proj-thumb-overlay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </div>
+        </a>
       </div>
       <div class="proj-card-meta">
         <div class="proj-card-title">Landing page produktowy — od konceptu po gotową stronę</div>
         <div class="proj-card-sub">2026 · Photoshop, Claude, Midjourney</div>
+      </div>
+    </div>
+
+    <!-- ── META ADS DASHBOARD ── -->
+    <div class="proj-card span-2 fi" onclick="location.href='md.html'" style="cursor:pointer;">
+      <div class="proj-thumb-metaads">
+        <img src="../screencapture-ojnatalie-github-io-meta-ads-dashboard-2026-02-26-20_04_05.png"
+             alt="Meta Ads Dashboard — screenshot"
+             loading="lazy">
+        <span class="proj-thumb-cat dark">Analytics · Meta Ads</span>
+        <div class="proj-thumb-overlay" style="background:rgba(0,0,0,0.12);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="background:rgba(255,255,255,0.15);color:#fff;"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </div>
+      </div>
+      <div class="proj-card-meta">
+        <div class="proj-card-title">Meta Ads Dashboard — AI-Driven Analytics Tool</div>
+        <div class="proj-card-sub">2026 · Claude, React</div>
       </div>
     </div>
 
@@ -1390,7 +1689,7 @@ footer {
       </div>
       <div class="proj-card-meta">
         <div class="proj-card-title">Narzędzie AI do budowania raportów</div>
-        <div class="proj-card-sub">2026 · Claude </div>
+        <div class="proj-card-sub">2026 · Claude</div>
       </div>
     </div>
 
@@ -1610,12 +1909,12 @@ footer {
   <div class="ops-grid">
 
     <div class="op fi">
-      <p class="op-text">„Natalia dostarcza gotowe rzeczy tak sprawnie, że podejrzewam ją o posiadanie zmieniacza czasu. Wchodzi z projektem, wychodzi z efektem, a ja w tym czasie zdążyłem tylko zaparzyć kawę."</p>
+      <p class="op-text">„Natalia to jest osoba z pozytywną aurą i totalna comfort person. Dowozi wyniki z uśmiechem na twarzy, osoba która ją zatrudni zyska nie tylko świetnego eksperta, ale i super energię w biurze."</p>
       <div class="op-author">
-        <img src="https://i.pinimg.com/736x/99/5f/b8/995fb86e1d44ee245e432374679ffe8b.jpg" alt="Avatar" class="op-avatar">
+        <img src="../portfolio-nprzybylska/img/PK.jpg" alt="Avatar" class="op-avatar">
         <div>
-          <div class="op-name">Marek Nowak</div>
-          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
+          <div class="op-name">Paulina Kiełpikowska</div>
+          <a href="https://www.linkedin.com/in/paulina-kie%C5%82pikowska/" class="op-linkedin" target="_blank">Profil LinkedIn</a>
         </div>
       </div>
     </div>
@@ -1654,7 +1953,7 @@ footer {
     </div>
 
     <div class="op fi">
-      <p class="op-text">„Wysłałem brief, mrugnąłem i dostałem gotowe pliki. Albo Natalia jest bardzo szybka, albo AI rzeczywiście przejmuje świat – w obu przypadkach jestem bardzo zadowolony."</p>
+      <p class="op-text">„Wysłałem brief, mrugnąłem i dostałem gotowe pliki. Albo Natalia jest bardzo szybka, albo AI rzeczywiście przejmuje świat — w obu przypadkach jestem bardzo zadowolony."</p>
       <div class="op-author">
         <img src="https://i.pinimg.com/736x/8b/09/e3/8b09e312a4cca87c28b69747f78376c3.jpg" alt="Avatar" class="op-avatar">
         <div>
@@ -1681,6 +1980,7 @@ footer {
 <section id="contact" class="cta-section">
   <div class="blob"></div>
   <h2 class="cta-hl fi">Szukam pracy.<br>Porozmawiajmy.</h2>
+  <p class="cta-sub fi">Otwarta na propozycje full-time i freelance. Najchętniej odpiszę na maila.</p>
   <a href="mailto:natalie.kreatywnie@gmail.com" class="cta-email fi">natalie.kreatywnie@gmail.com</a>
 </section>
 
@@ -1755,19 +2055,21 @@ footer {
     resize();
 
     const pivots = [
-      { x: 0.72, y: 0.18, len: 0.38, speed: 0.00018, angle: 0.5,  color: 'rgba(17,16,16,0.055)' },
-      { x: 0.15, y: 0.65, len: 0.28, speed: -0.00013, angle: 2.1, color: 'rgba(17,16,16,0.04)'  },
-      { x: 0.88, y: 0.55, len: 0.22, speed: 0.00022,  angle: 1.2, color: 'rgba(81,245,0,0.08)'  },
-      { x: 0.42, y: 0.12, len: 0.32, speed: -0.00016, angle: 3.8, color: 'rgba(17,16,16,0.035)' },
+      { x: 0.72, y: 0.18, len: 0.38, speed: 0.00018, angle: 0.5,  color: 'rgba(17,16,16,0.045)' },
+      { x: 0.15, y: 0.65, len: 0.28, speed: -0.00013, angle: 2.1, color: 'rgba(17,16,16,0.03)'  },
+      { x: 0.88, y: 0.55, len: 0.22, speed: 0.00022,  angle: 1.2, color: 'rgba(81,245,0,0.07)'  },
+      { x: 0.42, y: 0.12, len: 0.32, speed: -0.00016, angle: 3.8, color: 'rgba(17,16,16,0.028)' },
+      { x: 0.50, y: 0.80, len: 0.20, speed: 0.00014,  angle: 0.9, color: 'rgba(81,245,0,0.05)'  },
     ];
     const circles = [
-      { x: 0.78, y: 0.22, r: 0.14, phase: 0,   speed: 0.0004,  color: 'rgba(81,245,0,0.045)' },
-      { x: 0.20, y: 0.75, r: 0.10, phase: 2.1, speed: 0.0003,  color: 'rgba(17,16,16,0.035)' },
+      { x: 0.78, y: 0.22, r: 0.14, phase: 0,   speed: 0.0004,  color: 'rgba(81,245,0,0.038)' },
+      { x: 0.20, y: 0.75, r: 0.10, phase: 2.1, speed: 0.0003,  color: 'rgba(17,16,16,0.028)' },
+      { x: 0.50, y: 0.50, r: 0.18, phase: 1.0, speed: 0.00025, color: 'rgba(81,245,0,0.022)' },
     ];
     const hairlines = [
-      { y: 0.30, speed: 0.000055, phase: 0,   color: 'rgba(17,16,16,0.03)' },
-      { y: 0.58, speed: -0.00004, phase: 1.4, color: 'rgba(17,16,16,0.025)' },
-      { y: 0.82, speed: 0.000035, phase: 2.8, color: 'rgba(81,245,0,0.04)' },
+      { y: 0.30, speed: 0.000055, phase: 0,   color: 'rgba(17,16,16,0.025)' },
+      { y: 0.58, speed: -0.00004, phase: 1.4, color: 'rgba(17,16,16,0.02)'  },
+      { y: 0.82, speed: 0.000035, phase: 2.8, color: 'rgba(81,245,0,0.032)' },
     ];
 
     let t = 0;
@@ -1802,11 +2104,3 @@ footer {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
