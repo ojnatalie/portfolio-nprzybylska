@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Case Study: Meta Ads Dashboard — Natalia Przybylska</title>
+<meta name="description" content="Jak w 15 minut zamieniłam surowy CSV z Meta Ads w interaktywny dashboard analityczny przy pomocy AI."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+
+/* ══════════════════════════════════════════════
+   DESIGN TOKENS — spójne z portfolio
+══════════════════════════════════════════════ */
+:root {
+  --bg: #f4f9f7;
+  --fg: #111010;
+  --accent: #51f500;
+  --accent-dim: rgba(81,245,0,0.07);
+  --accent-mid: rgba(81,245,0,0.18);
+  --muted: #7a8a84;
+  --card: #ffffff;
+  --border: rgba(17,16,16,0.08);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body {
+  background:var(--bg); color:var(--fg);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:300; line-height:1.6;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+img { max-width:100%; display:block; }
+a { color:inherit; text-decoration:none; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--accent); border-radius:2px; }
+
+/* ── BLOB ── */
+.blob {
+  position:absolute; border-radius:50%;
+  background:radial-gradient(circle,rgba(81,245,0,0.10) 0%,transparent 65%);
+  pointer-events:none; filter:blur(70px); z-index:0;
+}
+
+/* ══════════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════════ */
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 6px rgba(81,245,0,0.5); }
+  50% { box-shadow:0 0 16px rgba(81,245,0,0.9); }
+}
+@keyframes heroUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes barRise {
+  from { transform:scaleY(0); }
+  to   { transform:scaleY(1); }
+}
+@keyframes lineTrace {
+  from { stroke-dashoffset:800; }
+  to   { stroke-dashoffset:0; }
+}
+@keyframes dotPop {
+  from { opacity:0; transform:scale(0); }
+  to   { opacity:1; transform:scale(1); }
+}
+@keyframes rowIn {
+  from { opacity:0; transform:translateX(-8px); }
+  to   { opacity:1; transform:translateX(0); }
+}
+@keyframes fadeFill {
+  from { opacity:0; }
+  to   { opacity:1; }
+}
+
+.fi { opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
+.fi.vis { opacity:1; transform:none; }
+.fi:nth-child(1) { transition-delay:.04s; }
+.fi:nth-child(2) { transition-delay:.12s; }
+.fi:nth-child(3) { transition-delay:.20s; }
+.fi:nth-child(4) { transition-delay:.28s; }
+.fi:nth-child(5) { transition-delay:.36s; }
+.fi:nth-child(6) { transition-delay:.44s; }
+
+/* ══════════════════════════════════════════════
+   NAV — identyczny jak w portfolio
+══════════════════════════════════════════════ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  padding:0 clamp(16px,4vw,60px);
+  padding-top:calc(16px + var(--safe-top));
+  padding-bottom:16px;
+  display:flex; justify-content:space-between; align-items:center;
+  background:rgba(244,249,247,0.92);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  min-height:64px;
+}
+.nav-logo {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:700; font-size:13px; letter-spacing:.03em;
+  color:var(--fg); display:flex; align-items:center; gap:7px; flex-shrink:0;
+}
+.nav-dot {
+  width:7px; height:7px; background:var(--accent); border-radius:50%;
+  box-shadow:0 0 10px rgba(81,245,0,0.7);
+  animation:pulse 2.5s ease-in-out infinite; flex-shrink:0;
+}
+.nav-back {
+  display:flex; align-items:center; gap:8px;
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--muted); transition:color .2s;
+}
+.nav-back:hover { color:var(--fg); }
+.nav-back svg { transition:transform .2s; }
+.nav-back:hover svg { transform:translateX(-3px); }
+.nav-cta {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--accent); color:var(--fg);
+  padding:11px 22px;
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:.16em; text-transform:uppercase;
+  border-radius:3px; font-weight:400;
+  box-shadow:0 4px 20px rgba(81,245,0,0.28);
+  transition:box-shadow .3s, transform .3s;
+  min-height:44px;
+}
+.nav-cta:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(81,245,0,0.42); }
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+.hero {
+  padding:clamp(110px,16vw,150px) clamp(16px,5vw,60px) clamp(64px,8vw,96px);
+  position:relative; overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.hero .blob { width:700px; height:700px; top:-150px; right:-150px; opacity:.8; }
+.hero-inner { position:relative; z-index:1; max-width:900px; }
+
+.hero-tag {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
+  margin-bottom:22px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  animation:heroUp .7s cubic-bezier(.16,1,.3,1) .1s both;
+}
+.hero-tag::before {
+  content:''; width:24px; height:1.5px;
+  background:var(--accent); display:block; flex-shrink:0;
+}
+
+.hero-h1 {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:800; font-size:clamp(38px,7.5vw,92px);
+  line-height:.96; letter-spacing:-.04em; color:var(--fg);
+  margin-bottom:26px;
+  animation:heroUp .8s cubic-bezier(.16,1,.3,1) .22s both;
+}
+.hero-h1 em {
+  font-style:italic; font-weight:300;
+  background-image:linear-gradient(transparent 84%,var(--accent) 84%);
+  background-size:100%;
+}
+
+.hero-lead {
+  font-size:clamp(14px,1.8vw,17.5px); line-height:1.85;
+  color:rgba(17,16,16,0.6); max-width:580px; margin-bottom:48px;
+  animation:heroUp .7s cubic-bezier(.16,1,.3,1) .36s both;
+}
+.hero-lead strong { color:var(--fg); font-weight:600; }
+
+/* stat strip — jak stats-row z portfolio */
+.hero-stats {
+  display:flex; gap:2px;
+  animation:heroUp .7s cubic-bezier(.16,1,.3,1) .50s both;
+  max-width:520px;
+}
+.hs {
+  flex:1; padding:22px 24px;
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  transition:box-shadow .25s, transform .25s;
+}
+.hs:hover { box-shadow:0 6px 28px rgba(17,16,16,0.07); transform:translateY(-2px); }
+.hs-val {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
+  font-size:clamp(26px,4vw,40px); line-height:1;
+  letter-spacing:-.03em; color:var(--fg); margin-bottom:6px;
+}
+.hs-val em { font-style:normal; color:var(--accent); }
+.hs-lbl {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  line-height:1.5;
+}
+@media(max-width:500px) {
+  .hero-stats { flex-direction:column; max-width:100%; }
+}
+
+/* ══════════════════════════════════════════════
+   SECTIONS
+══════════════════════════════════════════════ */
+section {
+  padding:clamp(56px,8vw,96px) clamp(16px,5vw,60px);
+  position:relative; border-bottom:1px solid var(--border);
+}
+section:last-of-type { border-bottom:none; }
+
+.section-label {
+  font-family:'DM Mono',monospace; font-size:9.5px;
+  letter-spacing:.26em; text-transform:uppercase; color:var(--muted);
+  margin-bottom:44px;
+  display:inline-flex; align-items:center; gap:10px;
+}
+.section-label::before {
+  content:''; width:6px; height:6px;
+  background:var(--accent); border-radius:50%;
+  box-shadow:0 0 8px rgba(81,245,0,0.55); flex-shrink:0;
+}
+
+.s-h2 {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
+  font-size:clamp(28px,4vw,52px); line-height:1.06;
+  letter-spacing:-.03em; color:var(--fg); margin-bottom:18px;
+}
+.s-h2 em { font-style:italic; font-weight:300; }
+.ul-acc {
+  background-image:linear-gradient(transparent 84%,var(--accent) 84%);
+  background-size:100%;
+}
+.s-lead {
+  font-size:15px; line-height:1.85;
+  color:rgba(17,16,16,0.6); max-width:560px;
+}
+.s-lead strong { color:var(--fg); font-weight:600; }
+
+/* ══════════════════════════════════════════════
+   01 — WYZWANIE
+══════════════════════════════════════════════ */
+.ch-layout {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:56px; align-items:start; margin-top:40px;
+}
+@media(max-width:768px) { .ch-layout { grid-template-columns:1fr; gap:28px; } }
+
+.ch-cards { display:flex; flex-direction:column; gap:12px; }
+.ch-card {
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:24px 26px; display:flex; gap:14px; align-items:flex-start;
+  transition:box-shadow .25s, transform .25s;
+}
+.ch-card:hover { box-shadow:0 8px 36px rgba(17,16,16,0.08); transform:translateY(-2px); }
+.ch-ico {
+  width:36px; height:36px; border-radius:8px; flex-shrink:0;
+  background:var(--accent-dim); border:1px solid var(--accent-mid);
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+}
+.ch-title { font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; color:var(--fg); margin-bottom:5px; }
+.ch-desc { font-size:12.5px; line-height:1.75; color:var(--muted); font-weight:400; }
+
+/* CSV block */
+.csv-block {
+  margin-top:40px;
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  overflow:hidden; box-shadow:0 4px 32px rgba(17,16,16,0.05);
+}
+.csv-chrome {
+  display:flex; align-items:center; gap:7px;
+  padding:11px 16px; background:#f0f5f2; border-bottom:1px solid var(--border);
+}
+.csv-d { width:9px; height:9px; border-radius:50%; }
+.csv-fname {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:.06em; color:var(--muted); margin-left:6px;
+}
+.csv-scroll { overflow-x:auto; }
+.csv-tbl {
+  border-collapse:collapse; width:100%;
+  font-family:'DM Mono',monospace; font-size:10.5px; white-space:nowrap;
+  min-width:620px;
+}
+.csv-tbl th {
+  padding:8px 16px 9px; text-align:left;
+  color:var(--muted); font-weight:400; letter-spacing:.07em;
+  border-bottom:1px solid var(--border); font-size:9.5px; text-transform:uppercase;
+}
+.csv-tbl td { padding:8px 16px; color:rgba(17,16,16,0.5); border-bottom:1px solid rgba(17,16,16,0.04); }
+.csv-tbl tr:last-child td { border-bottom:none; }
+.csv-tbl tr:hover td { background:rgba(81,245,0,0.03); }
+.td-name { color:var(--fg)!important; font-weight:400; }
+.td-g  { color:#167a00!important; font-weight:500; }
+.td-w  { color:#8a5200!important; font-weight:500; }
+.td-r  { color:#b5001a!important; font-weight:500; }
+
+/* ══════════════════════════════════════════════
+   02 — PODEJŚCIE
+══════════════════════════════════════════════ */
+.pr-layout {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:64px; align-items:start; margin-top:40px;
+}
+@media(max-width:768px) { .pr-layout { grid-template-columns:1fr; gap:32px; } }
+
+.steps { display:flex; flex-direction:column; }
+.step {
+  padding:28px 0;
+  border-bottom:1px solid var(--border);
+}
+.step:last-child { border-bottom:none; }
+.step-num {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--accent);
+  margin-bottom:8px; display:flex; align-items:center; gap:8px;
+}
+.step-num::before { content:''; width:14px; height:1px; background:var(--accent); display:block; }
+.step-title {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:700;
+  font-size:16px; letter-spacing:-.02em; color:var(--fg); margin-bottom:8px;
+}
+.step-text { font-size:13.5px; line-height:1.8; color:rgba(17,16,16,0.62); margin-bottom:14px; }
+.step-text strong { color:var(--fg); font-weight:600; }
+.chip-row { display:flex; flex-wrap:wrap; gap:7px; }
+.chip {
+  display:flex; align-items:center; gap:5px;
+  background:var(--bg); border:1px solid var(--border); border-radius:100px;
+  padding:5px 13px; font-size:11.5px; color:var(--fg); font-weight:400;
+  transition:border-color .2s, background .2s; cursor:default;
+}
+.chip:hover { border-color:var(--accent); background:var(--accent-dim); }
+.chip.ac { background:var(--accent-dim); border-color:var(--accent-mid); }
+
+/* ── SHOWCASE (browser + dark dashboard) ── */
+.showcase {
+  margin-top:52px;
+  background:var(--card); border:1px solid var(--border); border-radius:18px;
+  overflow:hidden; box-shadow:0 12px 60px rgba(17,16,16,0.09);
+}
+.sc-bar {
+  display:flex; align-items:center; gap:7px;
+  padding:12px 18px; background:#f0f5f2; border-bottom:1px solid var(--border);
+}
+.sc-d { width:10px; height:10px; border-radius:50%; }
+.sc-url {
+  flex:1; text-align:center;
+  font-family:'DM Mono',monospace; font-size:10.5px; color:var(--muted);
+}
+.sc-live {
+  display:flex; align-items:center; gap:5px;
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:.1em; text-transform:uppercase; color:#167a00;
+}
+.sc-live-dot {
+  width:5px; height:5px; border-radius:50%;
+  background:var(--accent); box-shadow:0 0 5px rgba(81,245,0,0.8);
+  animation:pulse 2s ease infinite;
+}
+
+/* dark canvas */
+.sc-body { background:#07090f; padding:18px 20px 16px; }
+
+.d-kpi { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:14px; }
+@media(max-width:640px) { .d-kpi { grid-template-columns:repeat(3,1fr); } }
+@media(max-width:400px) { .d-kpi { grid-template-columns:repeat(2,1fr); } }
+.dk {
+  background:#131722; border:1px solid rgba(255,255,255,.07);
+  border-radius:9px; padding:11px 13px;
+}
+.dk-l { font-size:8px; text-transform:uppercase; letter-spacing:.07em; color:rgba(226,232,242,.3); margin-bottom:5px; font-family:'DM Mono',monospace; }
+.dk-v { font-family:'DM Mono',monospace; font-size:14px; color:#e2e8f2; line-height:1; }
+.dk-s { font-size:9px; font-weight:600; margin-top:3px; font-family:'DM Mono',monospace; }
+
+.d-charts { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+@media(max-width:560px) { .d-charts { grid-template-columns:1fr; } }
+.dc {
+  background:#131722; border:1px solid rgba(255,255,255,.07);
+  border-radius:9px; padding:13px 14px;
+}
+.dc-t { font-size:8px; text-transform:uppercase; letter-spacing:.07em; color:rgba(226,232,242,.28); margin-bottom:11px; font-family:'DM Mono',monospace; }
+
+/* animated bar */
+.bar-viz { display:flex; align-items:flex-end; gap:4px; height:80px; }
+.bv {
+  flex:1; border-radius:3px 3px 0 0;
+  transform-origin:bottom; transform:scaleY(0);
+  animation:barRise .7s cubic-bezier(.22,.61,.36,1) forwards;
+  animation-delay:var(--d);
+}
+
+/* animated line */
+.lsvg { width:100%; height:80px; overflow:visible; }
+.l-path {
+  fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:800; stroke-dashoffset:800;
+  animation:lineTrace 1.8s cubic-bezier(.4,0,.2,1) .2s forwards;
+}
+.l-fill { opacity:0; animation:fadeFill .5s ease 1.8s forwards; }
+.l-dot {
+  transform:scale(0); transform-origin:center;
+  animation:dotPop .3s ease forwards; animation-delay:var(--d);
+}
+
+/* animated scatter */
+.ssvg { width:100%; height:80px; }
+.sb {
+  transform:scale(0); transform-origin:center;
+  animation:dotPop .5s cubic-bezier(.22,.61,.36,1) forwards;
+  animation-delay:var(--d);
+}
+
+/* table rows */
+.tv { font-size:9.5px; font-family:'DM Mono',monospace; display:flex; flex-direction:column; gap:5px; }
+.tv-row {
+  display:flex; justify-content:space-between; align-items:center;
+  opacity:0; animation:rowIn .35s ease forwards; animation-delay:var(--d);
+}
+.tv-ad { color:rgba(226,232,242,.38); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:116px; }
+.tv-cpl { border-radius:3px; padding:2px 7px; font-size:9.5px; }
+
+/* ══════════════════════════════════════════════
+   03 — TRANSFORMACJA
+══════════════════════════════════════════════ */
+.ba-grid {
+  display:grid; grid-template-columns:1fr 56px 1fr;
+  gap:0; align-items:center; margin-top:40px;
+}
+@media(max-width:640px) { .ba-grid { grid-template-columns:1fr; gap:14px; } }
+.ba-card {
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:28px 28px 30px;
+  transition:box-shadow .25s, transform .25s;
+}
+.ba-card:hover { box-shadow:0 8px 36px rgba(17,16,16,0.07); transform:translateY(-2px); }
+.ba-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+  padding:4px 12px; border-radius:100px; margin-bottom:18px;
+}
+.ba-badge.before { background:rgba(181,0,26,.06); color:#b5001a; border:1px solid rgba(181,0,26,.14); }
+.ba-badge.after  { background:var(--accent-dim); color:#167a00; border:1px solid var(--accent-mid); }
+.ba-title { font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:17px; letter-spacing:-.02em; color:var(--fg); margin-bottom:16px; }
+.ba-list { display:flex; flex-direction:column; gap:10px; }
+.ba-li { display:flex; align-items:flex-start; gap:9px; font-size:13px; color:rgba(17,16,16,0.62); line-height:1.6; }
+.ba-arr {
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px; color:var(--muted);
+}
+@media(max-width:640px) { .ba-arr { transform:rotate(90deg); text-align:center; } }
+
+/* ══════════════════════════════════════════════
+   04 — WYNIKI  (stats-row jak w portfolio)
+══════════════════════════════════════════════ */
+.stats-row {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:2px; margin-top:40px;
+}
+@media(max-width:640px) {
+  .stats-row { grid-template-columns:1fr 1fr; }
+  .stats-row .stat:last-child { grid-column:span 2; }
+}
+@media(max-width:400px) { .stats-row { grid-template-columns:1fr; } }
+.stat {
+  padding:28px 24px;
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  transition:box-shadow .25s, transform .25s;
+}
+.stat:hover { box-shadow:0 8px 36px rgba(17,16,16,0.08); transform:translateY(-2px); }
+.stat-num {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
+  font-size:clamp(36px,5vw,52px); line-height:1;
+  letter-spacing:-.03em; color:var(--fg); margin-bottom:8px;
+}
+.stat-num em { font-style:normal; color:var(--accent); }
+.stat-label {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted); line-height:1.55;
+}
+
+/* pull quote — edu-item style (zielona kreska górna) */
+.pull-quote {
+  margin-top:52px;
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  padding:36px 40px; position:relative; overflow:hidden;
+}
+.pull-quote::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg, var(--accent), transparent);
+}
+@media(max-width:640px) { .pull-quote { padding:24px 22px; } }
+.pq-text {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:300; font-style:italic;
+  font-size:clamp(15px,2.2vw,21px); line-height:1.65;
+  color:var(--fg); margin-bottom:18px; letter-spacing:-.01em;
+}
+.pq-text strong { font-weight:700; font-style:normal; }
+.pq-author {
+  font-family:'DM Mono',monospace; font-size:9.5px;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+}
+
+/* ══════════════════════════════════════════════
+   05 — KOMPETENCJE  (comp-grid jak w portfolio)
+══════════════════════════════════════════════ */
+.comp-grid {
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:12px; margin-top:40px;
+}
+@media(max-width:640px) { .comp-grid { grid-template-columns:1fr; } }
+.comp-item {
+  background:var(--card); border:1px solid var(--border); border-radius:14px;
+  padding:22px 24px; display:flex; gap:14px; align-items:flex-start;
+  transition:box-shadow .25s, transform .25s;
+}
+.comp-item:hover { box-shadow:0 8px 36px rgba(17,16,16,0.08); transform:translateY(-2px); }
+.comp-ico {
+  width:34px; height:34px; border-radius:8px; flex-shrink:0;
+  background:var(--accent-dim); border:1px solid var(--accent-mid);
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+}
+.comp-title { font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; color:var(--fg); margin-bottom:5px; }
+.comp-desc { font-size:12px; line-height:1.75; color:var(--muted); font-weight:400; }
+
+/* ══════════════════════════════════════════════
+   06 — NARZĘDZIA  (tool-chips)
+══════════════════════════════════════════════ */
+.tools-chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:40px; }
+.tool-chip {
+  display:flex; align-items:center; gap:10px;
+  background:var(--card); border:1px solid var(--border); border-radius:12px;
+  padding:14px 20px; cursor:default;
+  transition:border-color .2s, box-shadow .2s, background .2s;
+}
+.tool-chip:hover { border-color:var(--accent); background:var(--accent-dim); box-shadow:0 4px 18px rgba(81,245,0,0.1); }
+.tc-ico { font-size:18px; }
+.tc-name { font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:13px; color:var(--fg); }
+.tc-desc { font-size:11px; color:var(--muted); margin-top:1px; }
+
+/* ══════════════════════════════════════════════
+   CTA — jak w portfolio
+══════════════════════════════════════════════ */
+.cta-wrap {
+  text-align:center;
+  padding:clamp(80px,12vw,120px) clamp(16px,5vw,60px);
+  position:relative; overflow:hidden;
+}
+.cta-wrap .blob { width:700px; height:700px; top:50%; left:50%; transform:translate(-50%,-50%); opacity:.6; }
+.cta-inner { position:relative; z-index:1; }
+.cta-supra {
+  font-family:'DM Mono',monospace; font-size:9.5px; letter-spacing:.26em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:24px;
+  display:inline-flex; align-items:center; gap:10px;
+}
+.cta-supra::before {
+  content:''; width:6px; height:6px;
+  background:var(--accent); border-radius:50%;
+  box-shadow:0 0 8px rgba(81,245,0,0.55);
+}
+.cta-h2 {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
+  font-size:clamp(36px,8vw,78px); line-height:1.01;
+  letter-spacing:-.04em; color:var(--fg);
+  margin-bottom:20px; overflow-wrap:break-word;
+}
+.cta-sub {
+  font-size:15px; color:var(--muted); max-width:400px;
+  margin:0 auto 40px; line-height:1.75;
+}
+.cta-email {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:700;
+  font-size:clamp(15px,2.5vw,26px); color:var(--fg);
+  border-bottom:2px solid var(--accent); padding-bottom:3px;
+  transition:opacity .2s; display:inline-block;
+}
+.cta-email:hover { opacity:.65; }
+.cta-ghost {
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:'DM Mono',monospace; font-size:9.5px;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1.5px solid var(--border); padding-bottom:2px;
+  margin-top:24px; transition:color .2s, border-color .2s;
+}
+.cta-ghost:hover { color:var(--fg); border-color:var(--accent); }
+
+/* ══════════════════════════════════════════════
+   FOOTER — identyczny jak w portfolio
+══════════════════════════════════════════════ */
+footer {
+  padding:clamp(18px,3vw,26px) clamp(16px,5vw,60px);
+  padding-bottom:calc(clamp(18px,3vw,26px) + var(--safe-bottom));
+  display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid var(--border); flex-wrap:wrap; gap:12px;
+}
+.foot-copy {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+}
+.foot-links { display:flex; gap:20px; }
+.foot-link {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--muted); transition:color .2s;
+}
+.foot-link:hover { color:var(--fg); }
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav>
+  <a href="https://ojnatalie.github.io/portfolio-nprzybylska/" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Portfolio
+  </a>
+  <div class="nav-logo">
+    Natalia Przybylska <span class="nav-dot"></span>
+  </div>
+  <a href="mailto:natalie.kreatywnie@gmail.com" class="nav-cta">Napisz →</a>
+</nav>
+
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<header class="hero">
+  <div class="blob"></div>
+  <div class="hero-inner">
+
+    <div class="hero-tag">
+      Case Study · Meta Ads · Performance Analytics · AI · 2026
+    </div>
+
+    <h1 class="hero-h1">
+      Interaktywny dashboard<br/><em>w 15 minut.</em>
+    </h1>
+
+    <p class="hero-lead">
+      Zadanie: surowy plik CSV z 10 kampaniami Meta Ads, bez żadnej narracji ani wizualizacji.
+      Efekt: <strong>gotowy do prezentacji raport analityczny</strong> — dark mode, interaktywne wykresy,
+      sortowalna tabela CPL, opublikowany pod linkiem w przeglądarce.
+    </p>
+
+    <div class="hero-stats">
+      <div class="hs fi">
+        <div class="hs-val">15<em>min</em></div>
+        <div class="hs-lbl">od CSV<br/>do live linku</div>
+      </div>
+      <div class="hs fi">
+        <div class="hs-val">0</div>
+        <div class="hs-lbl">linii kodu<br/>napisanych ręcznie</div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════
+     01 — WYZWANIE
+════════════════════════════════════════ -->
+<section id="wyzwanie">
+  <div class="section-label fi">01 — Wyzwanie</div>
+
+  <div class="ch-layout">
+    <div>
+      <h2 class="s-h2 fi">Dane reklamowe,<br/>które <span class="ul-acc">nic nie mówią.</span></h2>
+      <p class="s-lead fi">
+        Eksport z Meta Ads Managera produkuje CSV co tydzień. Plik ląduje w folderze,
+        bo bez wizualizacji nie buduje żadnej decyzji — nie wiadomo, które kreacje gasić,
+        a które skalować.
+      </p>
+    </div>
+
+    <div class="ch-cards">
+      <div class="ch-card fi">
+        <div class="ch-ico">📂</div>
+        <div>
+          <div class="ch-title">Surowe dane bez narracji</div>
+          <div class="ch-desc">11 kolumn, 10 wierszy, setki cyfr. CPL różni się 5-krotnie między kreacjami — ale tego nie widać gołym okiem. Dane bez wizualizacji nie wspierają decyzji mediowych.</div>
+        </div>
+      </div>
+      <div class="ch-card fi">
+        <div class="ch-ico">📎</div>
+        <div>
+          <div class="ch-title">Raport w PDF = raport do szuflady</div>
+          <div class="ch-desc">PDF się starzeje. Excel wymaga tłumaczenia. Zadanie wymagało czegoś żywego — coś, co działa w przeglądarce, można pokazać na spotkaniu i udostępnić linkiem.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Raw CSV illustration -->
+  <div class="csv-block fi">
+    <div class="csv-chrome">
+      <div class="csv-d" style="background:#ff5f57"></div>
+      <div class="csv-d" style="background:#febc2e"></div>
+      <div class="csv-d" style="background:#28c840"></div>
+      <span class="csv-fname">meta_ads_budowlanka.csv — plik wejściowy</span>
+    </div>
+    <div class="csv-scroll">
+      <table class="csv-tbl">
+        <thead><tr>
+          <th>Campaign_Name</th>
+          <th>Ad_Name</th>
+          <th>Reach</th>
+          <th>Clicks</th>
+          <th>Spend_PLN</th>
+          <th>Leads</th>
+          <th>CTR_%</th>
+          <th>CPL_PLN</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="td-name">Elewacje i Docieplenia</td>
+            <td>Foto_Ekipa_Przy_Pracy</td>
+            <td>21 000</td><td>840</td><td>1 450,75</td><td>22</td><td>2,62</td>
+            <td class="td-g">65,94</td>
+          </tr>
+          <tr>
+            <td class="td-name">Remonty Łazienek</td>
+            <td>Karuzela_Przed_Po</td>
+            <td>12 400</td><td>520</td><td>920,00</td><td>15</td><td>2,80</td>
+            <td class="td-g">61,33</td>
+          </tr>
+          <tr>
+            <td class="td-name">Retargeting Mieszkania</td>
+            <td>Oferta_Ostatnia_Szansa</td>
+            <td>3 200</td><td>120</td><td>420,00</td><td>10</td><td>1,54</td>
+            <td class="td-g">42,00</td>
+          </tr>
+          <tr>
+            <td class="td-name">Pompy Ciepła</td>
+            <td>Schemat_Oszczednosci</td>
+            <td>14 200</td><td>480</td><td>2 100,00</td><td>18</td><td>2,17</td>
+            <td class="td-w">116,67</td>
+          </tr>
+          <tr>
+            <td class="td-name">Wykończenia Premium</td>
+            <td>Wizualizacja_Salon</td>
+            <td>9 800</td><td>310</td><td>1 850,00</td><td>9</td><td>2,01</td>
+            <td class="td-r">205,56</td>
+          </tr>
+          <tr style="opacity:.35">
+            <td colspan="8" style="text-align:center;padding:9px 16px;font-size:10px;font-style:italic">
+              … i 5 kolejnych wierszy
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     02 — PODEJŚCIE
+════════════════════════════════════════ -->
+<section id="podejscie">
+  <div class="section-label fi">02 — Podejście</div>
+
+  <div class="pr-layout">
+    <div>
+      <h2 class="s-h2 fi">Trzy kroki.<br/><em>Zero kodu z palca.</em></h2>
+      <p class="s-lead fi">
+        Punktem wyjścia nie był model AI — była analiza. Wiedziałam, jakie pytania
+        powinna odpowiadać ta wizualizacja, zanim wpisałam pierwsze słowo w prompt.
+        <strong>To jest właśnie ta część, której AI nie zastąpi.</strong>
+      </p>
+    </div>
+
+    <div class="steps">
+      <div class="step fi">
+        <div class="step-num">Krok 01</div>
+        <div class="step-title">Analiza strategiczna danych</div>
+        <p class="step-text">
+          Zanim cokolwiek trafiło do AI — przejrzałam dane z perspektywy performance marketingu.
+          Które kreacje generują leady przy najniższym CPL? Gdzie budżet przepala się bez efektu?
+          <strong>Definiowanie pytań to rola stratega, nie modelu.</strong>
+        </p>
+        <div class="chip-row">
+          <span class="chip">analiza kampanii</span>
+          <span class="chip">definicja KPI</span>
+          <span class="chip">znajomość Meta Ads</span>
+        </div>
+      </div>
+
+      <div class="step fi">
+        <div class="step-num">Krok 02</div>
+        <div class="step-title">Prompt jako precyzyjna instrukcja</div>
+        <p class="step-text">
+          Dobry prompt to nie "zrób mi raport". To <strong>brief architektoniczny</strong> —
+          z określoną rolą modelu, strukturą sekcji, typami wykresów, estetyką dark mode
+          i ograniczeniem technicznym: zero zależności, jeden plik HTML, działa w każdej
+          przeglądarce bez instalowania czegokolwiek.
+        </p>
+        <div class="chip-row">
+          <span class="chip ac">Claude Sonnet 4</span>
+          <span class="chip ac">role-playing model</span>
+          <span class="chip">kontekst estetyczny</span>
+          <span class="chip">ograniczenia techniczne</span>
+        </div>
+      </div>
+
+      <div class="step fi">
+        <div class="step-num">Krok 03</div>
+        <div class="step-title">Ocena, iteracja i wdrożenie</div>
+        <p class="step-text">
+          Każda wersja przechodziła przez filtr: <strong>czy wykresy są czytelne, czy kolory
+          komunikują hierarchię danych, czy tabela sortuje się poprawnie, czy toggle trybu działa.</strong>
+          Gdy efekt był gotowy — jeden push do GitHub i dashboard żył pod linkiem.
+        </p>
+        <div class="chip-row">
+          <span class="chip">ocena estetyczna UI</span>
+          <span class="chip">iteracja promptów</span>
+          <span class="chip ac">GitHub Pages</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Dashboard showcase ── -->
+  <div class="showcase fi">
+    <div class="sc-bar">
+      <div class="sc-d" style="background:#ff5f57"></div>
+      <div class="sc-d" style="background:#febc2e"></div>
+      <div class="sc-d" style="background:#28c840"></div>
+      <div class="sc-url">ojnatalie.github.io/meta-ads-dashboard/</div>
+      <div class="sc-live"><span class="sc-live-dot"></span>&nbsp;live</div>
+    </div>
+
+    <div class="sc-body">
+      <!-- KPI row -->
+      <div class="d-kpi">
+        <div class="dk" style="border-left:2px solid rgba(0,224,255,.35)">
+          <div class="dk-l">Łączny budżet</div>
+          <div class="dk-v">11 302</div>
+          <div class="dk-s" style="color:#00e0ff">PLN spend</div>
+        </div>
+        <div class="dk" style="border-left:2px solid rgba(168,85,247,.35)">
+          <div class="dk-l">Leady łącznie</div>
+          <div class="dk-v">120</div>
+          <div class="dk-s" style="color:#a855f7">10 kreacji</div>
+        </div>
+        <div class="dk" style="border-left:2px solid rgba(34,211,160,.35)">
+          <div class="dk-l">Śr. CPL</div>
+          <div class="dk-v">94,18</div>
+          <div class="dk-s" style="color:#22d3a0">PLN/lead</div>
+        </div>
+        <div class="dk" style="border-left:2px solid rgba(245,158,11,.35)">
+          <div class="dk-l">Best CPL</div>
+          <div class="dk-v">42,00</div>
+          <div class="dk-s" style="color:#f59e0b">Retargeting</div>
+        </div>
+        <div class="dk" style="border-left:2px solid rgba(244,63,94,.35)">
+          <div class="dk-l">Worst CPL</div>
+          <div class="dk-v">205,56</div>
+          <div class="dk-s" style="color:#f43f5e">→ wyłączyć</div>
+        </div>
+      </div>
+
+      <!-- 2×2 charts -->
+      <div class="d-charts">
+
+        <!-- Bar: leady -->
+        <div class="dc">
+          <div class="dc-t">Leady per kreacja</div>
+          <div class="bar-viz">
+            <div class="bv" style="height:55%;--d:.30s;background:linear-gradient(to top,#00e0ff,#00e0ff44)"></div>
+            <div class="bv" style="height:36%;--d:.38s;background:linear-gradient(to top,#a855f7,#a855f744)"></div>
+            <div class="bv" style="height:68%;--d:.46s;background:linear-gradient(to top,#f43f5e,#f43f5e44)"></div>
+            <div class="bv" style="height:100%;--d:.54s;background:linear-gradient(to top,#22d3a0,#22d3a044)"></div>
+            <div class="bv" style="height:64%;--d:.62s;background:linear-gradient(to top,#f59e0b,#f59e0b44)"></div>
+            <div class="bv" style="height:23%;--d:.70s;background:linear-gradient(to top,#60a5fa,#60a5fa44)"></div>
+            <div class="bv" style="height:41%;--d:.78s;background:linear-gradient(to top,#fb923c,#fb923c44)"></div>
+            <div class="bv" style="height:82%;--d:.86s;background:linear-gradient(to top,#c084fc,#c084fc44)"></div>
+            <div class="bv" style="height:32%;--d:.94s;background:linear-gradient(to top,#fbbf24,#fbbf2444)"></div>
+            <div class="bv" style="height:45%;--d:1.02s;background:linear-gradient(to top,#34d399,#34d39944)"></div>
+          </div>
+        </div>
+
+        <!-- Line: skumulowany spend -->
+        <div class="dc">
+          <div class="dc-t">Skumulowany spend PLN</div>
+          <svg class="lsvg" viewBox="0 0 240 80" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#00e0ff" stop-opacity=".22"/>
+                <stop offset="100%" stop-color="#00e0ff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path class="l-fill"
+              d="M0,74 C16,68 34,60 52,54 S80,44 96,38 S120,30 136,24 S164,14 182,9 L240,3 L240,80 L0,80 Z"
+              fill="url(#lg)"/>
+            <path class="l-path"
+              d="M0,74 C16,68 34,60 52,54 S80,44 96,38 S120,30 136,24 S164,14 182,9 L240,3"
+              stroke="#00e0ff"/>
+            <circle class="l-dot" cx="0"   cy="74" r="2.5" fill="#00e0ff" style="--d:.5s"/>
+            <circle class="l-dot" cx="27"  cy="65" r="2.5" fill="#00e0ff" style="--d:.7s"/>
+            <circle class="l-dot" cx="54"  cy="54" r="2.5" fill="#00e0ff" style="--d:.9s"/>
+            <circle class="l-dot" cx="80"  cy="45" r="2.5" fill="#00e0ff" style="--d:1.1s"/>
+            <circle class="l-dot" cx="107" cy="36" r="2.5" fill="#00e0ff" style="--d:1.3s"/>
+            <circle class="l-dot" cx="134" cy="26" r="2.5" fill="#00e0ff" style="--d:1.5s"/>
+            <circle class="l-dot" cx="160" cy="17" r="2.5" fill="#00e0ff" style="--d:1.7s"/>
+            <circle class="l-dot" cx="187" cy="10" r="2.5" fill="#00e0ff" style="--d:1.9s"/>
+            <circle class="l-dot" cx="213" cy="5"  r="2.5" fill="#00e0ff" style="--d:2.1s"/>
+            <circle class="l-dot" cx="240" cy="3"  r="3"   fill="#00e0ff" style="--d:2.3s"/>
+          </svg>
+        </div>
+
+        <!-- Scatter: zasięg vs kliknięcia -->
+        <div class="dc">
+          <div class="dc-t">Zasięg vs. Kliknięcia (bąbelki = leady)</div>
+          <svg class="ssvg" viewBox="0 0 240 80">
+            <line x1="0" y1="70" x2="240" y2="70" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="46" x2="240" y2="46" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <line x1="0" y1="22" x2="240" y2="22" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+            <circle class="sb" cx="184" cy="7"  r="13" fill="rgba(34,211,160,.25)"  stroke="#22d3a0" stroke-width="1.5" style="--d:.20s"/>
+            <circle class="sb" cx="152" cy="17" r="12" fill="rgba(0,224,255,.25)"   stroke="#00e0ff" stroke-width="1.5" style="--d:.38s"/>
+            <circle class="sb" cx="138" cy="24" r="10" fill="rgba(168,85,247,.25)"  stroke="#a855f7" stroke-width="1.5" style="--d:.56s"/>
+            <circle class="sb" cx="108" cy="36" r="11" fill="rgba(244,63,94,.25)"   stroke="#f43f5e" stroke-width="1.5" style="--d:.74s"/>
+            <circle class="sb" cx="122" cy="29" r="10" fill="rgba(245,158,11,.25)"  stroke="#f59e0b" stroke-width="1.5" style="--d:.92s"/>
+            <circle class="sb" cx="90"  cy="44" r="8"  fill="rgba(96,165,250,.25)"  stroke="#60a5fa" stroke-width="1.5" style="--d:1.10s"/>
+            <circle class="sb" cx="78"  cy="51" r="9"  fill="rgba(196,132,252,.25)" stroke="#c084fc" stroke-width="1.5" style="--d:1.28s"/>
+            <circle class="sb" cx="62"  cy="58" r="8"  fill="rgba(251,191,36,.25)"  stroke="#fbbf24" stroke-width="1.5" style="--d:1.46s"/>
+            <circle class="sb" cx="30"  cy="68" r="9"  fill="rgba(52,211,153,.25)"  stroke="#34d399" stroke-width="1.5" style="--d:1.64s"/>
+            <circle class="sb" cx="14"  cy="73" r="6"  fill="rgba(251,146,60,.25)"  stroke="#fb923c" stroke-width="1.5" style="--d:1.82s"/>
+          </svg>
+        </div>
+
+        <!-- Table: CPL ranking -->
+        <div class="dc">
+          <div class="dc-t">Ranking CPL — od najlepszego</div>
+          <div class="tv">
+            <div class="tv-row" style="--d:.25s">
+              <span class="tv-ad">Oferta Ostatnia Szansa</span>
+              <span class="tv-cpl" style="background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.22)">42,00</span>
+            </div>
+            <div class="tv-row" style="--d:.42s">
+              <span class="tv-ad">Karuzela Przed Po</span>
+              <span class="tv-cpl" style="background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.22)">61,33</span>
+            </div>
+            <div class="tv-row" style="--d:.59s">
+              <span class="tv-ad">Foto Ekipa Przy Pracy</span>
+              <span class="tv-cpl" style="background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.22)">65,94</span>
+            </div>
+            <div class="tv-row" style="--d:.76s">
+              <span class="tv-ad">Grafika Znizka Jesien</span>
+              <span class="tv-cpl" style="background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.22)">78,59</span>
+            </div>
+            <div class="tv-row" style="--d:.93s">
+              <span class="tv-ad">Video Realizacja Modern</span>
+              <span class="tv-cpl" style="background:rgba(251,191,36,.1);color:#fbbf24;border:1px solid rgba(251,191,36,.22)">104,17</span>
+            </div>
+            <div class="tv-row" style="--d:1.10s">
+              <span class="tv-ad">Wizualizacja Salon</span>
+              <span class="tv-cpl" style="background:rgba(244,63,94,.1);color:#f43f5e;border:1px solid rgba(244,63,94,.22)">205,56 ⚠</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 2px 2px;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:9px;color:rgba(226,232,242,.22)">
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 4px rgba(81,245,0,.8);display:inline-block"></span>
+          Live · GitHub Pages · HTML / CSS / JS
+        </div>
+        <a href="./meta-ads-dashboard/" target="_blank"
+           style="font-family:'DM Mono',monospace;font-size:9.5px;color:rgba(81,245,0,.65);letter-spacing:.1em;text-transform:uppercase;text-decoration:underline;text-underline-offset:3px;transition:color .2s"
+           onmouseover="this.style.color='rgba(81,245,0,1)'" onmouseout="this.style.color='rgba(81,245,0,.65)'">
+          → Otwórz żywy dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     03 — TRANSFORMACJA
+════════════════════════════════════════ -->
+<section id="transformacja">
+  <div class="section-label fi">03 — Transformacja</div>
+  <h2 class="s-h2 fi">Przed i po.</h2>
+  <p class="s-lead fi">To samo wyzwanie — dwa zupełnie różne narzędzia do jego rozwiązania.</p>
+
+  <div class="ba-grid">
+    <div class="ba-card fi">
+      <div class="ba-badge before">✗ Przed</div>
+      <div class="ba-title">Plik CSV w folderze</div>
+      <div class="ba-list">
+        <div class="ba-li">📋 Surowy eksport z Ads Managera, zero narracji</div>
+        <div class="ba-li">🤷 Nie wiadomo, które kreacje gasić, a które skalować</div>
+        <div class="ba-li">💸 CPL 205 zł przy budżecie 1 850 PLN — niewidoczne bez analizy</div>
+        <div class="ba-li">⏳ Analiza = kolejna godzina w Excelu lub drogie studio</div>
+      </div>
+    </div>
+    <div class="ba-arr fi">→</div>
+    <div class="ba-card fi">
+      <div class="ba-badge after">✓ Po</div>
+      <div class="ba-title">Live dashboard w przeglądarce</div>
+      <div class="ba-list">
+        <div class="ba-li">📊 4 interaktywne wykresy, sortowalna tabela CPL</div>
+        <div class="ba-li">🎯 Retargeting 42 PLN vs. Salon 205 PLN — widać od razu</div>
+        <div class="ba-li">🔗 Link w przeglądarce, działa na telefonie, zero instalacji</div>
+        <div class="ba-li">⚡ Czas realizacji: 15 minut od CSV do live</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     04 — WYNIKI
+════════════════════════════════════════ -->
+<section id="wyniki">
+  <div class="section-label fi">04 — Wyniki</div>
+  <h2 class="s-h2 fi">Liczby<br/><em>mówią same.</em></h2>
+
+  <div class="stats-row">
+    <div class="stat fi">
+      <div class="stat-num">15<em>min</em></div>
+      <div class="stat-label">od surowego CSV<br/>do live linku</div>
+    </div>
+    <div class="stat fi">
+      <div class="stat-num">5<em>×</em></div>
+      <div class="stat-label">różnica CPL między<br/>najlepszą a najgorszą kreacją</div>
+    </div>
+    <div class="stat fi">
+      <div class="stat-num">0</div>
+      <div class="stat-label">linii kodu<br/>napisanych ręcznie</div>
+    </div>
+  </div>
+
+  <div class="pull-quote fi">
+    <p class="pq-text">
+      „Wiedziałam co chcę zobaczyć — i powiedziałam to AI precyzyjnie.
+      <strong>Prompt engineering to w rzeczywistości precyzyjna komunikacja</strong>
+      — jeśli wiesz, czego potrzebujesz, AI po prostu pomaga Ci to dowieźć w godzinę,
+      a nie w dzień."
+    </p>
+    <div class="pq-author">— Natalia Przybylska, AI Creative & Marketing Specialist</div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     05 — KOMPETENCJE
+════════════════════════════════════════ -->
+<section id="kompetencje">
+  <div class="section-label fi">05 — Kompetencje</div>
+  <h2 class="s-h2 fi">Czego ten projekt<br/><em>jest dowodem.</em></h2>
+  <p class="s-lead fi">Nie "używam AI". Wiem po co, kiedy i jak — i potrafię to uzasadnić wynikami.</p>
+
+  <div class="comp-grid">
+    <div class="comp-item fi">
+      <div class="comp-ico">🧠</div>
+      <div>
+        <div class="comp-title">Strategiczne myślenie o danych</div>
+        <div class="comp-desc">Zanim uruchomiłam AI — wiedziałam, co chcę z danych wyciągnąć. CPL, CTR, korelacje: to nie są obce skróty. To są pytania, które prowadzą do decyzji budżetowych.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico">✍️</div>
+      <div>
+        <div class="comp-title">Prompt engineering</div>
+        <div class="comp-desc">Prompt jako brief architektoniczny: rola modelu, struktura sekcji, estetyka, ograniczenia techniczne. Precyzja instrukcji bezpośrednio przekłada się na jakość efektu.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico">🎨</div>
+      <div>
+        <div class="comp-title">Ocena estetyczna UI</div>
+        <div class="comp-desc">Dashboard musi nie tylko działać, ale wyglądać i komunikować hierarchię. Wiedziałam kiedy iterować i kiedy jest gotowe — to jest filtr, którego AI nie posiada.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico">📣</div>
+      <div>
+        <div class="comp-title">Znajomość Meta Ads</div>
+        <div class="comp-desc">8 lat marketingu. Analiza nie była "zrób wykresik" — była odpowiedzią na konkretne pytania mediowe: co skalować, co gasić, gdzie przepala się budżet.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico">⚡</div>
+      <div>
+        <div class="comp-title">Szybkość dostarczania</div>
+        <div class="comp-desc">Dostarczam gotowy produkt — nie "prawie gotowy" plik do dalszej obróbki. Od wyzwania do live linku: 15 minut. Tyle zazwyczaj zajmuje pierwsze spotkanie.</div>
+      </div>
+    </div>
+    <div class="comp-item fi">
+      <div class="comp-ico">🔗</div>
+      <div>
+        <div class="comp-title">End-to-end deployment</div>
+        <div class="comp-desc">Od idei po link w przeglądarce. GitHub Pages, jeden plik HTML, zero zależności — działa wszędzie, na każdym urządzeniu, bez żadnej konfiguracji.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     06 — NARZĘDZIA
+════════════════════════════════════════ -->
+<section id="narzedzia">
+  <div class="section-label fi">06 — Narzędzia</div>
+  <h2 class="s-h2 fi">Warsztat.</h2>
+
+  <div class="tools-chips">
+    <div class="tool-chip fi">
+      <span class="tc-ico">🤖</span>
+      <div>
+        <div class="tc-name">Claude Sonnet 4</div>
+        <div class="tc-desc">generowanie kodu · analiza danych</div>
+      </div>
+    </div>
+    <div class="tool-chip fi">
+      <span class="tc-ico">📊</span>
+      <div>
+        <div class="tc-name">Chart.js</div>
+        <div class="tc-desc">biblioteka wykresów · CDN · zero build</div>
+      </div>
+    </div>
+    <div class="tool-chip fi">
+      <span class="tc-ico">📄</span>
+      <div>
+        <div class="tc-name">HTML / CSS / Vanilla JS</div>
+        <div class="tc-desc">jeden plik · działa wszędzie</div>
+      </div>
+    </div>
+    <div class="tool-chip fi">
+      <span class="tc-ico">🐙</span>
+      <div>
+        <div class="tc-name">GitHub Pages</div>
+        <div class="tc-desc">hosting statyczny · bezpłatny deploy</div>
+      </div>
+    </div>
+    <div class="tool-chip fi">
+      <span class="tc-ico">📋</span>
+      <div>
+        <div class="tc-name">Meta Ads Manager</div>
+        <div class="tc-desc">źródło danych CSV · eksport kampanii</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CTA
+════════════════════════════════════════ -->
+<div class="cta-wrap">
+  <div class="blob"></div>
+  <div class="cta-inner fi">
+    <div class="cta-supra">Twoje dane mogą wyglądać tak samo</div>
+    <h2 class="cta-h2">Masz CSV.<br/>Mnie wystarczy brief.</h2>
+    <p class="cta-sub">Raporty kampanii, analizy wyników, prezentacje dla zespołu — zamieniam dane w narzędzia, które działają natychmiast.</p>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="cta-email">natalie.kreatywnie@gmail.com →</a>
+    <br/>
+    <a href="https://ojnatalie.github.io/portfolio-nprzybylska/" class="cta-ghost">← Wróć do portfolio</a>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <span class="foot-copy">© 2026 Natalia Przybylska</span>
+  <div class="foot-links">
+    <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
+    <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+  </div>
+</footer>
+
+<script>
+/* Scroll reveal — identyczny pattern jak w portfolio */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('vis');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
