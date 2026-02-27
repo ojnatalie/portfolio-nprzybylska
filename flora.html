@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Flora — AI Influencer · Natalia Przybylska</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f4f9f7;
+  --fg: #111010;
+  --accent: #51f500;
+  --accent-dim: rgba(81,245,0,0.07);
+  --accent-mid: rgba(81,245,0,0.18);
+  --muted: #7a8a84;
+  --card: #ffffff;
+  --border: rgba(17,16,16,0.08);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 clamp(16px, 4vw, 60px);
+  padding-top: calc(16px + var(--safe-top));
+  padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  min-height: 64px;
+}
+
+.nav-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--fg);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nav-dot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(81,245,0,0.7);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(81,245,0,0.5); }
+  50% { box-shadow: 0 0 16px rgba(81,245,0,0.9); }
+}
+
+.nav-back {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--fg); }
+.nav-back svg { width: 14px; height: 14px; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: clamp(100px, 12vw, 140px) clamp(24px, 5vw, 80px) clamp(64px, 8vw, 100px);
+  position: relative;
+  overflow: hidden;
+  gap: clamp(32px, 6vw, 80px);
+}
+
+.hero-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(17,16,16,0.075) 1px, transparent 1px);
+  background-size: 28px 28px;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.12) 0%, transparent 65%);
+  pointer-events: none;
+  filter: blur(70px);
+  z-index: 0;
+  width: 700px; height: 700px;
+  top: 50%; left: 30%;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+}
+.hero-eyebrow-dot {
+  width: 4px; height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(52px, 9vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+}
+
+.hero-title span {
+  color: var(--accent);
+  -webkit-text-stroke: 0px;
+  text-shadow: 0 0 60px rgba(81,245,0,0.4);
+}
+
+.hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14px, 1.5vw, 17px);
+  color: var(--muted);
+  max-width: 440px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  opacity: 0;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.4s forwards;
+}
+
+.hero-tag-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 14px;
+  background: var(--card);
+}
+
+.hero-tag-pill.accent {
+  background: var(--accent-dim);
+  border-color: rgba(81,245,0,0.3);
+  color: #2a7a00;
+}
+
+/* Hero image area */
+.hero-visual {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  animation: heroUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.25s forwards;
+}
+
+.hero-img-wrap {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  box-shadow: 0 40px 100px rgba(17,16,16,0.18), 0 0 0 1px var(--border);
+}
+
+.hero-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.hero-img-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-img-badge-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(81,245,0,0.8);
+  flex-shrink: 0;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+.hero-img-badge span {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.hero-img-floating {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--bg);
+  box-shadow: 0 12px 40px rgba(17,16,16,0.2);
+}
+.hero-img-floating img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes heroUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTION WRAPPER ─── */
+.section {
+  padding: clamp(64px, 9vw, 120px) clamp(24px, 5vw, 80px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section-h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.section-p {
+  font-size: clamp(15px, 1.4vw, 17px);
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 640px;
+}
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin: clamp(32px, 5vw, 64px) 0;
+}
+
+.stat-item {
+  background: var(--card);
+  padding: clamp(20px, 3vw, 36px) clamp(16px, 2.5vw, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.stat-num sup {
+  font-size: 0.45em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── GALLERY ─── */
+.gallery-section {
+  padding: 0 clamp(24px, 5vw, 80px) clamp(64px, 9vw, 120px);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.gallery-main {
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  box-shadow: 0 20px 60px rgba(17,16,16,0.12), 0 0 0 1px var(--border);
+  position: relative;
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gallery-card {
+  border-radius: 20px;
+  overflow: hidden;
+  flex: 1;
+  box-shadow: 0 12px 40px rgba(17,16,16,0.1), 0 0 0 1px var(--border);
+  position: relative;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-label {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(244,249,247,0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── PROCESS / SKILLS ─── */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.process-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: clamp(20px, 3vw, 32px);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.process-card:hover {
+  box-shadow: 0 12px 40px rgba(17,16,16,0.1);
+  transform: translateY(-3px);
+}
+
+.process-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.process-card:hover::before { opacity: 1; }
+
+.process-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.process-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.process-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.tools-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.tool-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px 10px;
+  background: var(--bg);
+}
+
+/* ─── TEXT QUOTE ─── */
+.quote-section {
+  padding: clamp(64px, 9vw, 120px) clamp(24px, 5vw, 80px);
+  background: var(--fg);
+  color: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-section::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.08) 0%, transparent 65%);
+  filter: blur(60px);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.quote-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.quote-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+  font-size: clamp(20px, 3vw, 34px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: rgba(244,249,247,0.88);
+  max-width: 860px;
+  margin-bottom: 32px;
+}
+
+.quote-text strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.quote-source {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244,249,247,0.35);
+}
+
+/* ─── LoRA section ─── */
+.lora-section {
+  padding: clamp(64px, 9vw, 120px) clamp(24px, 5vw, 80px);
+}
+
+.lora-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+.lora-img {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(17,16,16,0.15), 0 0 0 1px var(--border);
+  aspect-ratio: 1;
+}
+
+.lora-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lora-content .section-label { margin-bottom: 16px; }
+
+.lora-h {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(26px, 3.5vw, 48px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+
+.lora-p {
+  font-size: clamp(14px, 1.3vw, 16px);
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.lora-highlight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--accent-dim);
+  border: 1px solid rgba(81,245,0,0.25);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-top: 24px;
+}
+
+.lora-highlight-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 36px;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.lora-highlight-label {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ─── FOOTER / CTA ─── */
+.footer-cta {
+  padding: clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-cta::before {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.08) 0%, transparent 65%);
+  filter: blur(80px);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.footer-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-cta h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+}
+
+.footer-cta p {
+  font-size: clamp(14px, 1.4vw, 17px);
+  color: var(--muted);
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 100px;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover {
+  background: #222;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 24px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
+  margin-left: 12px;
+}
+.btn-ghost:hover {
+  color: var(--fg);
+  border-color: rgba(17,16,16,0.25);
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px clamp(24px, 5vw, 80px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── DIVIDER ─── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 120px;
+  }
+  .hero-content { order: 2; }
+  .hero-visual { order: 1; max-width: 340px; margin: 0 auto; }
+  .hero-sub { margin: 0 auto 32px; }
+  .hero-meta { justify-content: center; }
+
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-side { flex-direction: row; }
+  .gallery-main { aspect-ratio: 16/9; }
+
+  .process-grid { grid-template-columns: 1fr 1fr; }
+
+  .lora-inner { grid-template-columns: 1fr; }
+
+  footer { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+@media (max-width: 600px) {
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .gallery-side { flex-direction: column; }
+  .btn-ghost { margin-left: 0; margin-top: 10px; }
+}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="https://ojnatalie.github.io/portfolio-nprzybylska/" class="nav-logo">
+    <span class="nav-dot"></span>
+    Natalia Przybylska
+  </a>
+  <a href="https://ojnatalie.github.io/portfolio-nprzybylska/" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+    Wróć do portfolio
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="blob"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Case Study · 2025
+    </div>
+    <h1 class="hero-title">
+      Flora<br>
+      <span>nie istnieje.</span>
+    </h1>
+    <p class="hero-sub">
+      Fikcyjna postać i wirtualna artystka stworzona od zera — od koncepcji, przez trening modelu LoRA, po gotowy profil influencerki, która maluje obrazy i uczy historii sztuki.
+    </p>
+    <div class="hero-meta">
+      <span class="hero-tag-pill">AI Influencer</span>
+      <span class="hero-tag-pill">LoRA Training</span>
+      <span class="hero-tag-pill">2025</span>
+      <span class="hero-tag-pill accent">· Projekt autorski</span>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-img-wrap">
+      <img src="../portfolio-nprzybylska/img/flora-hero.jpg" alt="Flora — wirtualna artystka" loading="eager">
+      <div class="hero-img-badge">
+        <span class="hero-img-badge-dot"></span>
+        <span>Postać fikcyjna · AI-Generated</span>
+      </div>
+    </div>
+    <div class="hero-img-floating">
+      <img src="../portfolio-nprzybylska/img/flora-natalia.jpg" alt="Natalia + Flora" loading="eager">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<div class="section" style="padding-top:0;">
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-num">140<sup>+</sup></div>
+      <div class="stat-label">Pobrań modelu LoRA</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1<sup>st</sup></div>
+      <div class="stat-label">Autorski model AI</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0<sup>zł</sup></div>
+      <div class="stat-label">Budżet produkcji</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Wariantów postaci</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ OVERVIEW ═══ -->
+<div class="section" style="padding-top:0;">
+  <div class="section-label reveal">Kontekst projektu</div>
+  <h2 class="section-h2 reveal">Od koncepcji<br>do wirtualnej tożsamości.</h2>
+  <p class="section-p reveal">
+    Flora (zdrobnienie od Florentyna) to wirtualna artystka — fikcyjna postać stworzona jako odpowiedź na pytanie: czy AI influencer może nieść realną wartość zamiast jedynie konkurować wyglądem? Zamiast modelki sprzedającej produkty — postać, która maluje obrazy, uczy historii sztuki i dzieli się wiedzą.
+  </p>
+</div>
+<hr class="divider">
+
+<!-- ═══ GALLERY ═══ -->
+<div class="gallery-section" style="padding-top: clamp(64px, 9vw, 120px);">
+  <div class="gallery-grid reveal">
+    <div class="gallery-main">
+      <span class="gallery-label">Profil IG · Feed</span>
+      <img src="../portfolio-nprzybylska/img/flora-grid.png" alt="Instagram grid Flory" style="object-position: top;">
+    </div>
+    <div class="gallery-side">
+      <div class="gallery-card">
+        <span class="gallery-label">Selfie · AI + Real</span>
+        <img src="../portfolio-nprzybylska/img/flora-selfie.png" alt="Natalia i Flora — dwie twarze, jeden projekt" style="height:100%; object-fit:cover;">
+      </div>
+      <div class="gallery-card" style="overflow:hidden;">
+        <span class="gallery-label">Portrait · Flora</span>
+        <img src="../portfolio-nprzybylska/img/flora-natalia.jpg" alt="Flora i Natalia razem" style="height:100%; object-fit:cover; object-position: top;">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUOTE ═══ -->
+<div class="quote-section">
+  <div class="quote-inner">
+    <p class="quote-text reveal">
+      Fikcja od zawsze wzbudza realne emocje. Założyłam, że tak jak radzimy sobie z tym, że Daniel Radcliffe nie jest czarodziejem — tak samo poradzimy sobie z tym, że <strong>Flora nie jest człowiekiem.</strong>
+    </p>
+    <div class="quote-source reveal">Natalia Przybylska · Autorka projektu</div>
+  </div>
+</div>
+
+<!-- ═══ PROCESS / SKILLS ═══ -->
+<div class="section">
+  <div class="section-label reveal">Kompetencje w projekcie</div>
+  <h2 class="section-h2 reveal">Co zrobiłam<br>i jak to zrobiłam.</h2>
+
+  <div class="process-grid">
+    <div class="process-card reveal">
+      <div class="process-num">01 · Koncepcja</div>
+      <div class="process-title">Projektowanie postaci</div>
+      <div class="process-desc">
+        Stworzyłam kompletny charakter — imię, tło, osobowość i misję. Flora miała być wirtualną artystką niosącą wartość edukacyjną, nie konkurującą ciałem.
+      </div>
+      <div class="tools-list">
+        <span class="tool-tag">Character Design</span>
+        <span class="tool-tag">Creative Strategy</span>
+      </div>
+    </div>
+
+    <div class="process-card reveal">
+      <div class="process-num">02 · Generatywna AI</div>
+      <div class="process-title">Trening modelu LoRA</div>
+      <div class="process-desc">
+        Wytrenowałam od zera autorski model LoRA — mały model językowy trenowany na wybranych obrazach, który sprawia że AI tworzy w spójnym, rozpoznawalnym stylu. Pobrało go ponad 140 osób.
+      </div>
+      <div class="tools-list">
+        <span class="tool-tag">LoRA Training</span>
+        <span class="tool-tag">Midjourney</span>
+        <span class="tool-tag">Stable Diffusion</span>
+      </div>
+    </div>
+
+    <div class="process-card reveal">
+      <div class="process-num">03 · Wideo & Animacja</div>
+      <div class="process-title">Życie w ruchu</div>
+      <div class="process-desc">
+        Ożywiłam Florę przy pomocy narzędzi do generowania wideo. Postać zyskała ruch, mimikę i spójną prezencję — nieodróżnialną od prawdziwej influencerki.
+      </div>
+      <div class="tools-list">
+        <span class="tool-tag">Higgsfield</span>
+        <span class="tool-tag">Video AI</span>
+        <span class="tool-tag">CapCut</span>
+      </div>
+    </div>
+
+    <div class="process-card reveal">
+      <div class="process-num">04 · Social Media</div>
+      <div class="process-title">Strategia profilu IG</div>
+      <div class="process-desc">
+        Zaprojektowałam koncepcję profilu — estetykę feedu, tematy postów, styl narracji. Flora miała uczyć historii sztuki w angażującym, wizualnym formacie.
+      </div>
+      <div class="tools-list">
+        <span class="tool-tag">Content Strategy</span>
+        <span class="tool-tag">Instagram</span>
+        <span class="tool-tag">Brand Voice</span>
+      </div>
+    </div>
+
+    <div class="process-card reveal">
+      <div class="process-num">05 · Adobe CC</div>
+      <div class="process-title">Postprodukcja & retusz</div>
+      <div class="process-desc">
+        Każdy wizerunek przeszedł przez mój filtr estetyczny i edycję w Adobe CC — korekta kolorystyczna, spójność wizualna i przygotowanie do publikacji.
+      </div>
+      <div class="tools-list">
+        <span class="tool-tag">Photoshop</span>
+        <span class="tool-tag">Lightroom</span>
+        <span class="tool-tag">After Effects</span>
+      </div>
+    </div>
+
+    <div class="process-card reveal">
+      <div class="process-num">06 · Narracja</div>
+      <div class="process-title">Głos i tożsamość marki</div>
+      <div class="process-desc">
+        ChatGPT pomógł w tworzeniu treści zgodnych z charakterem postaci. Każdy post, opis, komentarz — pisany głosem Flory, nie algorytmu.
+      </div>
+      <div class="tools-list">
+        <span class="tool-tag">ChatGPT</span>
+        <span class="tool-tag">Copywriting</span>
+        <span class="tool-tag">Brand Voice</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LoRA SECTION ═══ -->
+<div class="lora-section">
+  <div class="lora-inner">
+    <div class="lora-img reveal">
+      <img src="img/flora-hero.jpg" alt="Flora — model LoRA">
+    </div>
+    <div class="lora-content">
+      <div class="section-label reveal">Technologia</div>
+      <h2 class="lora-h reveal">Pierwszy autorski<br>model LoRA.</h2>
+      <p class="lora-p reveal">
+        LoRA (Low-Rank Adaptation) to metoda trenowania małego modelu na wyselekcjonowanych obrazach. Efekt? AI zaczyna tworzyć w konkretnym, rozpoznawalnym stylu — twarzy, fryzurze, kolorze oczu, piegach — spójnym w każdym wygenerowanym obrazie.
+      </p>
+      <p class="lora-p reveal">
+        Model Flory jest publicznie dostępny do pobrania. Każdy może go użyć i tworzyć własne wariacje postaci — to świadomy gest otwartości i zaproszenie do eksperymentowania z AI.
+      </p>
+      <div class="lora-highlight reveal">
+        <div class="lora-highlight-num">140+</div>
+        <div class="lora-highlight-label">osób pobrało model i tworzy własne wariacje Flory</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ REFLECTION ═══ -->
+<hr class="divider">
+<div class="section">
+  <div class="section-label reveal">Refleksja</div>
+  <h2 class="section-h2 reveal">Czy AI influencerzy<br>mogą nieść wartość?</h2>
+  <p class="section-p reveal" style="margin-bottom: 20px;">
+    Flora nie miała nikogo zwodzić. Świadomość, że to postać fikcyjna, była fundamentem projektu. Podobnie jak relacja z bohaterami powieści czy filmów — mechanizm emocjonalny jest ten sam, ale granica jest jasna.
+  </p>
+  <p class="section-p reveal">
+    <strong>Zagrożeniem nie jest rozwój technologii — ale tracenie człowieczeństwa przez ludzi.</strong> Bo to nie przez Florę przestajemy być dla siebie dobrzy. Flora to tylko pytanie o to, jak mogłoby być inaczej.
+  </p>
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div class="footer-cta">
+  <div class="footer-cta-inner">
+    <h2 class="reveal">Zobaczmy,<br>co możemy stworzyć.</h2>
+    <p class="reveal">Szukam projektów, które łączą kreatywność, strategię i nowe technologie. Odzywam się szybko.</p>
+    <div class="reveal">
+      <a href="mailto:natalie.kreatywnie@gmail.com" class="btn-primary">
+        Napisz do mnie →
+      </a>
+      <a href="https://ojnatalie.github.io/portfolio-nprzybylska/" class="btn-ghost">
+        ← Portfolio
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 Natalia Przybylska</span>
+  <span>Flora AI Influencer · Case Study</span>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const siblings = [...el.parentElement.querySelectorAll('.reveal')];
+      const idx = siblings.indexOf(el);
+      el.style.transitionDelay = (idx * 60) + 'ms';
+      el.classList.add('visible');
+      observer.unobserve(el);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
