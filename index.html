@@ -1354,6 +1354,162 @@ footer {
 @media (max-width: 360px) {
   .hero-name { font-size: clamp(36px, 14.5vw, 56px); }
 }
+
+/* ═══════════════════════════════════════════════════════
+   SIDE DECORATIONS — AI & Design panels
+   ═══════════════════════════════════════════════════════ */
+
+.side-deco {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  animation: sideFadeIn 1s cubic-bezier(0.16,1,0.3,1) 1.2s forwards;
+}
+@keyframes sideFadeIn {
+  from { opacity: 0; transform: translateY(calc(-50% + 18px)); }
+  to   { opacity: 1; transform: translateY(-50%); }
+}
+.side-deco--left  { left: clamp(12px, 2.5vw, 40px); align-items: flex-start; }
+.side-deco--right { right: clamp(12px, 2.5vw, 40px); align-items: flex-end; }
+
+/* Glass card base */
+.deco-card {
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(17,16,16,0.07);
+  border-radius: 12px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 20px rgba(17,16,16,0.05), 0 1px 3px rgba(17,16,16,0.06);
+  padding: 13px 15px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.deco-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(17,16,16,0.28);
+  margin-bottom: 9px;
+}
+
+/* ── float animations ── */
+.deco-neural  { animation: floatA 6s ease-in-out infinite; }
+.deco-metrics { animation: floatB 7s ease-in-out 0.5s infinite; }
+.deco-prompt  { animation: floatC 8s ease-in-out 1s infinite; }
+.deco-tools   { animation: floatD 5.5s ease-in-out 1.2s infinite; }
+.deco-swatches{ animation: floatE 7.5s ease-in-out 0.8s infinite; }
+.deco-layers  { animation: floatF 6.5s ease-in-out 0.3s infinite; }
+.deco-type    { animation: floatG 9s ease-in-out 0.2s infinite; }
+
+@keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes floatC { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes floatD { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes floatE { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)} }
+@keyframes floatF { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+@keyframes floatG { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+/* ── LEFT: Neural card ── */
+.deco-neural { width: 168px; }
+.neural-node { animation: nodeGlow 3s ease-in-out infinite; }
+.neural-node:nth-child(2){animation-delay:.5s}
+.neural-node:nth-child(3){animation-delay:1s}
+.neural-node:nth-child(4){animation-delay:1.5s}
+.neural-node:nth-child(5){animation-delay:.8s}
+.neural-node:nth-child(6){animation-delay:1.3s}
+.neural-node:nth-child(7){animation-delay:.3s}
+@keyframes nodeGlow { 0%,100%{opacity:.4} 50%{opacity:1} }
+.neural-edge { animation: edgePulse 2.5s ease-in-out infinite; }
+@keyframes edgePulse { 0%,100%{opacity:.15} 50%{opacity:.5} }
+
+/* ── LEFT: Metrics card ── */
+.deco-metrics { width: 148px; }
+.deco-metric-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 7px; gap: 7px;
+}
+.deco-metric-row:last-child { margin-bottom: 0; }
+.deco-metric-name { font-size: 7px; color: var(--muted); letter-spacing: .1em; white-space:nowrap; }
+.deco-metric-bar-wrap { flex:1; height:3px; background:rgba(17,16,16,.07); border-radius:2px; overflow:hidden; }
+.deco-metric-bar { height:100%; border-radius:2px; background:var(--accent); }
+.deco-metric-val { font-size:7.5px; color:var(--fg); font-weight:600; }
+
+/* ── LEFT: Prompt chip ── */
+.deco-prompt { width: 158px; }
+.deco-prompt-text {
+  font-size:7.5px; letter-spacing:.04em; line-height:1.7;
+  color:rgba(17,16,16,.52); border-left:2px solid var(--accent);
+  padding-left:8px; margin-top:8px;
+}
+.deco-cursor {
+  display:inline-block; width:1px; height:9px;
+  background:var(--accent); margin-left:1px;
+  vertical-align:middle;
+  animation:blink 1.1s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── RIGHT: Tool strip ── */
+.deco-tools { width:46px; }
+.deco-tools-inner {
+  display:flex; flex-direction:column;
+  align-items:center; gap:3px; padding:8px 5px;
+}
+.deco-tool-btn {
+  width:28px; height:28px; display:flex;
+  align-items:center; justify-content:center; border-radius:6px;
+}
+.deco-tool-btn.active { background:rgba(81,245,0,.12); }
+.deco-tool-sep { width:18px; height:1px; background:var(--border); margin:2px 0; }
+
+/* ── RIGHT: Swatches ── */
+.deco-swatches { width:138px; }
+.deco-swatch-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; margin-top:9px; }
+.deco-swatch { aspect-ratio:1; border-radius:4px; border:1px solid rgba(17,16,16,.06); }
+.deco-swatch.active { box-shadow:0 0 0 2px #fff, 0 0 0 3.5px var(--accent); }
+
+/* ── RIGHT: Layers ── */
+.deco-layers { width:155px; }
+.deco-layer-row {
+  display:flex; align-items:center; gap:6px;
+  padding:4px 5px; border-radius:5px; margin-bottom:2px;
+}
+.deco-layer-row.active { background:rgba(81,245,0,.08); }
+.deco-layer-thumb { width:17px; height:17px; border-radius:3px; flex-shrink:0; }
+.deco-layer-name { font-size:7.5px; color:var(--fg); letter-spacing:.03em; flex:1; }
+.deco-layer-eye { width:8px; height:8px; opacity:.25; }
+
+/* ── RIGHT: Type specimen ── */
+.deco-type { width:152px; }
+.deco-type-sample {
+  font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
+  font-size:21px; line-height:1; letter-spacing:-.04em;
+  color:var(--fg); margin-top:7px;
+}
+.deco-type-meta {
+  font-family:'DM Mono',monospace; font-size:7px;
+  letter-spacing:.1em; color:rgba(17,16,16,.3);
+  margin-top:5px; display:flex; gap:6px;
+}
+.deco-type-tag {
+  background:rgba(81,245,0,.1); color:rgba(17,16,16,.5);
+  padding:2px 5px; border-radius:3px;
+}
+
+/* Hide on screens narrower than 1140px */
+@media (max-width: 1140px) {
+  .side-deco { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -1434,6 +1590,173 @@ footer {
     </svg>
   </div>
 
+  <!-- ═══ LEFT DECO: AI / Neural ═══ -->
+  <div class="side-deco side-deco--left" aria-hidden="true">
+
+    <div class="deco-card deco-neural">
+      <div class="deco-label">Neural Network</div>
+      <svg width="138" height="88" viewBox="0 0 138 88" fill="none">
+        <line class="neural-edge" x1="18" y1="16" x2="56" y2="10" stroke="rgba(81,245,0,0.4)" stroke-width="0.8"/>
+        <line class="neural-edge" x1="18" y1="16" x2="56" y2="30" stroke="rgba(81,245,0,0.3)" stroke-width="0.8" style="animation-delay:.3s"/>
+        <line class="neural-edge" x1="18" y1="16" x2="56" y2="50" stroke="rgba(81,245,0,0.2)" stroke-width="0.8" style="animation-delay:.6s"/>
+        <line class="neural-edge" x1="18" y1="44" x2="56" y2="10" stroke="rgba(81,245,0,0.2)" stroke-width="0.8" style="animation-delay:.2s"/>
+        <line class="neural-edge" x1="18" y1="44" x2="56" y2="30" stroke="rgba(81,245,0,0.4)" stroke-width="0.8" style="animation-delay:.8s"/>
+        <line class="neural-edge" x1="18" y1="44" x2="56" y2="50" stroke="rgba(81,245,0,0.3)" stroke-width="0.8" style="animation-delay:.4s"/>
+        <line class="neural-edge" x1="18" y1="72" x2="56" y2="30" stroke="rgba(81,245,0,0.2)" stroke-width="0.8" style="animation-delay:.7s"/>
+        <line class="neural-edge" x1="18" y1="72" x2="56" y2="50" stroke="rgba(81,245,0,0.35)" stroke-width="0.8" style="animation-delay:.1s"/>
+        <line class="neural-edge" x1="18" y1="72" x2="56" y2="70" stroke="rgba(81,245,0,0.4)" stroke-width="0.8" style="animation-delay:.9s"/>
+        <line class="neural-edge" x1="56" y1="10" x2="96" y2="24" stroke="rgba(17,16,16,0.15)" stroke-width="0.8" style="animation-delay:.5s"/>
+        <line class="neural-edge" x1="56" y1="30" x2="96" y2="24" stroke="rgba(17,16,16,0.12)" stroke-width="0.8" style="animation-delay:.2s"/>
+        <line class="neural-edge" x1="56" y1="30" x2="96" y2="54" stroke="rgba(17,16,16,0.15)" stroke-width="0.8" style="animation-delay:.6s"/>
+        <line class="neural-edge" x1="56" y1="50" x2="96" y2="24" stroke="rgba(17,16,16,0.10)" stroke-width="0.8" style="animation-delay:.3s"/>
+        <line class="neural-edge" x1="56" y1="50" x2="96" y2="54" stroke="rgba(17,16,16,0.18)" stroke-width="0.8" style="animation-delay:.8s"/>
+        <line class="neural-edge" x1="56" y1="70" x2="96" y2="54" stroke="rgba(17,16,16,0.12)" stroke-width="0.8" style="animation-delay:.1s"/>
+        <line class="neural-edge" x1="96" y1="24" x2="128" y2="44" stroke="rgba(81,245,0,0.55)" stroke-width="1.1" style="animation-delay:.4s"/>
+        <line class="neural-edge" x1="96" y1="54" x2="128" y2="44" stroke="rgba(81,245,0,0.45)" stroke-width="1.1" style="animation-delay:.9s"/>
+        <circle class="neural-node" cx="18" cy="16" r="5" fill="rgba(81,245,0,0.8)" stroke="rgba(81,245,0,0.25)" stroke-width="3"/>
+        <circle class="neural-node" cx="18" cy="44" r="5" fill="rgba(81,245,0,0.6)" stroke="rgba(81,245,0,0.18)" stroke-width="3"/>
+        <circle class="neural-node" cx="18" cy="72" r="5" fill="rgba(81,245,0,0.7)" stroke="rgba(81,245,0,0.22)" stroke-width="3"/>
+        <circle class="neural-node" cx="56" cy="10" r="4.5" fill="rgba(17,16,16,0.7)" stroke="rgba(17,16,16,0.1)" stroke-width="3"/>
+        <circle class="neural-node" cx="56" cy="30" r="4.5" fill="rgba(17,16,16,0.5)" stroke="rgba(17,16,16,0.08)" stroke-width="3"/>
+        <circle class="neural-node" cx="56" cy="50" r="4.5" fill="rgba(17,16,16,0.65)" stroke="rgba(17,16,16,0.1)" stroke-width="3"/>
+        <circle class="neural-node" cx="56" cy="70" r="4.5" fill="rgba(17,16,16,0.4)" stroke="rgba(17,16,16,0.07)" stroke-width="3"/>
+        <circle class="neural-node" cx="96" cy="24" r="5" fill="rgba(81,245,0,0.5)" stroke="rgba(81,245,0,0.15)" stroke-width="3"/>
+        <circle class="neural-node" cx="96" cy="54" r="5" fill="rgba(81,245,0,0.65)" stroke="rgba(81,245,0,0.2)" stroke-width="3"/>
+        <circle class="neural-node" cx="128" cy="44" r="6.5" fill="rgba(81,245,0,1)" stroke="rgba(81,245,0,0.3)" stroke-width="4"/>
+      </svg>
+    </div>
+
+    <div class="deco-card deco-metrics">
+      <div class="deco-label">AI Output Quality</div>
+      <div class="deco-metric-row">
+        <span class="deco-metric-name">Creativity</span>
+        <div class="deco-metric-bar-wrap"><div class="deco-metric-bar" style="width:88%"></div></div>
+        <span class="deco-metric-val">88</span>
+      </div>
+      <div class="deco-metric-row">
+        <span class="deco-metric-name">Accuracy</span>
+        <div class="deco-metric-bar-wrap"><div class="deco-metric-bar" style="width:94%"></div></div>
+        <span class="deco-metric-val">94</span>
+      </div>
+      <div class="deco-metric-row">
+        <span class="deco-metric-name">Speed</span>
+        <div class="deco-metric-bar-wrap"><div class="deco-metric-bar" style="width:76%"></div></div>
+        <span class="deco-metric-val">76</span>
+      </div>
+      <div class="deco-metric-row">
+        <span class="deco-metric-name">Relevance</span>
+        <div class="deco-metric-bar-wrap"><div class="deco-metric-bar" style="width:91%"></div></div>
+        <span class="deco-metric-val">91</span>
+      </div>
+    </div>
+
+    <div class="deco-card deco-prompt">
+      <div class="deco-label">Prompt</div>
+      <div class="deco-prompt-text">
+        create bold campaign<br>for brand launch —<br>visual + copy<span class="deco-cursor"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ RIGHT DECO: Adobe / Design ═══ -->
+  <div class="side-deco side-deco--right" aria-hidden="true">
+
+    <div class="deco-card deco-tools">
+      <div class="deco-tools-inner">
+        <div class="deco-tool-btn active">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M7 1L13 7L7 13.5L1 7Z" stroke="rgba(17,16,16,0.65)" stroke-width="1" fill="none"/>
+            <circle cx="7" cy="7" r="1.8" fill="rgba(81,245,0,0.95)"/>
+          </svg>
+        </div>
+        <div class="deco-tool-btn">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M2 2L2 9L5 7L6.5 11L8 10.5L6.5 6.5L10 6L2 2Z" fill="rgba(17,16,16,0.4)"/>
+          </svg>
+        </div>
+        <div class="deco-tool-sep"></div>
+        <div class="deco-tool-btn">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <rect x="1" y="1" width="10" height="10" rx="2" stroke="rgba(17,16,16,0.38)" stroke-width="1" fill="none"/>
+          </svg>
+        </div>
+        <div class="deco-tool-btn">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <ellipse cx="6" cy="6" rx="5" ry="5" stroke="rgba(17,16,16,0.38)" stroke-width="1" fill="none"/>
+          </svg>
+        </div>
+        <div class="deco-tool-sep"></div>
+        <div class="deco-tool-btn">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 3H10M6 3V10" stroke="rgba(17,16,16,0.38)" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="deco-tool-btn">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <defs>
+              <linearGradient id="gT" x1="0" y1="0" x2="12" y2="12" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="rgba(81,245,0,0.75)"/>
+                <stop offset="100%" stop-color="rgba(17,16,16,0.08)"/>
+              </linearGradient>
+            </defs>
+            <rect x="1" y="1" width="10" height="10" rx="2" fill="url(#gT)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="deco-card deco-swatches">
+      <div class="deco-label">Color Palette</div>
+      <div class="deco-swatch-grid">
+        <div class="deco-swatch active" style="background:#51f500"></div>
+        <div class="deco-swatch" style="background:#111010"></div>
+        <div class="deco-swatch" style="background:#f4f9f7"></div>
+        <div class="deco-swatch" style="background:#7a8a84"></div>
+        <div class="deco-swatch" style="background:#d4f5c4"></div>
+        <div class="deco-swatch" style="background:#1a1a1a"></div>
+        <div class="deco-swatch" style="background:#e8f5e3"></div>
+        <div class="deco-swatch" style="background:#ffffff"></div>
+        <div class="deco-swatch" style="background:#38a800"></div>
+        <div class="deco-swatch" style="background:#8dbf7f"></div>
+      </div>
+    </div>
+
+    <div class="deco-card deco-layers">
+      <div class="deco-label">Layers</div>
+      <div class="deco-layer-row active">
+        <div class="deco-layer-thumb" style="background:linear-gradient(135deg,#51f500,#38a800)"></div>
+        <span class="deco-layer-name">Campaign_v3</span>
+        <svg class="deco-layer-eye" viewBox="0 0 8 8" fill="none"><ellipse cx="4" cy="4" rx="3.5" ry="2.5" stroke="rgba(17,16,16,0.4)" stroke-width="0.8"/><circle cx="4" cy="4" r="1.2" fill="rgba(17,16,16,0.4)"/></svg>
+      </div>
+      <div class="deco-layer-row">
+        <div class="deco-layer-thumb" style="background:#111010"></div>
+        <span class="deco-layer-name">Typography</span>
+        <svg class="deco-layer-eye" viewBox="0 0 8 8" fill="none"><ellipse cx="4" cy="4" rx="3.5" ry="2.5" stroke="rgba(17,16,16,0.22)" stroke-width="0.8"/><circle cx="4" cy="4" r="1.2" fill="rgba(17,16,16,0.22)"/></svg>
+      </div>
+      <div class="deco-layer-row">
+        <div class="deco-layer-thumb" style="background:linear-gradient(135deg,#f4f9f7,#d4f5c4)"></div>
+        <span class="deco-layer-name">Background</span>
+        <svg class="deco-layer-eye" viewBox="0 0 8 8" fill="none"><ellipse cx="4" cy="4" rx="3.5" ry="2.5" stroke="rgba(17,16,16,0.22)" stroke-width="0.8"/></svg>
+      </div>
+      <div class="deco-layer-row">
+        <div class="deco-layer-thumb" style="background:rgba(81,245,0,0.22)"></div>
+        <span class="deco-layer-name">Grid_guide</span>
+        <svg class="deco-layer-eye" viewBox="0 0 8 8" fill="none"><line x1="1" y1="1" x2="7" y2="7" stroke="rgba(17,16,16,0.2)" stroke-width="0.8"/><line x1="7" y1="1" x2="1" y2="7" stroke="rgba(17,16,16,0.2)" stroke-width="0.8"/></svg>
+      </div>
+    </div>
+
+    <div class="deco-card deco-type">
+      <div class="deco-label">Typography</div>
+      <div class="deco-type-sample">Aa</div>
+      <div class="deco-type-meta">
+        <span>800 · −4%</span>
+        <span class="deco-type-tag">+Jakarta Sans</span>
+      </div>
+    </div>
+
+  </div>
+
   <div class="hero-inner">
 
     <!-- Status badge -->
@@ -1475,8 +1798,8 @@ footer {
 
     <!-- Contact chips -->
     <div class="hero-chips">
-      <a href="mailto:natalie.kreatywnie@gmail.com" class="hero-chip">
-        <span class="cdot"></span>natalie.kreatywnie@gmail.com
+      <a href="/cdn-cgi/l/email-protection#dab4bbaebbb6b3bff4b1a8bfbbaea3adb4b3bf9abdb7bbb3b6f4b9b5b7" class="hero-chip">
+        <span class="cdot"></span><span class="__cf_email__" data-cfemail="1977786d7875707c37726b7c786d606e77707c597e74787075377a7674">[email&#160;protected]</span>
       </a>
       <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" rel="noopener" class="hero-chip">
         <span class="cdot"></span>LinkedIn
@@ -1552,7 +1875,7 @@ footer {
   </div>
 </section>
 
-<script src="https://unpkg.com/lucide@latest"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/lucide@latest"></script>
 
 <section id="competencies">
   <div class="section-label">Zakres kompetencji</div>
@@ -2042,7 +2365,7 @@ footer {
   <div class="blob"></div>
   <h2 class="cta-hl fi">Szukam pracy.<br>Porozmawiajmy.</h2>
   <p class="cta-sub fi">Otwarta na propozycje full-time i freelance. Najchętniej odpiszę na maila.</p>
-  <a href="mailto:natalie.kreatywnie@gmail.com" class="cta-email fi">natalie.kreatywnie@gmail.com</a>
+  <a href="/cdn-cgi/l/email-protection#c4aaa5b0a5a8ada1eaafb6a1a5b0bdb3aaada184a3a9a5ada8eaa7aba9" class="cta-email fi"><span class="__cf_email__" data-cfemail="d3bdb2a7b2bfbab6fdb8a1b6b2a7aaa4bdbab693b4beb2babffdb0bcbe">[email&#160;protected]</span></a>
 </section>
 
 <footer>
@@ -2050,11 +2373,11 @@ footer {
   <div class="foot-links">
     <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
     <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
-    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+    <a href="/cdn-cgi/l/email-protection#6f010e1b0e03060a41041d0a0e1b161801060a2f08020e0603410c0002" class="foot-link">Email</a>
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   lucide.createIcons();
 
   // IntersectionObserver scroll animations
@@ -2165,20 +2488,3 @@ footer {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
