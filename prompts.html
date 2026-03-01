@@ -339,20 +339,21 @@ nav {
   display: flex; flex-direction: column; gap: 0;
 }
 
-/* Each entry is a full-width row */
+/* Each entry is a full-width row — exactly 3 children */
 .entry {
   display: grid;
-  grid-template-columns: 320px 1fr 1fr;
+  grid-template-columns: 300px 1fr 1fr;
+  grid-template-rows: 1fr;
   gap: 0;
   border: 1px solid var(--border);
   border-radius: 20px;
   overflow: hidden;
   background: var(--card);
   margin-bottom: 20px;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+  min-height: 320px;
 }
 .entry.vis {
   opacity: 1; transform: translateY(0);
@@ -531,23 +532,22 @@ nav {
   color: var(--muted);
 }
 
-/* Arrow between columns */
-.entry-arrow {
+/* Arrow between raw and final — pseudo-element on entry-raw */
+.entry-raw::after {
+  content: '→';
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  top: 50%; right: -18px;
+  transform: translateY(-50%);
   z-index: 10;
-  width: 28px; height: 28px;
+  width: 34px; height: 34px;
   background: var(--fg);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-  box-shadow: 0 2px 12px rgba(17,16,16,0.18);
-}
-.entry-arrow svg { width: 12px; height: 12px; color: var(--accent); }
-.entry-col-separator {
-  position: relative;
-  width: 0;
+  font-size: 14px;
+  color: var(--accent);
+  box-shadow: 0 2px 12px rgba(17,16,16,0.22);
+  line-height: 34px;
+  text-align: center;
 }
 
 /* ══════════════════════════════════════════════
@@ -696,26 +696,32 @@ footer {
    RESPONSIVE
 ══════════════════════════════════════════════ */
 @media (max-width: 1100px) {
-  .entry { grid-template-columns: 280px 1fr 1fr; }
+  .entry { grid-template-columns: 260px 1fr 1fr; }
 }
 @media (max-width: 900px) {
   .entry {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
+    min-height: unset;
   }
   .entry-prompt {
-    grid-column: span 2;
+    grid-column: 1 / -1;
     border-right: none;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     padding: 22px;
   }
   .entry-raw { border-right: 1px solid var(--border); }
+  .entry-raw::after { display: none; }
   .philosophy { grid-template-columns: 1fr; gap: 36px; }
 }
 @media (max-width: 600px) {
-  .entry { grid-template-columns: 1fr; }
-  .entry-prompt { grid-column: span 1; }
-  .entry-raw { border-right: none; border-bottom: 1px solid var(--border); }
+  .entry {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .entry-prompt { grid-column: 1; }
+  .entry-raw { border-right: none; border-bottom: 1px solid var(--border); min-height: 240px; }
+  .entry-final-visual { min-height: 240px; }
   .hero-stats { flex-direction: column; }
   .hero-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
   .hero-stat:last-child { border-bottom: none; }
@@ -829,12 +835,6 @@ footer {
       <span class="entry-raw-badge">Midjourney v6.1</span>
     </div>
 
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-
     <div class="entry-final">
       <div class="entry-final-visual">
         <img class="entry-final-img" src="../portfolio-nprzybylska/img/str-3.png" alt="LUNO finalna kreacja — Story">
@@ -879,12 +879,6 @@ footer {
       <img class="entry-raw-img" src="../portfolio-nprzybylska/img/luno-1.png" alt="LUNO raw AI — light version">
       <span class="entry-raw-label">02 · Raw AI Output</span>
       <span class="entry-raw-badge">Midjourney v6.1</span>
-    </div>
-
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
     </div>
 
     <div class="entry-final">
@@ -935,12 +929,6 @@ footer {
       <span class="entry-raw-badge">Midjourney v6.1</span>
     </div>
 
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-
     <div class="entry-final">
       <div class="entry-final-visual">
         <img class="entry-final-img" src="../portfolio-nprzybylska/img/18x135_-_czwarta_opcja.png" alt="LUNO finalna kreacja amber feed">
@@ -989,12 +977,6 @@ footer {
       <span class="entry-raw-badge">Midjourney v6</span>
     </div>
 
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-
     <div class="entry-final">
       <div class="entry-final-visual">
         <img class="entry-final-img" src="../portfolio-nprzybylska/img/yukimor-3.jpg" alt="YUKIMOR finalna kreacja brandingowa">
@@ -1041,12 +1023,6 @@ footer {
       <img class="entry-raw-img" src="../portfolio-nprzybylska/img/flora-natalia.jpg" alt="Flora AI influencer raw">
       <span class="entry-raw-label">05 · Raw AI Output</span>
       <span class="entry-raw-badge">Midjourney v6.1</span>
-    </div>
-
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
     </div>
 
     <div class="entry-final">
@@ -1099,12 +1075,6 @@ footer {
       <span class="entry-raw-badge">Higgsfield + MJ</span>
     </div>
 
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-
     <div class="entry-final">
       <div class="entry-final-visual">
         <img class="entry-final-img" src="../portfolio-nprzybylska/img/flora-grid.png" alt="Flora grid finalna siatka profilu">
@@ -1153,12 +1123,6 @@ footer {
       <span class="entry-raw-badge">Midjourney v5.2</span>
     </div>
 
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
-    </div>
-
     <div class="entry-final">
       <div class="entry-final-visual">
         <img class="entry-final-img" src="../portfolio-nprzybylska/img/karty-3.jpg" alt="Karty finalne — DTP gotowe do druku">
@@ -1205,12 +1169,6 @@ footer {
       <img class="entry-raw-img" src="../portfolio-nprzybylska/img/karty-5.jpg" alt="Mortalis raw output">
       <span class="entry-raw-label">08 · Raw AI Output</span>
       <span class="entry-raw-badge">Midjourney v6</span>
-    </div>
-
-    <div class="entry-col-separator">
-      <div class="entry-arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
     </div>
 
     <div class="entry-final">
