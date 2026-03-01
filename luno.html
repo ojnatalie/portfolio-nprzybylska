@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LUNO — Case Study · Natalia Przybylska</title>
+<meta name="description" content="Case study projektu LUNO — koncepcja marki, landing page i kampania social media stworzone w całości z wykorzystaniem AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../portfolio-nprzybylska/img/favicon.svg">
+
+<style>
+:root {
+  --bg: #f4f9f7;
+  --fg: #111010;
+  --accent: #51f500;
+  --accent-dim: rgba(81,245,0,0.07);
+  --accent-mid: rgba(81,245,0,0.18);
+  --muted: #7a8a84;
+  --card: #ffffff;
+  --border: rgba(17,16,16,0.08);
+  --luno-warm: #c17a3a;
+  --luno-amber: #e8a84a;
+  --luno-dark: #2a1f14;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+
+/* ─── NAV (identyczna jak w portfolio) ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 clamp(16px, 4vw, 60px);
+  padding-top: 16px;
+  padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  min-height: 64px;
+}
+.nav-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--fg);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.nav-dot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(81,245,0,0.7);
+  animation: pulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(81,245,0,0.5); }
+  50% { box-shadow: 0 0 16px rgba(81,245,0,0.9); }
+}
+.nav-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--fg); }
+.nav-back svg { width: 14px; height: 14px; }
+
+/* ─── HERO ─── */
+.cs-hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(100px,14vw,150px) clamp(20px,5vw,80px) clamp(60px,8vw,90px);
+  position: relative;
+  overflow: hidden;
+  background: var(--luno-dark);
+}
+.cs-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(193,122,58,0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(81,245,0,0.06) 0%, transparent 60%);
+}
+.cs-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  pointer-events: none;
+}
+.cs-hero-img {
+  position: absolute;
+  right: 0; bottom: 0;
+  width: clamp(320px, 45vw, 680px);
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.cs-hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0.55;
+  mix-blend-mode: luminosity;
+  filter: sepia(0.3) saturate(1.4);
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%);
+}
+.cs-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+}
+.cs-hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+}
+.cs-hero-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(81,245,0,0.7);
+}
+.cs-hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  font-size: clamp(52px, 10vw, 110px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 14px;
+  animation: fadeUp 0.85s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+}
+.cs-hero-title em {
+  font-style: italic;
+  color: var(--luno-amber);
+}
+.cs-hero-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+  font-size: clamp(15px, 1.8vw, 20px);
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 48px;
+  max-width: 440px;
+  line-height: 1.75;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both;
+}
+.cs-hero-meta {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  width: fit-content;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both;
+}
+.cs-hero-meta-item {
+  padding: 16px 28px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+}
+.cs-hero-meta-item:last-child { border-right: none; }
+.cs-hero-meta-key {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 4px;
+}
+.cs-hero-meta-val {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SCROLL INDICATOR ─── */
+.scroll-down {
+  position: absolute;
+  bottom: 36px;
+  right: clamp(20px,5vw,80px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeUp 0.7s ease 0.9s both;
+}
+.scroll-down-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%, 100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.4); opacity: 0.4; }
+}
+.scroll-down-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  writing-mode: vertical-rl;
+}
+
+/* ─── LAYOUT UTILS ─── */
+.cs-section {
+  padding: clamp(64px, 9vw, 112px) clamp(20px,5vw,80px);
+  position: relative;
+}
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(81,245,0,0.55);
+}
+.section-hl {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px,3.8vw,52px);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  color: var(--fg);
+  margin-bottom: 20px;
+}
+.section-hl em {
+  font-style: normal;
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  color: var(--luno-warm);
+}
+.ul-acc {
+  background-image: linear-gradient(transparent 84%, var(--accent) 84%);
+  background-size: 100%;
+}
+
+/* ─── INTRO ─── */
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+.intro-body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15.5px;
+  line-height: 2;
+  color: rgba(17,16,16,0.72);
+}
+.intro-body p { margin-bottom: 18px; }
+.intro-body p:last-child { margin-bottom: 0; }
+.intro-body strong { color: var(--fg); font-weight: 600; }
+
+.intro-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+.istat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.istat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.istat-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 34px;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--fg);
+  margin-bottom: 5px;
+}
+.istat-num em { font-style: normal; color: var(--accent); }
+.istat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.istat.full { grid-column: span 2; }
+
+/* ─── SCOPE CHIPS ─── */
+.scope-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+.scope-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.scope-chip span {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(81,245,0,0.6);
+}
+
+/* ─── DIVIDER ─── */
+.cs-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 clamp(20px,5vw,80px);
+}
+
+/* ─── DARK SECTION ─── */
+.cs-dark {
+  background: var(--luno-dark);
+  position: relative;
+  overflow: hidden;
+}
+.cs-dark::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 50%, rgba(193,122,58,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 10% 30%, rgba(81,245,0,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cs-dark .section-label { color: rgba(255,255,255,0.35); }
+.cs-dark .section-label::before { box-shadow: 0 0 8px rgba(81,245,0,0.7); }
+.cs-dark .section-hl { color: #fff; }
+
+/* ─── LANDING PAGE SHOWCASE ─── */
+.lp-showcase {
+  position: relative;
+}
+.lp-browser {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.lp-browser-bar {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255,255,255,0.03);
+}
+.lp-browser-dots {
+  display: flex;
+  gap: 6px;
+}
+.lp-browser-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+}
+.lp-browser-dot:nth-child(1) { background: rgba(255,95,87,0.6); }
+.lp-browser-dot:nth-child(2) { background: rgba(255,189,46,0.6); }
+.lp-browser-dot:nth-child(3) { background: rgba(39,201,63,0.6); }
+.lp-browser-url {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  padding: 5px 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: rgba(255,255,255,0.3);
+  flex: 1;
+}
+.lp-browser-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.lp-browser-link:hover { opacity: 1; }
+.lp-browser-img {
+  width: 100%;
+  display: block;
+  max-height: 480px;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ─── BRIEF ─── */
+.brief-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.brief-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 16px;
+  padding: 28px;
+}
+.brief-block-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brief-block-title::before {
+  content: '';
+  width: 16px; height: 1px;
+  background: var(--accent);
+  display: block;
+}
+.brief-block-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.62);
+}
+.brief-block-text strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+.brief-quote {
+  grid-column: span 2;
+  padding: 36px 40px;
+  border: 1px solid rgba(193,122,58,0.3);
+  border-radius: 16px;
+  background: rgba(193,122,58,0.06);
+  position: relative;
+}
+.brief-quote-mark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 96px;
+  line-height: 0.5;
+  color: rgba(193,122,58,0.25);
+  position: absolute;
+  top: 28px; left: 32px;
+  pointer-events: none;
+}
+.brief-quote-text {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: clamp(18px, 2.2vw, 26px);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.82);
+  padding-left: 16px;
+  margin-bottom: 14px;
+}
+.brief-quote-src {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+  padding-left: 16px;
+}
+
+/* ─── SOCIAL MEDIA CREATIVES ─── */
+.creatives-section {
+  background: var(--bg);
+}
+
+/* Stories row */
+.stories-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.story-frame {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(17,16,16,0.08);
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: pointer;
+}
+.story-frame:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(17,16,16,0.14); }
+.story-frame img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 9/16;
+  object-fit: cover;
+}
+.story-label {
+  position: absolute;
+  bottom: 12px; left: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(17,16,16,0.65);
+  color: rgba(255,255,255,0.8);
+  padding: 4px 10px;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+
+/* Feed posts */
+.feed-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.feed-frame {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(17,16,16,0.07);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.feed-frame:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(17,16,16,0.12); }
+.feed-frame img {
+  width: 100%;
+  display: block;
+}
+.feed-frame.wide {
+  grid-column: span 2;
+}
+
+/* Mockup row */
+.mockup-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.mockup-frame {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(17,16,16,0.07);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.mockup-frame:hover { transform: translateY(-3px); box-shadow: 0 12px 48px rgba(17,16,16,0.12); }
+.mockup-frame img {
+  width: 100%;
+  display: block;
+}
+
+/* Sub-label above gallery groups */
+.gallery-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gallery-sub::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); display: block; }
+
+/* ─── PROCESS TIMELINE ─── */
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.process-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.process-item:hover { box-shadow: 0 8px 36px rgba(17,16,16,0.09); transform: translateY(-3px); }
+.process-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.process-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.process-num::before { content: ''; width: 14px; height: 1px; background: var(--accent); display: block; }
+.process-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--fg);
+  margin-bottom: 9px;
+}
+.process-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(17,16,16,0.62);
+}
+
+/* ─── TOOLS USED ─── */
+.tools-used {
+  background: var(--fg);
+  position: relative;
+  overflow: hidden;
+}
+.tools-used::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 70% 50%, rgba(81,245,0,0.06) 0%, transparent 60%);
+}
+.tools-used .section-label { color: rgba(255,255,255,0.3); }
+.tools-used .section-hl { color: #fff; }
+.tool-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.tool-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 100px;
+  padding: 10px 20px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.tool-pill:hover {
+  background: rgba(81,245,0,0.08);
+  border-color: rgba(81,245,0,0.25);
+  transform: translateY(-2px);
+}
+.tool-pill-dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 7px rgba(81,245,0,0.6);
+}
+
+/* ─── RESULTS ─── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.result-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.result-card:hover { box-shadow: 0 12px 48px rgba(17,16,16,0.09); transform: translateY(-4px); }
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+.result-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 42px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+.result-num em { font-style: normal; color: var(--accent); }
+.result-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ─── NEXT PROJECT / CTA ─── */
+.cs-next {
+  background: var(--bg);
+  text-align: center;
+  padding: clamp(72px,10vw,120px) clamp(20px,5vw,80px);
+  border-top: 1px solid var(--border);
+}
+.cs-next-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.cs-next-label::before, .cs-next-label::after {
+  content: '';
+  width: 32px; height: 1px;
+  background: var(--border);
+  display: block;
+}
+.cs-next-hl {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 5vw, 58px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--fg);
+  margin-bottom: 36px;
+}
+.cs-next-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: var(--fg);
+  padding: 14px 28px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 4px 24px rgba(81,245,0,0.3);
+  min-height: 48px;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(81,245,0,0.45); }
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted);
+  padding: 14px 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, color 0.2s;
+  min-height: 48px;
+}
+.btn-ghost:hover { border-color: rgba(17,16,16,0.25); color: var(--fg); }
+
+/* ─── FOOTER ─── */
+footer {
+  padding: clamp(18px,3vw,26px) clamp(20px,5vw,80px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.foot-copy { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.foot-links { display: flex; gap: 20px; }
+.foot-link { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.foot-link:hover { color: var(--fg); }
+
+/* ─── SCROLL ANIMATIONS ─── */
+.fi { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fi.vis { opacity: 1; transform: translateY(0); }
+.fi:nth-child(2) { transition-delay: 0.08s; }
+.fi:nth-child(3) { transition-delay: 0.16s; }
+.fi:nth-child(4) { transition-delay: 0.24s; }
+.fi:nth-child(5) { transition-delay: 0.32s; }
+.fi:nth-child(6) { transition-delay: 0.40s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .results-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .intro-grid { grid-template-columns: 1fr; gap: 32px; }
+  .brief-grid { grid-template-columns: 1fr; }
+  .brief-quote { grid-column: span 1; }
+  .stories-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stories-row .story-frame:nth-child(3) { display: none; }
+  .feed-row { grid-template-columns: 1fr; }
+  .feed-frame.wide { grid-column: span 1; }
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .results-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .cs-hero-img { display: none; }
+  .cs-hero-meta { flex-wrap: wrap; }
+  .cs-hero-meta-item { flex: 1 1 auto; }
+  .intro-stats { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .stories-row { grid-template-columns: 1fr; }
+  .stories-row .story-frame:nth-child(2),
+  .stories-row .story-frame:nth-child(3) { display: none; }
+  .process-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .cs-next-actions { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Natalia Przybylska <span class="nav-dot"></span></a>
+  <a href="index.html#projects" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+    Powrót do projektów
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="cs-hero">
+  <div class="cs-hero-bg"></div>
+  <div class="cs-hero-grid"></div>
+  <div class="cs-hero-img" aria-hidden="true">
+    <img src="../portfolio-nprzybylska/img/luno-1.png" alt="">
+  </div>
+
+  <div class="cs-hero-inner">
+    <div class="cs-hero-label">Case Study · Koncepcja marki & Kampania</div>
+    <h1 class="cs-hero-title">LUNO<br><em>Sen, który czujesz.</em></h1>
+    <p class="cs-hero-sub">Od insightu strategicznego po gotowy landing page i kampanię social media — w całości z wykorzystaniem AI.</p>
+    <div class="cs-hero-meta">
+      <div class="cs-hero-meta-item">
+        <div class="cs-hero-meta-key">Rok</div>
+        <div class="cs-hero-meta-val">2025–2026</div>
+      </div>
+      <div class="cs-hero-meta-item">
+        <div class="cs-hero-meta-key">Rola</div>
+        <div class="cs-hero-meta-val">Koncepcja, design, AI</div>
+      </div>
+      <div class="cs-hero-meta-item">
+        <div class="cs-hero-meta-key">Zakres</div>
+        <div class="cs-hero-meta-val">Brand + Landing + Kampania</div>
+      </div>
+      <div class="cs-hero-meta-item">
+        <div class="cs-hero-meta-key">Live</div>
+        <div class="cs-hero-meta-val" style="color:#51f500;">ojnatalie.github.io/luno</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-down">
+    <div class="scroll-down-line"></div>
+    <span class="scroll-down-label">Scroll</span>
+  </div>
+</header>
+
+<!-- ═══ INTRO ═══ -->
+<section class="cs-section">
+  <div class="section-label">O projekcie</div>
+  <div class="intro-grid">
+    <div>
+      <h2 class="section-hl fi">Jedna osoba.<br><span class="ul-acc">Cała marka</span><br>od zera.</h2>
+      <div class="scope-list">
+        <div class="scope-chip fi"><span></span>Strategia marki</div>
+        <div class="scope-chip fi"><span></span>Naming & Hasło</div>
+        <div class="scope-chip fi"><span></span>Landing Page</div>
+        <div class="scope-chip fi"><span></span>Grafiki Social Media</div>
+        <div class="scope-chip fi"><span></span>Stories & Feed</div>
+        <div class="scope-chip fi"><span></span>Kreacje Meta Ads</div>
+        <div class="scope-chip fi"><span></span>AI Visuals</div>
+        <div class="scope-chip fi"><span></span>Copywriting</div>
+      </div>
+    </div>
+    <div>
+      <div class="intro-body fi">
+        <p>LUNO to koncepcja marki produktowej stworzona w całości jako projekt portfolio — demonstracja tego, jak <strong>AI zmienia możliwości jednej osoby</strong> w marketingu i designie.</p>
+        <p>Projekt obejmuje pełny ekosystem komunikacji: od strategii i insightu, przez identyfikację wizualną, po gotowy landing page i kampanię social media ze wszystkimi formatami.</p>
+        <p><strong>Zero agencji. Zero studia fotograficznego.</strong> Zdjęcia produktowe, kreacje graficzne, video — wszystko wypromptowane i skompletowane samodzielnie, z pełną spójnością estetyczną.</p>
+      </div>
+      <div class="intro-stats fi" style="margin-top:28px;">
+        <div class="istat"><div class="istat-num">1<em>os.</em></div><div class="istat-label">cały projekt</div></div>
+        <div class="istat"><div class="istat-num">6<em>+</em></div><div class="istat-label">narzędzi AI</div></div>
+        <div class="istat"><div class="istat-num">5<em>+</em></div><div class="istat-label">formatów kreacji</div></div>
+        <div class="istat full"><div class="istat-num" style="font-size:22px;">Brief → wdrożenie</div><div class="istat-label">od konceptu po live landing page</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cs-divider"></div>
+
+<!-- ═══ BRIEF & STRATEGIA ═══ -->
+<section class="cs-section cs-dark">
+  <div class="section-label">Brief & Strategia</div>
+  <h2 class="section-hl fi" style="margin-bottom:36px;">Problem leży<br>w <em>środowisku,</em> nie w tabletkach.</h2>
+  <div class="brief-grid">
+    <div class="brief-block fi">
+      <div class="brief-block-title">Insight</div>
+      <div class="brief-block-text">73% problemów z zasypianiem wynika z nieodpowiedniego środowiska. Rynek suplementów adresuje objaw — LUNO adresuje <strong>przyczynę</strong>. Stąd hasło: „Wyciszenie bez recepty."</div>
+    </div>
+    <div class="brief-block fi">
+      <div class="brief-block-title">Pozycjonowanie</div>
+      <div class="brief-block-text">Nie gadżet technologiczny, nie suplement — <strong>rytuał</strong>. Marka wchodzi w kategorię wellness, nie elektroniki. Cena, estetyka i komunikacja sygnalizują produkt premium.</div>
+    </div>
+    <div class="brief-block fi">
+      <div class="brief-block-title">Estetyka</div>
+      <div class="brief-block-text">Paleta ciepłych brązów i amberu — celowo naśladuje ciepło lampki nocnej. Seryfowa typografia buduje intymność. <strong>Zero plastiku, zero niebieskich pikseli</strong> kojarzonych z technologią.</div>
+    </div>
+    <div class="brief-block fi">
+      <div class="brief-block-title">Odbiorca</div>
+      <div class="brief-block-text">25–45 lat, miejski, świadomy zdrowotnie. Skończył z suplementami, szuka <strong>naturalnych rozwiązań</strong>. Docenia design i jest gotowy zapłacić za produkt, który rozumie jego problem.</div>
+    </div>
+    <div class="brief-quote fi">
+      <div class="brief-quote-mark">"</div>
+      <p class="brief-quote-text">Nie cierpisz na brak snu. Cierpisz na brak rytuału.</p>
+      <p class="brief-quote-src">Klucz insightowy projektu LUNO · koncepcja: Natalia Przybylska</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LANDING PAGE ═══ -->
+<section class="cs-section cs-dark" style="padding-top: 0;">
+  <div class="section-label">Landing page</div>
+  <h2 class="section-hl fi" style="margin-bottom:32px;">Od konceptu<br>po <em>działającą stronę.</em></h2>
+  <div class="lp-showcase fi">
+    <div class="lp-browser">
+      <div class="lp-browser-bar">
+        <div class="lp-browser-dots">
+          <div class="lp-browser-dot"></div>
+          <div class="lp-browser-dot"></div>
+          <div class="lp-browser-dot"></div>
+        </div>
+        <div class="lp-browser-url">ojnatalie.github.io/luno</div>
+        <a href="https://ojnatalie.github.io/luno/" target="_blank" rel="noopener" class="lp-browser-link">Otwórz →</a>
+      </div>
+      <img src="../portfolio-nprzybylska/img/luno-1.png" alt="LUNO Landing Page — hero section" class="lp-browser-img">
+    </div>
+  </div>
+  <div class="brief-grid" style="margin-top: 28px;">
+    <div class="brief-block fi">
+      <div class="brief-block-title">Struktura strony</div>
+      <div class="brief-block-text">Hero z hasłem, sekcja produktu, galeria, jak to działa (4 kroki), tryby snu, statystyki badań, process case study, CTA z pierwszym zamówieniem.</div>
+    </div>
+    <div class="brief-block fi">
+      <div class="brief-block-title">Realizacja techniczna</div>
+      <div class="brief-block-text"><strong>Claude</strong> — architektura, kod HTML/CSS/JS. <strong>Midjourney + Photoshop</strong> — zdjęcia produktu. <strong>GitHub Pages</strong> — hosting i deployment. Pełna responsywność, animacje CSS.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOCIAL MEDIA CREATIVES ═══ -->
+<section class="cs-section creatives-section">
+  <div class="section-label">Kampania Social Media</div>
+  <h2 class="section-hl fi" style="margin-bottom: 44px;">Spójna linia graficzna<br>we <span class="ul-acc">wszystkich formatach.</span></h2>
+
+  <!-- Stories -->
+  <div class="gallery-sub fi">Instagram Stories</div>
+  <div class="stories-row">
+    <div class="story-frame fi">
+      <img src="../portfolio-nprzybylska/img/str-2.png" alt="LUNO Story — Twoje wsparcie w zasypianiu" loading="lazy">
+      <div class="story-label">Story · Dark</div>
+    </div>
+    <div class="story-frame fi">
+      <img src="../portfolio-nprzybylska/img/str-3.png" alt="LUNO Story — Wycisz umysł" loading="lazy">
+      <div class="story-label">Story · Amber</div>
+    </div>
+    <div class="story-frame fi">
+      <img src="../portfolio-nprzybylska/img/str-1.png" alt="LUNO Story — Cechy produktu" loading="lazy">
+      <div class="story-label">Story · Brown</div>
+    </div>
+  </div>
+
+  <!-- Feed posts -->
+  <div class="gallery-sub fi">Posty Feed · Instagram / Meta Ads</div>
+  <div class="feed-row" style="margin-bottom: 32px;">
+    <div class="feed-frame fi">
+      <img src="../portfolio-nprzybylska/img/18x135_-_czwarta_opcja.png" alt="LUNO Feed — Poczuj senność" loading="lazy">
+    </div>
+    <div class="feed-frame fi">
+      <img src="../portfolio-nprzybylska/img/18x135_-_biel.png" alt="LUNO Feed — Wyciszenie bez recepty" loading="lazy">
+    </div>
+  </div>
+
+  <!-- Mockups -->
+  <div class="gallery-sub fi">Makiety w formatach — phone mockups</div>
+  <div class="mockup-row">
+    <div class="mockup-frame fi">
+      <img src="../portfolio-nprzybylska/img/0292.png" alt="LUNO — 3 phone mockups stories" loading="lazy">
+    </div>
+    <div class="mockup-frame fi">
+      <img src="../portfolio-nprzybylska/img/__0.png" alt="LUNO — feed posts zestawienie" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<div class="cs-divider"></div>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="cs-section">
+  <div class="section-label">Proces twórczy</div>
+  <h2 class="section-hl fi" style="margin-bottom:36px;">Jak to <span class="ul-acc">powstało.</span></h2>
+  <div class="process-grid">
+    <div class="process-item fi">
+      <div class="process-num">01</div>
+      <div class="process-title">Brief i strategia</div>
+      <div class="process-desc">Wypracowanie insightu: problem ze snem nie tkwi w farmakologii — tkwi w środowisku. Stąd hasło „Wyciszenie bez recepty" i cała narracja sensoryczna marki.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">02</div>
+      <div class="process-title">Wizja estetyczna</div>
+      <div class="process-desc">Paleta ciepłych brązów i amberu celowo naśladuje ciepło lampki nocnej. Seryfowa typografia przywołuje spokój i intymność — nie technologię.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">03</div>
+      <div class="process-title">Generowanie wizuali</div>
+      <div class="process-desc">Zdjęcia produktu wypromptowane w Midjourney tak, by odwzorowywały brief. Konsekwentna estetyka we wszystkich ujęciach — ciepłe tło, parująca mgła, złote podświetlenie.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">04</div>
+      <div class="process-title">Kreacja i kompozycja</div>
+      <div class="process-desc">Dobór typografii, hierarchia hasłowa, layout kreacji na posty i stories — pełna linia graficzna wokół jednej palety i jednego języka wizualnego.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">05</div>
+      <div class="process-title">Adaptacje formatów</div>
+      <div class="process-desc">Kreacje na Instagram Stories (format 9:16), posty feed (1:1 i 4:5), reklamy Meta Ads z 3 wariantami copy+visual — wszystko spójne i gotowe do wdrożenia.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">06</div>
+      <div class="process-title">Landing page</div>
+      <div class="process-desc">Kod i architektura strony wygenerowane z Claude, zintegrowane z assetami wizualnymi. Deployed na GitHub Pages jako działające demo produktu.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TOOLS ═══ -->
+<section class="cs-section tools-used">
+  <div class="section-label">Użyte narzędzia</div>
+  <h2 class="section-hl fi" style="margin-bottom:32px;">Warsztat,<br>który to umożliwił.</h2>
+  <div class="tool-grid">
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>Midjourney</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>ChatGPT</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>Claude</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>Adobe Photoshop</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>Adobe Illustrator</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>After Effects</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>GitHub Pages</div>
+    <div class="tool-pill fi"><span class="tool-pill-dot"></span>Canva</div>
+  </div>
+</section>
+
+<!-- ═══ RESULTS ═══ -->
+<section class="cs-section">
+  <div class="section-label">Efekt końcowy</div>
+  <h2 class="section-hl fi" style="margin-bottom:36px;">Kompletny<br><span class="ul-acc">ekosystem marki.</span></h2>
+  <div class="results-grid">
+    <div class="result-card fi">
+      <div class="result-num">1<em>×</em></div>
+      <div class="result-label">działający landing page live na GitHub Pages</div>
+    </div>
+    <div class="result-card fi">
+      <div class="result-num">9<em>+</em></div>
+      <div class="result-label">gotowych kreacji w 3 różnych formatach</div>
+    </div>
+    <div class="result-card fi">
+      <div class="result-num">3<em>×</em></div>
+      <div class="result-label">warianty kolorystyczne kampanii (dark, amber, white)</div>
+    </div>
+    <div class="result-card fi">
+      <div class="result-num">0<em>zł</em></div>
+      <div class="result-label">budżet na sesję zdjęciową — cały wizual AI-generated</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cs-next">
+  <div class="cs-next-label">Następny krok</div>
+  <h2 class="cs-next-hl fi">Masz projekt?<br>Porozmawiajmy.</h2>
+  <div class="cs-next-actions fi">
+    <a href="index.html#contact" class="btn-primary">Napisz do mnie →</a>
+    <a href="https://ojnatalie.github.io/luno/" target="_blank" rel="noopener" class="btn-ghost">Zobacz live →</a>
+    <a href="index.html#projects" class="btn-ghost">← Wróć do projektów</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-copy">© 2026 Natalia Przybylska</span>
+  <div class="foot-links">
+    <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
+    <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
