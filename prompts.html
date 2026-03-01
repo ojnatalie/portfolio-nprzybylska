@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Prompt Design Portfolio · Natalia Przybylska</title>
+<meta name="description" content="Jak promptuję AI — galeria zestawień prompt → raw output → finalna kreacja. Warsztat pracy z Midjourney, ChatGPT i Adobe Firefly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../portfolio-nprzybylska/img/favicon.svg">
+<style>
+/* ══════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════ */
+:root {
+  --bg: #f4f9f7;
+  --fg: #111010;
+  --accent: #51f500;
+  --accent-dim: rgba(81,245,0,0.07);
+  --accent-mid: rgba(81,245,0,0.18);
+  --muted: #7a8a84;
+  --card: #ffffff;
+  --border: rgba(17,16,16,0.08);
+  --terminal: #0d1117;
+  --terminal-green: #39d353;
+  --terminal-muted: rgba(255,255,255,0.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+
+/* ══════════════════════════════════════════════
+   NAV
+══════════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  padding: 0 clamp(16px,4vw,60px);
+  padding-top: 16px; padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(244,249,247,0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  min-height: 64px;
+}
+.nav-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--fg); text-decoration: none;
+  display: flex; align-items: center; gap: 7px;
+}
+.nav-dot {
+  width: 7px; height: 7px;
+  background: var(--accent); border-radius: 50%;
+  box-shadow: 0 0 10px rgba(81,245,0,0.7);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 6px rgba(81,245,0,0.5); }
+  50% { box-shadow: 0 0 16px rgba(81,245,0,0.9); }
+}
+.nav-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--fg); }
+.nav-back svg { width: 14px; height: 14px; }
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(90px,13vw,140px) clamp(20px,5vw,80px) clamp(48px,7vw,80px);
+  position: relative;
+  overflow: hidden;
+  background: var(--terminal);
+}
+
+/* Scanline texture */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.012) 2px,
+    rgba(255,255,255,0.012) 4px
+  );
+  pointer-events: none; z-index: 1;
+}
+
+/* Green glow */
+.hero-glow {
+  position: absolute;
+  width: 700px; height: 700px;
+  top: -200px; right: -100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.07) 0%, transparent 65%);
+  filter: blur(60px);
+  pointer-events: none; z-index: 0;
+  animation: glowDrift 8s ease-in-out infinite;
+}
+@keyframes glowDrift {
+  0%,100% { transform: translate(0,0); }
+  50% { transform: translate(-40px, 30px); }
+}
+
+/* Grid BG */
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(57,211,83,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,211,83,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+.hero-inner { position: relative; z-index: 2; max-width: 900px; }
+
+/* Typewriter label */
+.hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--terminal-green);
+  margin-bottom: 28px;
+  display: inline-flex; align-items: center; gap: 10px;
+  animation: fadeUp 0.6s ease 0.05s both;
+}
+.hero-label-prompt {
+  background: rgba(57,211,83,0.12);
+  border: 1px solid rgba(57,211,83,0.25);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 9px;
+}
+
+.hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(52px, 9vw, 108px);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin-bottom: 10px;
+  animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.14s both;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+  font-size: clamp(15px,1.6vw,19px);
+  color: rgba(255,255,255,0.42);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-bottom: 44px;
+  animation: fadeUp 0.7s ease 0.26s both;
+}
+
+/* Stats row */
+.hero-stats {
+  display: flex; gap: 0;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; overflow: hidden;
+  width: fit-content;
+  animation: fadeUp 0.7s ease 0.38s both;
+}
+.hero-stat {
+  padding: 16px 28px;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800; font-size: 26px;
+  line-height: 1; letter-spacing: -0.03em;
+  color: #fff; margin-bottom: 4px;
+}
+.hero-stat-num em { font-style: normal; color: var(--accent); }
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Scroll hint */
+.hero-scroll {
+  position: absolute;
+  bottom: clamp(28px,5vw,52px);
+  right: clamp(20px,5vw,80px);
+  z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  animation: fadeUp 0.7s ease 0.7s both;
+}
+.hero-scroll-line {
+  width: 1px; height: 44px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2.2s ease-in-out infinite;
+}
+@keyframes scrollPulse {
+  0%,100% { transform: scaleY(1); opacity: 1; }
+  50% { transform: scaleY(0.35); opacity: 0.35; }
+}
+.hero-scroll-txt {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  writing-mode: vertical-rl;
+}
+
+/* BIG terminal line decoration */
+.hero-terminal-line {
+  position: absolute;
+  top: clamp(90px,12vw,130px);
+  left: clamp(20px,5vw,80px);
+  z-index: 2;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(57,211,83,0.35);
+  letter-spacing: 0.05em;
+  animation: fadeUp 0.6s ease 0.8s both;
+  display: flex; align-items: center; gap: 10px;
+}
+.cursor-blink {
+  display: inline-block;
+  width: 8px; height: 14px;
+  background: rgba(57,211,83,0.7);
+  animation: blink 1.1s step-end infinite;
+  vertical-align: middle;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════
+   INTRO BAND
+══════════════════════════════════════════════ */
+.intro-band {
+  background: var(--fg);
+  padding: clamp(36px,5vw,56px) clamp(20px,5vw,80px);
+  display: flex; gap: 48px;
+  align-items: center; flex-wrap: wrap;
+}
+.intro-band-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(15px,1.5vw,18px);
+  font-weight: 300;
+  color: rgba(255,255,255,0.55);
+  max-width: 640px;
+  line-height: 1.85;
+  flex: 1;
+}
+.intro-band-text strong { color: #fff; font-weight: 600; }
+.intro-band-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  flex-shrink: 0;
+}
+.intro-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 100px;
+  padding: 7px 14px;
+  color: rgba(255,255,255,0.55);
+  display: flex; align-items: center; gap: 6px;
+}
+.intro-pill-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(81,245,0,0.7);
+}
+
+/* ══════════════════════════════════════════════
+   FILTER BAR
+══════════════════════════════════════════════ */
+.filter-bar {
+  padding: 28px clamp(20px,5vw,80px) 0;
+  display: flex; gap: 8px; flex-wrap: wrap;
+  position: sticky; top: 64px; z-index: 100;
+  background: var(--bg);
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.filter-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 16px;
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: rgba(17,16,16,0.22); color: var(--fg); }
+.filter-btn.active {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--accent);
+}
+
+/* ══════════════════════════════════════════════
+   PROMPT ENTRIES SECTION
+══════════════════════════════════════════════ */
+.entries {
+  padding: clamp(48px,7vw,80px) clamp(20px,5vw,80px);
+  display: flex; flex-direction: column; gap: 0;
+}
+
+/* Each entry is a full-width row */
+.entry {
+  display: grid;
+  grid-template-columns: 320px 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--card);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
+}
+.entry.vis {
+  opacity: 1; transform: translateY(0);
+}
+.entry:hover { box-shadow: 0 16px 64px rgba(17,16,16,0.10); }
+
+/* ── COLUMN 1: Prompt terminal ── */
+.entry-prompt {
+  background: var(--terminal);
+  padding: 28px;
+  display: flex; flex-direction: column;
+  gap: 0;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+.entry-prompt::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(255,255,255,0.01) 3px, rgba(255,255,255,0.01) 4px
+  );
+  pointer-events: none;
+}
+.entry-prompt-topbar {
+  display: flex; align-items: center;
+  gap: 6px; margin-bottom: 18px;
+}
+.entry-prompt-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+}
+.entry-prompt-dot:nth-child(1) { background: rgba(255,95,87,0.55); }
+.entry-prompt-dot:nth-child(2) { background: rgba(255,189,46,0.55); }
+.entry-prompt-dot:nth-child(3) { background: rgba(39,201,63,0.55); }
+.entry-prompt-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  margin-left: auto;
+}
+.entry-prompt-path {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: rgba(57,211,83,0.7);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+.entry-prompt-cmd {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.18);
+  margin-bottom: 14px;
+  letter-spacing: 0.04em;
+}
+.entry-prompt-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  line-height: 1.85;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.02em;
+  flex: 1;
+  position: relative; z-index: 1;
+}
+.entry-prompt-text .kw { color: #79c0ff; } /* --ar --v parameters */
+.entry-prompt-text .str { color: #a5d6ff; } /* style keywords */
+.entry-prompt-text .val { color: var(--terminal-green); } /* values */
+.entry-prompt-text .cm { color: rgba(255,255,255,0.28); font-style: italic; } /* comments */
+
+.entry-prompt-tags {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 18px;
+}
+.entry-prompt-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.10em; text-transform: uppercase;
+  background: rgba(81,245,0,0.08);
+  border: 1px solid rgba(81,245,0,0.18);
+  color: rgba(81,245,0,0.8);
+  padding: 2px 7px; border-radius: 3px;
+}
+
+/* ── COLUMN 2: Raw AI Output ── */
+.entry-raw {
+  position: relative; overflow: hidden;
+  border-right: 1px solid var(--border);
+}
+.entry-raw-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(0.9);
+  transition: transform 0.5s ease;
+}
+.entry:hover .entry-raw-img { transform: scale(1.025); }
+.entry-raw-label {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  background: rgba(13,17,23,0.75);
+  color: rgba(255,255,255,0.65);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 4px 10px; border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+.entry-raw-badge {
+  position: absolute; bottom: 12px; right: 12px; z-index: 2;
+  font-family: 'DM Mono', monospace;
+  font-size: 7px; letter-spacing: 0.16em; text-transform: uppercase;
+  background: rgba(13,17,23,0.65);
+  color: rgba(255,189,46,0.8);
+  border: 1px solid rgba(255,189,46,0.2);
+  padding: 3px 9px; border-radius: 100px;
+  backdrop-filter: blur(6px);
+}
+
+/* ── COLUMN 3: Final Output + Meta ── */
+.entry-final {
+  display: flex; flex-direction: column;
+}
+.entry-final-visual {
+  flex: 1;
+  position: relative; overflow: hidden;
+  min-height: 220px;
+}
+.entry-final-img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.5s ease;
+}
+.entry:hover .entry-final-img { transform: scale(1.025); }
+.entry-final-label {
+  position: absolute; top: 12px; left: 12px; z-index: 2;
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  background: rgba(81,245,0,0.9);
+  color: var(--fg);
+  padding: 4px 10px; border-radius: 100px;
+}
+.entry-final-meta {
+  padding: 18px 22px;
+  border-top: 1px solid var(--border);
+  background: var(--card);
+}
+.entry-final-project {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 5px;
+  display: flex; align-items: center; gap: 6px;
+}
+.entry-final-project::before {
+  content: ''; width: 12px; height: 1px;
+  background: var(--accent); display: block;
+}
+.entry-final-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 13px;
+  color: var(--fg); margin-bottom: 4px;
+  line-height: 1.3;
+}
+.entry-final-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px; line-height: 1.65;
+  color: var(--muted);
+}
+.entry-final-tools {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;
+}
+.entry-tool {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 0.08em;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px; padding: 3px 10px;
+  color: var(--muted);
+}
+
+/* Arrow between columns */
+.entry-arrow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  width: 28px; height: 28px;
+  background: var(--fg);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  box-shadow: 0 2px 12px rgba(17,16,16,0.18);
+}
+.entry-arrow svg { width: 12px; height: 12px; color: var(--accent); }
+.entry-col-separator {
+  position: relative;
+  width: 0;
+}
+
+/* ══════════════════════════════════════════════
+   PHILOSOPHY SECTION
+══════════════════════════════════════════════ */
+.philosophy {
+  background: var(--fg);
+  padding: clamp(56px,8vw,96px) clamp(20px,5vw,80px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.philosophy-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.philosophy-label::before {
+  content: ''; width: 6px; height: 6px;
+  background: var(--accent); border-radius: 50%;
+  box-shadow: 0 0 8px rgba(81,245,0,0.7);
+}
+.philosophy-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(30px,4vw,52px);
+  font-weight: 400; line-height: 1.1;
+  letter-spacing: -0.02em; color: #fff;
+  margin-bottom: 20px;
+}
+.philosophy-title em { font-style: italic; color: rgba(81,245,0,0.9); }
+.philosophy-body {
+  font-size: 14.5px; line-height: 2;
+  color: rgba(255,255,255,0.5);
+}
+.philosophy-body p { margin-bottom: 16px; }
+.philosophy-body p:last-child { margin-bottom: 0; }
+.philosophy-body strong { color: rgba(255,255,255,0.85); }
+
+/* Rules */
+.philosophy-rules {
+  display: flex; flex-direction: column; gap: 14px;
+}
+.rule {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 18px 20px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.rule:hover {
+  background: rgba(81,245,0,0.05);
+  border-color: rgba(81,245,0,0.15);
+}
+.rule-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; color: var(--accent);
+  flex-shrink: 0; margin-top: 2px;
+}
+.rule-title {
+  font-weight: 700; font-size: 13px;
+  color: rgba(255,255,255,0.82); margin-bottom: 4px;
+}
+.rule-desc {
+  font-size: 12.5px; line-height: 1.7;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ══════════════════════════════════════════════
+   CTA
+══════════════════════════════════════════════ */
+.cta-section {
+  text-align: center;
+  padding: clamp(64px,10vw,112px) clamp(20px,5vw,80px);
+  border-top: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(81,245,0,0.05) 0%, transparent 70%);
+}
+.cta-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 18px;
+  display: flex; justify-content: center; align-items: center; gap: 12px;
+  position: relative; z-index: 1;
+}
+.cta-label::before, .cta-label::after {
+  content: ''; width: 32px; height: 1px; background: var(--border);
+}
+.cta-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(26px,4.5vw,54px);
+  letter-spacing: -0.03em; line-height: 1.05;
+  color: var(--fg); margin-bottom: 32px;
+  position: relative; z-index: 1;
+}
+.cta-actions {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: var(--fg);
+  padding: 14px 28px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; border-radius: 3px;
+  transition: box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 4px 24px rgba(81,245,0,0.3);
+  min-height: 48px;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(81,245,0,0.45); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--muted);
+  padding: 14px 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; border-radius: 3px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, color 0.2s;
+  min-height: 48px;
+}
+.btn-ghost:hover { border-color: rgba(17,16,16,0.25); color: var(--fg); }
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+footer {
+  padding: clamp(16px,3vw,24px) clamp(20px,5vw,80px);
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
+}
+.foot-copy { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+.foot-links { display: flex; gap: 20px; }
+.foot-link { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.foot-link:hover { color: var(--fg); }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .entry { grid-template-columns: 280px 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .entry {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .entry-prompt {
+    grid-column: span 2;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 22px;
+  }
+  .entry-raw { border-right: 1px solid var(--border); }
+  .philosophy { grid-template-columns: 1fr; gap: 36px; }
+}
+@media (max-width: 600px) {
+  .entry { grid-template-columns: 1fr; }
+  .entry-prompt { grid-column: span 1; }
+  .entry-raw { border-right: none; border-bottom: 1px solid var(--border); }
+  .hero-stats { flex-direction: column; }
+  .hero-stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom: none; }
+  .filter-bar { top: 56px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Natalia Przybylska <span class="nav-dot"></span></a>
+  <a href="index.html#projects" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+    Powrót do projektów
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-terminal-line" aria-hidden="true">
+    ~/portfolio/prompts <span style="color:rgba(57,211,83,0.6)">$</span> midjourney --imagine <span class="cursor-blink"></span>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-label">
+      <span class="hero-label-prompt">/imagine</span>
+      Prompt Design Portfolio
+    </div>
+    <h1 class="hero-title">
+      Precyzja,<br>nie <em>przypadek.</em>
+    </h1>
+    <p class="hero-sub">Każdy dobry visual zaczyna się od dobrego promptu. Pokazuję pełny proces — od tekstu do gotowej kreacji — bo warsztat nie kryje się za efektem końcowym.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">10<em>+</em></div>
+        <div class="hero-stat-label">zestawień prompt→kreacja</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3<em>×</em></div>
+        <div class="hero-stat-label">narzędzia AI</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1<em>os.</em></div>
+        <div class="hero-stat-label">od promptu po final</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span class="hero-scroll-txt">Scroll</span>
+  </div>
+</header>
+
+<!-- INTRO BAND -->
+<div class="intro-band">
+  <div class="intro-band-text">
+    Nikt nie pokazuje, jak naprawdę promptuje. Galeria poniżej to mój warsztat bez retuszu: <strong>pełny prompt</strong> z parametrami, <strong>raw output</strong> prosto z AI i <strong>finalna kreacja</strong> po mojej obróbce. Różnica między tymi krokami — to jest właśnie rola AI Creativa.
+  </div>
+  <div class="intro-band-pills">
+    <div class="intro-pill"><span class="intro-pill-dot"></span>Midjourney</div>
+    <div class="intro-pill"><span class="intro-pill-dot"></span>Adobe Firefly</div>
+    <div class="intro-pill"><span class="intro-pill-dot"></span>ChatGPT</div>
+    <div class="intro-pill"><span class="intro-pill-dot"></span>Photoshop</div>
+    <div class="intro-pill"><span class="intro-pill-dot"></span>Illustrator</div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <button class="filter-btn active" data-filter="all">Wszystkie</button>
+  <button class="filter-btn" data-filter="product">Product Shot</button>
+  <button class="filter-btn" data-filter="branding">Branding</button>
+  <button class="filter-btn" data-filter="social">Social Media</button>
+  <button class="filter-btn" data-filter="influencer">AI Influencer</button>
+  <button class="filter-btn" data-filter="dtp">DTP & Print</button>
+</div>
+
+<!-- ═══ ENTRIES ═══ -->
+<section class="entries" id="entries">
+
+  <!-- ── 01: LUNO product shot ciemne tło ── -->
+  <div class="entry" data-cat="product">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6.1</span>
+      </div>
+      <div class="entry-prompt-path">~/luno/product/dark</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">small ceramic diffuser device</span>, warm amber glow emanating from frosted dome top, <span class="str">steam mist rising softly</span>, deep espresso brown body with subtle dot perforation pattern, power button glowing amber, <span class="str">minimal zen product photography</span>, dark chocolate brown background, <span class="val">cinematic lighting</span>, <span class="str">shallow depth of field</span>, 85mm lens, soft shadows, <span class="str">luxury wellness aesthetic</span>, no text, clean studio <span class="kw">--ar</span> <span class="val">9:16</span> <span class="kw">--v</span> <span class="val">6.1</span> <span class="kw">--style</span> <span class="val">raw</span> <span class="kw">--stylize</span> <span class="val">180</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">product</span>
+        <span class="entry-prompt-tag">dark bg</span>
+        <span class="entry-prompt-tag">9:16</span>
+        <span class="entry-prompt-tag">--stylize 180</span>
+      </div>
+    </div>
+
+    <div class="entry-raw" style="position:relative;">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/str-1.png" alt="LUNO raw AI output — dark background">
+      <span class="entry-raw-label">01 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v6.1</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/str-3.png" alt="LUNO finalna kreacja — Story">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">LUNO · Product Campaign</div>
+        <div class="entry-final-title">Ciemne story z hasłem</div>
+        <div class="entry-final-desc">Dodane: typografia hasłowa, korekta kolorystyczna, warmth boost w Lightroom, lekki vignette. Format 9:16 gotowy do Stories i Meta Ads.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Photoshop</span>
+          <span class="entry-tool">Lightroom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02: LUNO product shot jasne tło ── -->
+  <div class="entry" data-cat="product">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6.1</span>
+      </div>
+      <div class="entry-prompt-path">~/luno/product/light</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">compact wellness diffuser</span>, ivory beige cement-textured body, frosted glass dome glowing soft amber from within, <span class="str">delicate steam curl rising</span>, placed on white marble surface, <span class="val">editorial product photography</span>, <span class="str">natural side light from window</span>, high key bright background, <span class="str">minimalist luxury</span>, matte finish, no shadows harsh, <span class="str">Kinfolk magazine aesthetic</span> <span class="kw">--ar</span> <span class="val">4:5</span> <span class="kw">--v</span> <span class="val">6.1</span> <span class="kw">--style</span> <span class="val">raw</span> <span class="kw">--stylize</span> <span class="val">220</span> <span class="kw">--chaos</span> <span class="val">5</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">product</span>
+        <span class="entry-prompt-tag">light bg</span>
+        <span class="entry-prompt-tag">4:5</span>
+        <span class="entry-prompt-tag">editorial</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/luno-1.png" alt="LUNO raw AI — light version">
+      <span class="entry-raw-label">02 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v6.1</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/18x135_-_biel.png" alt="LUNO finalna kreacja feed post jasne tło">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">LUNO · Feed Post</div>
+        <div class="entry-final-title">Post feed — wersja biała</div>
+        <div class="entry-final-desc">Dopracowany kontrast, dodana typografia hasłowa i subline z body copy. Format 1:1 i 4:5 dla feedu Instagram i Facebook Ads.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Photoshop</span>
+          <span class="entry-tool">Illustrator</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03: LUNO story ciepłe amber ── -->
+  <div class="entry" data-cat="social">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6.1</span>
+      </div>
+      <div class="entry-prompt-path">~/luno/social/story-amber</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">wellness diffuser device</span> with warm amber dome, placed on wooden surface, <span class="str">golden hour light flooding from right</span>, warm terracotta and caramel tones, abstract curved organic shapes in background like desert sand dunes, <span class="val">extremely warm color grade</span>, cinematic, <span class="str">bokeh background</span>, <span class="str">soft haze atmosphere</span>, sensory product photography, cozy bedroom mood <span class="kw">--ar</span> <span class="val">9:16</span> <span class="kw">--v</span> <span class="val">6.1</span> <span class="kw">--stylize</span> <span class="val">300</span> <span class="kw">--style</span> <span class="val">raw</span>
+        <br><br>
+        <span class="cm">// iteracja #4 z 8 — zwiększony --stylize dla bardziej malarskiego efektu</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">social</span>
+        <span class="entry-prompt-tag">story 9:16</span>
+        <span class="entry-prompt-tag">--stylize 300</span>
+        <span class="entry-prompt-tag">iter. #4</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/str-2.png" alt="LUNO raw AI story amber">
+      <span class="entry-raw-label">03 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v6.1</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/18x135_-_czwarta_opcja.png" alt="LUNO finalna kreacja amber feed">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">LUNO · Feed Post Amber</div>
+        <div class="entry-final-title">Wariant ciepły — feed i reklama</div>
+        <div class="entry-final-desc">Wzmocniona temperatura barw, dodane hasło i linia produktowa. Kontrast i czytelność typografii testowane na dark i light urządzeniach.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Lightroom</span>
+          <span class="entry-tool">Photoshop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04: YUKIMOR logo / branding ── -->
+  <div class="entry" data-cat="branding">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6 + Illustrator</span>
+      </div>
+      <div class="entry-prompt-path">~/yukimor/brand/hero</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">Japanese-inspired luxury fashion brand editorial</span>, model in oversized sculptural garment, <span class="str">monochromatic palette ivory and warm stone</span>, architectural concrete background, <span class="val">high fashion photography</span>, <span class="str">extreme minimalism</span>, dramatic side lighting, <span class="str">Yohji Yamamoto aesthetic</span>, editorial pose, clean white space on top third for logo placement, medium format camera look <span class="kw">--ar</span> <span class="val">3:4</span> <span class="kw">--v</span> <span class="val">6</span> <span class="kw">--stylize</span> <span class="val">400</span>
+        <br><br>
+        <span class="cm">// następnie: logo wektorowe w Illustrator, brand book w InDesign</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">branding</span>
+        <span class="entry-prompt-tag">fashion</span>
+        <span class="entry-prompt-tag">3:4</span>
+        <span class="entry-prompt-tag">+ Illustrator</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/yukimor-1.jpg" alt="YUKIMOR raw visual AI">
+      <span class="entry-raw-label">04 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v6</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/yukimor-3.jpg" alt="YUKIMOR finalna kreacja brandingowa">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">YUKIMOR · Brand Identity</div>
+        <div class="entry-final-title">Visual identity — brand hero</div>
+        <div class="entry-final-desc">Kompozycja z nałożonym logo (wektorowym), korekta kolorystyczna, dopracowanie tonów skóry i tła. Materiał bazowy do key visuala i brand booka.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Illustrator</span>
+          <span class="entry-tool">Photoshop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05: Flora AI Influencer portret ── -->
+  <div class="entry" data-cat="influencer">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6.1</span>
+      </div>
+      <div class="entry-prompt-path">~/flora/portraits/hero</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">young Polish woman</span>, 26 years old, creative marketing professional aesthetic, <span class="str">natural beauty no heavy makeup</span>, warm skin tone, medium brown hair, candid cafe portrait, <span class="str">natural window light</span>, <span class="val">film photography grain</span>, <span class="str">authentic Instagram influencer vibe</span>, genuine smile, wearing minimal chic outfit, blurred warm cafe background, <span class="str">Sony A7 35mm f/1.8 look</span>, <span class="str">consistent face seed</span> <span class="kw">--ar</span> <span class="val">4:5</span> <span class="kw">--v</span> <span class="val">6.1</span> <span class="kw">--cref</span> <span class="val">[seed_url]</span> <span class="kw">--cw</span> <span class="val">85</span> <span class="kw">--stylize</span> <span class="val">80</span>
+        <br><br>
+        <span class="cm">// --cref utrzymuje spójność twarzy między sesjami</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">influencer</span>
+        <span class="entry-prompt-tag">--cref</span>
+        <span class="entry-prompt-tag">4:5</span>
+        <span class="entry-prompt-tag">face consistency</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/flora-natalia.jpg" alt="Flora AI influencer raw">
+      <span class="entry-raw-label">05 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v6.1</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/flora-selfie.png" alt="Flora finalna kreacja — profil influencerki">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">Flora · AI Influencer</div>
+        <div class="entry-final-title">Portret profilowy — Instagram</div>
+        <div class="entry-final-desc">Retusz skóry, korekta kolorystyczna, dostosowanie do formatu profilu. Parametr --cref zapewnia, że Flora wygląda spójnie w 40+ postach.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Photoshop</span>
+          <span class="entry-tool">Lightroom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 06: Flora – siatka feedu ── -->
+  <div class="entry" data-cat="influencer">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6.1 + Higgsfield</span>
+      </div>
+      <div class="entry-prompt-path">~/flora/feed/lifestyle</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="cm">// Higgsfield — video motion:</span>
+        <span class="str">woman walking in morning light</span>, autumn city street, golden leaves, <span class="str">slow motion cinematic</span>, warm golden hour, she looks back at camera naturally, <span class="str">consistent face [Flora_seed]</span>, film look, <span class="str">handheld camera slight movement</span>
+        <br><br>
+        <span class="cm">// następnie klatka → Midjourney upscale:</span>
+        <span class="str">still frame</span> from above, <span class="val">magazine editorial quality</span>, print-ready <span class="kw">--upscale</span> <span class="val">2x</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">influencer</span>
+        <span class="entry-prompt-tag">Higgsfield</span>
+        <span class="entry-prompt-tag">video→still</span>
+        <span class="entry-prompt-tag">lifestyle</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/flora-hero.jpg" alt="Flora lifestyle raw">
+      <span class="entry-raw-label">06 · Raw AI Output</span>
+      <span class="entry-raw-badge">Higgsfield + MJ</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/flora-grid.png" alt="Flora grid finalna siatka profilu">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">Flora · Feed Grid</div>
+        <div class="entry-final-title">Siatka profilu — spójna estetyka</div>
+        <div class="entry-final-desc">Klatki z video ekstrapolowane do statycznych postów, ujednolicona kolorystyka całego feedu. Spójność estetyczna jako strategia budowania marki.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Higgsfield</span>
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Photoshop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 07: Karty do gry — DTP ── -->
+  <div class="entry" data-cat="dtp">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v5.2</span>
+      </div>
+      <div class="entry-prompt-path">~/karty/illustration/character</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">fantasy card game character illustration</span>, knight in ornate armor, <span class="val">art nouveau decorative border elements</span>, <span class="str">rich jewel tones burgundy and gold</span>, intricate filigree details, <span class="str">printed card game aesthetic</span>, portrait format, <span class="str">painterly digital art</span>, high detail, metallic textures, <span class="str">Dixit meets Arkham Horror</span> visual style, black background with glowing accents <span class="kw">--ar</span> <span class="val">2:3</span> <span class="kw">--v</span> <span class="val">5.2</span> <span class="kw">--stylize</span> <span class="val">750</span> <span class="kw">--q</span> <span class="val">2</span>
+        <br><br>
+        <span class="cm">// każda karta osobny seed dla unikatowości w serii</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">dtp</span>
+        <span class="entry-prompt-tag">illustration</span>
+        <span class="entry-prompt-tag">--stylize 750</span>
+        <span class="entry-prompt-tag">2:3</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/karty-1.jpg" alt="Karty raw AI illustration">
+      <span class="entry-raw-label">07 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v5.2</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/karty-3.jpg" alt="Karty finalne — DTP gotowe do druku">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">Autorskie karty do gry</div>
+        <div class="entry-final-title">Ilustracje + layout DTP</div>
+        <div class="entry-final-desc">Do każdej ilustracji dodany layout karty w InDesign: typografia, statystyki, ramki, numeracja. Skład gotowy technicznie do druku offsetowego.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">InDesign</span>
+          <span class="entry-tool">Illustrator</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 08: Mortalis — landing page hero ── -->
+  <div class="entry" data-cat="product">
+    <div class="entry-prompt">
+      <div class="entry-prompt-topbar">
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <div class="entry-prompt-dot"></div>
+        <span class="entry-prompt-title">Midjourney v6 + Firefly</span>
+      </div>
+      <div class="entry-prompt-path">~/mortalis/hero/product</div>
+      <div class="entry-prompt-cmd">$ /imagine prompt:</div>
+      <div class="entry-prompt-text">
+        <span class="str">luxury skincare serum bottle</span>, dark glass dropper bottle, <span class="str">botanical extract ingredients scattered around</span>, moody dark background, <span class="val">editorial cosmetics photography</span>, <span class="str">purple and black color story</span>, dramatic spotlight, <span class="str">luxury apothecary aesthetic</span>, dew droplets on bottle surface, <span class="str">shallow depth of field</span>, 100mm macro lens simulation, negative space for headline placement <span class="kw">--ar</span> <span class="val">16:9</span> <span class="kw">--v</span> <span class="val">6</span> <span class="kw">--stylize</span> <span class="val">250</span>
+        <br><br>
+        <span class="cm">// generative fill w Firefly do rozszerzenia tła po bokach</span>
+      </div>
+      <div class="entry-prompt-tags">
+        <span class="entry-prompt-tag">product</span>
+        <span class="entry-prompt-tag">skincare</span>
+        <span class="entry-prompt-tag">16:9</span>
+        <span class="entry-prompt-tag">+ Firefly fill</span>
+      </div>
+    </div>
+
+    <div class="entry-raw">
+      <img class="entry-raw-img" src="../portfolio-nprzybylska/img/karty-5.jpg" alt="Mortalis raw output">
+      <span class="entry-raw-label">08 · Raw AI Output</span>
+      <span class="entry-raw-badge">Midjourney v6</span>
+    </div>
+
+    <div class="entry-col-separator">
+      <div class="entry-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </div>
+
+    <div class="entry-final">
+      <div class="entry-final-visual">
+        <img class="entry-final-img" src="../portfolio-nprzybylska/img/mort.jpg" alt="Mortalis landing page hero final">
+        <span class="entry-final-label">Final</span>
+      </div>
+      <div class="entry-final-meta">
+        <div class="entry-final-project">Mortalis Skin · Landing Page</div>
+        <div class="entry-final-title">Hero visual do strony B2C</div>
+        <div class="entry-final-desc">Rozszerzenie tła przez Generative Fill (Firefly), montaż produktu, dodanie typografii landing page'a. Gotowy asset do sekcji hero strony.</div>
+        <div class="entry-final-tools">
+          <span class="entry-tool">Midjourney</span>
+          <span class="entry-tool">Adobe Firefly</span>
+          <span class="entry-tool">Photoshop</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══ PHILOSOPHY ═══ -->
+<section class="philosophy">
+  <div>
+    <div class="philosophy-label">Moje podejście</div>
+    <h2 class="philosophy-title">Prompt to<br>nie magia.<br>To <em>rzemiosło.</em></h2>
+    <div class="philosophy-body">
+      <p>Większość ludzi traktuje AI jak automat — wpisuje ogólne hasło i liczy na cud. Ja traktuję prompt jak <strong>brief dla fotografa lub briefing dla grafika.</strong></p>
+      <p>Każdy parametr ma powód. Każda iteracja przybliża do celu. I dopiero po wygenerowaniu zaczyna się <strong>prawdziwa robota</strong> — obróbka, montaż, typografia, przygotowanie do formatu.</p>
+    </div>
+  </div>
+  <div class="philosophy-rules">
+    <div class="rule">
+      <div class="rule-num">01</div>
+      <div>
+        <div class="rule-title">Zaczynam od celu, nie od narzędzia</div>
+        <div class="rule-desc">Najpierw wiem, co chcę osiągnąć estetycznie i komunikacyjnie. Prompt to przekład tego na język modelu.</div>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-num">02</div>
+      <div>
+        <div class="rule-title">Parametry to nie przypadek</div>
+        <div class="rule-desc">--stylize, --chaos, --cref, --ar — każdy wpływa na wynik. Uczę się co robią, testuje granice, notuję co działa.</div>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-num">03</div>
+      <div>
+        <div class="rule-title">Iteruję celowo</div>
+        <div class="rule-desc">Zazwyczaj 4–10 iteracji zanim trafię w target. Każda uczy czegoś nowego o tym, jak model interpretuje język.</div>
+      </div>
+    </div>
+    <div class="rule">
+      <div class="rule-num">04</div>
+      <div>
+        <div class="rule-title">AI kończy na 60% — ja robię resztę</div>
+        <div class="rule-desc">Raw output nigdy nie trafia do klienta. Każdy visual przechodzi przez Photoshop, Lightroom i mój filtr estetyczny.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section">
+  <div class="cta-label">Następny krok</div>
+  <h2 class="cta-title fi">Porozmawiajmy<br>o Twoim projekcie.</h2>
+  <div class="cta-actions fi">
+    <a href="index.html#contact" class="btn-primary">Napisz do mnie →</a>
+    <a href="index.html#projects" class="btn-ghost">← Wszystkie projekty</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-copy">© 2026 Natalia Przybylska</span>
+  <div class="foot-links">
+    <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
+    <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+  </div>
+</footer>
+
+<script>
+/* ── Filter logic ── */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const entries    = document.querySelectorAll('.entry');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.filter;
+    entries.forEach(e => {
+      const match = cat === 'all' || e.dataset.cat === cat;
+      e.style.display = match ? '' : 'none';
+    });
+  });
+});
+
+/* ── Scroll fade-in ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.06 });
+document.querySelectorAll('.entry, .fi').forEach(el => obs.observe(el));
+
+/* ── Typewriter hero line ── */
+(function() {
+  const prompts = [
+    '~/portfolio/prompts $ midjourney --imagine',
+    '~/luno/product $ /imagine amber glow diffuser...',
+    '~/flora/portraits $ /imagine consistent face --cref',
+    '~/yukimor/brand $ /imagine luxury fashion editorial...',
+  ];
+  let idx = 0;
+  const el = document.querySelector('.hero-terminal-line');
+  if (!el) return;
+  function cycle() {
+    idx = (idx + 1) % prompts.length;
+    el.innerHTML = prompts[idx] + ' <span class="cursor-blink"></span>';
+  }
+  setInterval(cycle, 3800);
+})();
+</script>
+</body>
+</html>
