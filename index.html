@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Natalia Przybylska — AI Creative & Marketing Specialist</title>
+<meta name="description" content="AI Creative & Marketing Specialist z 8-letnim doświadczeniem. Łączę marketing i design wspomagane AI — od koncepcji po gotowy plik. Otwarta na nowe projekty.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Natalia Przybylska — AI Creative & Marketing Specialist">
+<meta property="og:description" content="8 lat doświadczenia w marketingu i designie. Robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób.">
+<meta property="og:image" content="https://ojnatalie.github.io/portfolio-nprzybylska/img/NP_av-2.png">
+<meta property="og:url" content="https://ojnatalie.github.io/portfolio-nprzybylska/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Natalia Przybylska — AI Creative & Marketing Specialist">
+<meta name="twitter:description" content="8 lat doświadczenia w marketingu i designie wspomaganym AI.">
+<meta name="twitter:image" content="https://ojnatalie.github.io/portfolio-nprzybylska/img/NP_av-2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1506,10 +1517,91 @@ footer {
   padding:2px 5px; border-radius:3px;
 }
 
-/* Hide on screens narrower than 1140px */
+/* ── Hide on screens narrower than 1140px ── */
 @media (max-width: 1140px) {
   .side-deco { display: none !important; }
 }
+
+/* ─── HERO PHOTO (zmiana 3) ─── */
+.hero-photo-wrap {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid var(--accent);
+  box-shadow: 0 0 20px rgba(81,245,0,0.28), 0 4px 16px rgba(17,16,16,0.10);
+  margin-bottom: 22px;
+  flex-shrink: 0;
+  animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0s both;
+}
+.hero-photo-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── NAV AVAILABILITY BADGE (zmiana 4) ─── */
+.nav-available {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(81,245,0,0.10);
+  border: 1px solid rgba(81,245,0,0.32);
+  border-radius: 100px;
+  padding: 5px 14px 5px 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.10em;
+  color: var(--fg);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+}
+.nav-available:hover {
+  background: rgba(81,245,0,0.18);
+  box-shadow: 0 0 14px rgba(81,245,0,0.22);
+}
+@media (max-width: 640px) {
+  .nav-available { display: none; }
+}
+
+/* ─── OPINION CONTEXT (zmiana 5) ─── */
+.op-context {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.65;
+  margin-top: 3px;
+}
+
+/* ─── AI INFLUENCER FEATURED CARD (zmiana 6) ─── */
+.proj-card-featured {
+  position: relative;
+}
+.proj-card-featured::before {
+  content: 'WYRÓŻNIONY';
+  position: absolute;
+  top: 10px; right: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  background: var(--accent);
+  color: var(--fg);
+  padding: 3px 8px;
+  border-radius: 100px;
+  z-index: 4;
+  font-weight: 600;
+}
+.proj-card-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
 </style>
 </head>
 <body>
@@ -1525,6 +1617,10 @@ footer {
     <li><a href="#opinions">Opinie</a></li>
     <li><a href="#contact">Kontakt</a></li>
   </ul>
+  <a href="#contact" class="nav-available">
+    <span class="nav-dot" style="width:6px;height:6px;flex-shrink:0;"></span>
+    Dostępna · Napisz →
+  </a>
   <button class="nav-hamburger" id="js-hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -1758,6 +1854,11 @@ footer {
   </div>
 
   <div class="hero-inner">
+
+    <!-- Photo -->
+    <div class="hero-photo-wrap">
+      <img src="../portfolio-nprzybylska/img/NP_av-2.png" alt="Natalia Przybylska" width="72" height="72">
+    </div>
 
     <!-- Status badge -->
     <div class="hero-status">
@@ -2043,7 +2144,7 @@ footer {
       </div>
     </div> -->
 
-        <div class="proj-card fi">
+        <div class="proj-card proj-card-featured fi">
       <div class="proj-thumb">
                 <img src="../portfolio-nprzybylska/img/flora-natalia.jpg"
              alt=""
@@ -2056,8 +2157,9 @@ footer {
         </a>
       </div>
       <div class="proj-card-meta">
-        <div class="proj-card-title">AI Influencer</div>
-        <div class="proj-card-sub">2025 · Higgsfield, Midjourney, Adobe CC, ChatGPT</div>
+        <div class="proj-card-title">AI Influencer — Flora</div>
+        <div class="proj-card-desc">W pełni wygenerowana postać z własną tożsamością wizualną, feedem i osobowością. Projekt badający granicę między autentycznością a kreacją.</div>
+        <div class="proj-card-sub" style="margin-top:8px;">2025 · Higgsfield, Midjourney, Adobe CC, ChatGPT</div>
       </div>
     </div>
 
@@ -2298,6 +2400,7 @@ footer {
         <img src="../portfolio-nprzybylska/img/PK.jpg" alt="Avatar" class="op-avatar">
         <div>
           <div class="op-name">Paulina Kiełpikowska</div>
+          <div class="op-context">Direct Manager · współpraca 2+ lata</div>
           <a href="https://www.linkedin.com/in/paulina-kie%C5%82pikowska/" class="op-linkedin" target="_blank">Profil LinkedIn</a>
         </div>
       </div>
@@ -2309,6 +2412,7 @@ footer {
         <img src="../portfolio-nprzybylska/img/JMK.jpg" alt="Avatar" class="op-avatar">
         <div>
           <div class="op-name">Julianna Malinowska-Kostuś</div>
+          <div class="op-context">Koleżanka z branży · Marketing & Brand</div>
           <a href="https://www.linkedin.com/in/julianna-malinowska-kostus/" class="op-linkedin" target="_blank">Profil LinkedIn</a>
         </div>
       </div>
@@ -2320,6 +2424,7 @@ footer {
         <img src="../portfolio-nprzybylska/img/KB.jpg" alt="Avatar" class="op-avatar">
         <div>
           <div class="op-name">Katarzyna Błachut</div>
+          <div class="op-context">Współpracowniczka · środowisko zawodowe</div>
           <a href="https://www.linkedin.com/in/katarzyna-b%C5%82achut-bba4a0204/" class="op-linkedin" target="_blank">Profil LinkedIn</a>
         </div>
       </div>
