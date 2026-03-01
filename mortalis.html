@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mortalis Skin — Case Study · Natalia Przybylska</title>
+<meta name="description" content="Case study projektu Mortalis Skin — koncepcja marki bio-reaktywnych tatuaży, landing page i kampania wizualna stworzone w całości z wykorzystaniem AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&family=DM+Mono:wght@300;400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="../portfolio-nprzybylska/img/favicon.svg">
+<style>
+/* ══ TOKENS ══ */
+:root {
+  --bg: #f4f9f7;
+  --fg: #111010;
+  --accent: #51f500;
+  --accent-dim: rgba(81,245,0,0.07);
+  --muted: #7a8a84;
+  --card: #ffffff;
+  --border: rgba(17,16,16,0.08);
+  /* Mortalis palette */
+  --m-dark:  #06050f;
+  --m-deep:  #0c0b1a;
+  --m-cyan:  #00e5ff;
+  --m-pink:  #ff2d78;
+  --m-purple:#7b3aff;
+  --m-dim:   rgba(0,229,255,0.08);
+  --m-border:rgba(0,229,255,0.14);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+
+/* ══ NAV ══ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  padding: 16px clamp(16px,4vw,60px);
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(244,249,247,0.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border); min-height: 64px;
+}
+.nav-logo {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700; font-size: 13px; letter-spacing: 0.03em;
+  color: var(--fg); text-decoration: none;
+  display: flex; align-items: center; gap: 7px;
+}
+.nav-dot {
+  width: 7px; height: 7px; background: var(--accent); border-radius: 50%;
+  box-shadow: 0 0 10px rgba(81,245,0,0.7);
+  animation: pulse 2.5s ease-in-out infinite; flex-shrink: 0;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 6px rgba(81,245,0,0.5); }
+  50%      { box-shadow: 0 0 16px rgba(81,245,0,0.9); }
+}
+.nav-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--fg); }
+.nav-back svg { width: 14px; height: 14px; }
+
+/* ══ HERO — split layout ══ */
+.cs-hero {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--m-dark);
+  overflow: hidden;
+  position: relative;
+}
+
+/* LEFT */
+.cs-hero-left {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: clamp(90px,12vw,140px) clamp(24px,5vw,80px) clamp(52px,7vw,80px);
+  position: relative; z-index: 3;
+}
+/* Scan lines */
+.cs-hero-left::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,229,255,0.015) 3px, rgba(0,229,255,0.015) 4px
+  );
+  pointer-events: none;
+}
+/* Cyan glow from right */
+.cs-hero-left::after {
+  content: '';
+  position: absolute; top: 0; right: -60px; bottom: 0; width: 240px;
+  background: radial-gradient(ellipse 100% 80% at 100% 50%, rgba(0,229,255,0.09) 0%, transparent 70%);
+  pointer-events: none;
+}
+/* Ghost text */
+.cs-hero-ghost {
+  position: absolute; top: 50%; left: clamp(24px,5vw,80px);
+  transform: translateY(-55%);
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(100px, 16vw, 220px);
+  line-height: 1; letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,229,255,0.07);
+  pointer-events: none; user-select: none; white-space: nowrap;
+  z-index: 0;
+  animation: ghostDrift 9s ease-in-out infinite;
+}
+@keyframes ghostDrift {
+  0%,100% { transform: translateY(-55%) translateX(0); }
+  50%      { transform: translateY(-53%) translateX(8px); }
+}
+
+/* Label */
+.cs-hero-label {
+  position: relative; z-index: 2;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--m-cyan); margin-bottom: 28px;
+  display: inline-flex; align-items: center; gap: 10px;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+}
+.cs-hero-label::before {
+  content: ''; width: 6px; height: 6px; background: var(--m-cyan);
+  border-radius: 50%; box-shadow: 0 0 10px rgba(0,229,255,0.9); flex-shrink: 0;
+}
+
+/* Title */
+.cs-hero-title {
+  position: relative; z-index: 2;
+  font-family: 'Instrument Serif', serif; font-weight: 400;
+  font-size: clamp(56px,8vw,108px); line-height: 0.88;
+  letter-spacing: -0.025em; color: #fff; margin-bottom: 0;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s both;
+}
+.cs-hero-title-name { display: block; color: #fff; }
+.cs-hero-title-tagline { display: block; font-style: italic; color: var(--m-cyan); margin-top: 6px; }
+
+/* Rule */
+.cs-hero-rule {
+  position: relative; z-index: 2;
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, var(--m-cyan), var(--m-pink));
+  margin: 28px 0 20px;
+  animation: expandLine 0.6s ease 0.7s both;
+}
+@keyframes expandLine {
+  from { width: 0; opacity: 0; }
+  to   { width: 48px; opacity: 1; }
+}
+
+/* Sub */
+.cs-hero-sub {
+  position: relative; z-index: 2;
+  font-weight: 300; font-size: clamp(14px,1.4vw,17px);
+  color: rgba(255,255,255,0.42); max-width: 360px; line-height: 1.85;
+  margin-bottom: 36px;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.34s both;
+}
+
+/* Meta pills */
+.cs-hero-meta {
+  position: relative; z-index: 2;
+  display: flex; flex-wrap: wrap; gap: 8px;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.46s both;
+}
+.cs-hero-meta-pill {
+  display: flex; flex-direction: column; gap: 3px;
+  background: rgba(0,229,255,0.05);
+  border: 1px solid rgba(0,229,255,0.12);
+  border-radius: 10px; padding: 12px 18px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s, background 0.2s;
+}
+.cs-hero-meta-pill:hover {
+  background: rgba(0,229,255,0.10);
+  border-color: rgba(0,229,255,0.3);
+}
+.cs-hero-meta-key {
+  font-family: 'DM Mono', monospace; font-size: 7px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.28);
+}
+.cs-hero-meta-val {
+  font-weight: 600; font-size: 12.5px;
+  color: rgba(255,255,255,0.82); white-space: nowrap;
+}
+
+/* LIVE CTA pill — special */
+.cs-hero-live-btn {
+  display: inline-flex; flex-direction: column; gap: 3px;
+  background: var(--m-cyan);
+  border: 1px solid var(--m-cyan);
+  border-radius: 10px; padding: 12px 20px;
+  text-decoration: none;
+  transition: box-shadow 0.3s, transform 0.2s;
+  box-shadow: 0 4px 28px rgba(0,229,255,0.35);
+}
+.cs-hero-live-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 48px rgba(0,229,255,0.55);
+}
+.cs-hero-live-btn .cs-hero-meta-key { color: rgba(6,5,15,0.55); }
+.cs-hero-live-btn .cs-hero-meta-val { color: var(--m-dark); font-weight: 800; }
+
+/* Scroll indicator */
+.scroll-down {
+  position: absolute; bottom: 36px; left: clamp(24px,5vw,80px);
+  z-index: 4; display: flex; align-items: center; gap: 12px;
+  animation: fadeUp 0.7s ease 1s both;
+}
+.scroll-down-line {
+  width: 36px; height: 1px;
+  background: linear-gradient(to right, var(--m-cyan), transparent);
+  animation: scrollLine 2.4s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%,100% { transform: scaleX(1); opacity: 1; }
+  50%      { transform: scaleX(0.3); opacity: 0.4; }
+}
+.scroll-down-label {
+  font-family: 'DM Mono', monospace; font-size: 7.5px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+
+/* RIGHT */
+.cs-hero-right { position: relative; overflow: hidden; }
+.cs-hero-photo { position: absolute; inset: 0; }
+.cs-hero-photo img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+  display: block; filter: saturate(1.2) contrast(1.05);
+  animation: photoReveal 1.4s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+}
+@keyframes photoReveal {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.cs-hero-photo-vignette {
+  position: absolute; inset: 0; z-index: 2;
+  background:
+    linear-gradient(to right, var(--m-dark) 0%, transparent 18%),
+    linear-gradient(to bottom, var(--m-dark) 0%, transparent 10%),
+    linear-gradient(to top, var(--m-dark) 0%, transparent 8%);
+  pointer-events: none;
+}
+.cs-hero-photo-glow {
+  position: absolute; inset: 0; z-index: 2;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,229,255,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowPulse 5s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+/* Floating bio-signal tag */
+.cs-hero-photo-tag {
+  position: absolute; bottom: clamp(28px,5vw,56px); right: clamp(20px,4vw,48px);
+  z-index: 3;
+  background: rgba(6,5,15,0.8);
+  border: 1px solid rgba(0,229,255,0.35);
+  border-radius: 12px; padding: 14px 20px;
+  backdrop-filter: blur(16px);
+  animation: fadeUp 0.7s ease 0.8s both;
+}
+.cs-hero-photo-tag-label {
+  font-family: 'DM Mono', monospace; font-size: 7.5px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(0,229,255,0.6); margin-bottom: 4px;
+}
+.cs-hero-photo-tag-val {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: 16px; color: rgba(255,255,255,0.88);
+}
+/* Pulsing bio dot */
+.cs-hero-photo-tag-val::before {
+  content: '';
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--m-cyan); margin-right: 8px; vertical-align: middle;
+  box-shadow: 0 0 8px rgba(0,229,255,0.9);
+  animation: bioPulse 1.4s ease-in-out infinite;
+}
+@keyframes bioPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* Vertical label */
+.cs-hero-vertical-text {
+  position: absolute; top: 50%; right: 20px;
+  transform: translateY(-50%) rotate(90deg); transform-origin: center;
+  z-index: 3;
+  font-family: 'DM Mono', monospace; font-size: 7.5px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(255,255,255,0.18); white-space: nowrap;
+  animation: fadeUp 0.7s ease 1.1s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══ HERO RESPONSIVE ══ */
+@media (max-width: 900px) {
+  .cs-hero { grid-template-columns: 1fr; grid-template-rows: auto 56vw; }
+  .cs-hero-left { padding-top: calc(80px + env(safe-area-inset-top,0px)); padding-bottom: 32px; }
+  .cs-hero-ghost { display: none; }
+  .cs-hero-vertical-text { display: none; }
+  .cs-hero-photo-tag { bottom: 16px; right: 16px; }
+}
+@media (max-width: 520px) {
+  .cs-hero { grid-template-rows: auto 72vw; }
+  .cs-hero-title { font-size: clamp(44px,14vw,72px); }
+  .scroll-down { display: none; }
+}
+
+/* ══ LAYOUT UTILS ══ */
+.cs-section {
+  padding: clamp(64px,9vw,112px) clamp(20px,5vw,80px);
+  position: relative;
+}
+.section-label {
+  font-family: 'DM Mono', monospace; font-size: 9.5px;
+  letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 40px;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
+  box-shadow: 0 0 8px rgba(81,245,0,0.55);
+}
+.section-hl {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+  font-size: clamp(28px,4.5vw,52px);
+  letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 24px;
+}
+.section-hl .ul-acc { position: relative; display: inline-block; }
+.section-hl .ul-acc::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 3px; background: var(--accent); border-radius: 2px;
+}
+
+/* ══ INTRO ══ */
+.intro-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start;
+}
+.intro-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 32px;
+}
+.intro-stat {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 22px 18px; text-align: center;
+}
+.intro-stat-num {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+  font-size: 30px; letter-spacing: -0.04em; line-height: 1; margin-bottom: 6px;
+}
+.intro-stat-num em { font-style: normal; color: var(--accent); }
+.intro-stat-label {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+}
+.intro-body { font-size: 15.5px; line-height: 1.9; color: rgba(17,16,16,0.68); }
+.intro-body p { margin-bottom: 14px; }
+.scope-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+.scope-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 100px;
+  padding: 7px 14px; font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--fg);
+}
+.scope-chip span {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); box-shadow: 0 0 6px rgba(81,245,0,0.6);
+}
+
+/* ══ DARK SECTION — Mortalis themed ══ */
+.cs-dark {
+  background: var(--m-dark); position: relative; overflow: hidden;
+}
+.cs-dark::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,229,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 10% 70%, rgba(255,45,120,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 50% at 50% 10%, rgba(123,58,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* Grid lines decoration */
+.cs-dark::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.cs-dark .section-label { color: rgba(255,255,255,0.3); }
+.cs-dark .section-label::before { background: var(--m-cyan); box-shadow: 0 0 8px rgba(0,229,255,0.8); }
+.cs-dark .section-hl { color: #fff; }
+
+/* ══ LIVE CTA SECTION (standalone button strip) ══ */
+.live-strip {
+  background: linear-gradient(90deg, var(--m-dark) 0%, #0a0a20 100%);
+  padding: clamp(32px,5vw,52px) clamp(20px,5vw,80px);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 24px;
+  border-top: 1px solid rgba(0,229,255,0.1);
+  border-bottom: 1px solid rgba(0,229,255,0.1);
+  position: relative; overflow: hidden;
+}
+.live-strip::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 100% at 50% 50%, rgba(0,229,255,0.04) 0%, transparent 70%);
+}
+.live-strip-text { position: relative; z-index: 1; }
+.live-strip-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 8.5px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(0,229,255,0.6); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.live-strip-eyebrow::before {
+  content: ''; width: 16px; height: 1px; background: var(--m-cyan); display: block;
+}
+.live-strip-title {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+  font-size: clamp(20px,3vw,32px); color: #fff; letter-spacing: -0.02em;
+}
+.live-strip-btn {
+  position: relative; z-index: 1;
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--m-cyan); color: var(--m-dark);
+  padding: 16px 32px;
+  font-family: 'DM Mono', monospace; font-weight: 700;
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  box-shadow: 0 4px 40px rgba(0,229,255,0.5);
+  transition: box-shadow 0.3s, transform 0.25s;
+  white-space: nowrap;
+}
+.live-strip-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 60px rgba(0,229,255,0.65);
+}
+.live-strip-btn-pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--m-dark);
+  box-shadow: 0 0 0 0 rgba(6,5,15,0.4);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(6,5,15,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(6,5,15,0); }
+  100% { box-shadow: 0 0 0 0 rgba(6,5,15,0); }
+}
+
+/* ══ BROWSER SHOWCASE ══ */
+.lp-browser {
+  background: rgba(0,229,255,0.03);
+  border: 1px solid rgba(0,229,255,0.14);
+  border-radius: 16px; overflow: hidden;
+}
+.lp-browser-bar {
+  padding: 14px 18px; border-bottom: 1px solid rgba(0,229,255,0.08);
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(0,229,255,0.04);
+}
+.lp-browser-dots { display: flex; gap: 6px; }
+.lp-browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+.lp-browser-dot:nth-child(1) { background: rgba(255,95,87,0.6); }
+.lp-browser-dot:nth-child(2) { background: rgba(255,189,46,0.6); }
+.lp-browser-dot:nth-child(3) { background: rgba(39,201,63,0.6); }
+.lp-browser-url {
+  background: rgba(0,229,255,0.06); border: 1px solid rgba(0,229,255,0.1);
+  border-radius: 6px; padding: 5px 14px;
+  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.06em;
+  color: rgba(0,229,255,0.35); flex: 1;
+}
+.lp-browser-link {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--m-cyan); text-decoration: none; opacity: 0.8; transition: opacity 0.2s;
+}
+.lp-browser-link:hover { opacity: 1; }
+.lp-browser-img { width: 100%; display: block; max-height: 500px; object-fit: cover; object-position: top; }
+
+/* ══ BRIEF ══ */
+.brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.brief-block {
+  background: rgba(0,229,255,0.04); border: 1px solid rgba(0,229,255,0.12);
+  border-radius: 16px; padding: 28px;
+}
+.brief-block-title {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--m-cyan); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.brief-block-title::before { content: ''; width: 16px; height: 1px; background: var(--m-cyan); display: block; }
+.brief-block-text {
+  font-size: 14.5px; line-height: 1.9; color: rgba(255,255,255,0.62);
+}
+.brief-block-text strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+.brief-quote {
+  grid-column: span 2; padding: 36px 40px;
+  border: 1px solid rgba(0,229,255,0.25); border-radius: 16px;
+  background: rgba(0,229,255,0.04); position: relative;
+}
+.brief-quote-mark {
+  font-family: 'Instrument Serif', serif; font-size: 96px; line-height: 0.5;
+  color: rgba(0,229,255,0.15);
+  position: absolute; top: 28px; left: 32px; pointer-events: none;
+}
+.brief-quote-text {
+  font-family: 'Instrument Serif', serif; font-style: italic;
+  font-size: clamp(18px,2.2vw,26px); line-height: 1.55;
+  color: rgba(255,255,255,0.82); padding-left: 16px; margin-bottom: 14px;
+}
+.brief-quote-src {
+  font-family: 'DM Mono', monospace; font-size: 8.5px;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.28); padding-left: 16px;
+}
+
+/* ══ GALLERY ══ */
+.cs-divider { height: 1px; background: var(--border); margin: 0 clamp(20px,5vw,80px); }
+
+.gallery-sub {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.gallery-sub::before { content: ''; width: 20px; height: 1.5px; background: var(--accent); display: block; }
+
+/* Lookbook grid — masonry-style 3-col */
+.lookbook-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 14px;
+}
+.lb-frame {
+  border-radius: 16px; overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 32px rgba(17,16,16,0.07);
+  position: relative; cursor: pointer;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.lb-frame:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(17,16,16,0.13); }
+.lb-frame img { width: 100%; display: block; object-fit: cover; }
+.lb-frame.tall img { aspect-ratio: 3/4; }
+.lb-frame.sq img   { aspect-ratio: 1/1; }
+.lb-frame.wide { grid-column: span 2; }
+.lb-frame.wide img { aspect-ratio: 16/9; }
+.lb-label {
+  position: absolute; bottom: 12px; left: 12px;
+  font-family: 'DM Mono', monospace; font-size: 7.5px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  background: rgba(6,5,15,0.72); color: rgba(255,255,255,0.8);
+  padding: 4px 10px; border-radius: 100px;
+  backdrop-filter: blur(8px);
+}
+.lb-label-cyan {
+  position: absolute; bottom: 12px; left: 12px;
+  font-family: 'DM Mono', monospace; font-size: 7.5px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  background: rgba(0,229,255,0.85); color: var(--m-dark);
+  padding: 4px 10px; border-radius: 100px;
+}
+
+/* App mockups */
+.app-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.app-frame {
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(17,16,16,0.07);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.app-frame:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(17,16,16,0.12); }
+.app-frame img { width: 100%; display: block; }
+.app-frame.full { grid-column: span 2; }
+
+/* Studio */
+.studio-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.studio-frame {
+  border-radius: 16px; overflow: hidden; border: 1px solid var(--border);
+  box-shadow: 0 4px 24px rgba(17,16,16,0.07);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.studio-frame:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(17,16,16,0.12); }
+.studio-frame img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; }
+
+/* ══ PROCESS ══ */
+.process-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 14px;
+}
+.process-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 26px; position: relative; overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.process-item:hover { box-shadow: 0 8px 36px rgba(17,16,16,0.09); transform: translateY(-3px); }
+.process-item::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--m-cyan), var(--m-pink), transparent);
+}
+.process-num {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.22em; color: var(--m-cyan);
+  margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+}
+.process-num::before { content: ''; width: 14px; height: 1px; background: var(--m-cyan); display: block; }
+.process-title {
+  font-weight: 700; font-size: 14px; color: var(--fg); margin-bottom: 9px;
+}
+.process-desc {
+  font-size: 13px; line-height: 1.8; color: rgba(17,16,16,0.62);
+}
+
+/* ══ TOOLS ══ */
+.tools-used {
+  background: var(--fg); position: relative; overflow: hidden;
+}
+.tools-used::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,229,255,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 30%, rgba(255,45,120,0.04) 0%, transparent 60%);
+}
+.tools-used .section-label { color: rgba(255,255,255,0.3); }
+.tools-used .section-label::before { background: var(--m-cyan); box-shadow: 0 0 8px rgba(0,229,255,0.8); }
+.tools-used .section-hl { color: #fff; }
+.tool-grid { display: flex; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1; }
+.tool-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 100px; padding: 10px 20px;
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.8);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.tool-pill:hover {
+  background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.25);
+  transform: translateY(-2px);
+}
+.tool-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--m-cyan); box-shadow: 0 0 6px rgba(0,229,255,0.8);
+}
+
+/* ══ RESULTS ══ */
+.results-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.result-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 28px 20px; text-align: center; position: relative; overflow: hidden;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.result-card:hover { box-shadow: 0 8px 36px rgba(17,16,16,0.09); transform: translateY(-3px); }
+.result-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--m-cyan), var(--m-pink));
+}
+.result-num {
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
+  font-size: clamp(28px,4vw,44px); letter-spacing: -0.04em; line-height: 1; margin-bottom: 8px;
+}
+.result-num em { font-style: normal; color: var(--m-cyan); }
+.result-label {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ══ CTA ══ */
+.cs-cta {
+  text-align: center;
+  padding: clamp(64px,10vw,112px) clamp(20px,5vw,80px);
+  border-top: 1px solid var(--border); position: relative; overflow: hidden;
+}
+.cs-cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(81,245,0,0.04) 0%, transparent 70%);
+}
+.cta-label {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 18px;
+  display: flex; justify-content: center; align-items: center; gap: 12px;
+  position: relative; z-index: 1;
+}
+.cta-label::before, .cta-label::after { content: ''; width: 32px; height: 1px; background: var(--border); }
+.cta-hl {
+  font-weight: 800; font-size: clamp(26px,4.5vw,54px);
+  letter-spacing: -0.03em; line-height: 1.05; color: var(--fg);
+  margin-bottom: 32px; position: relative; z-index: 1;
+}
+.cta-actions {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+/* LIVE button — very prominent */
+.btn-live {
+  display: inline-flex; align-items: center; gap: 12px;
+  background: var(--m-cyan); color: var(--m-dark);
+  padding: 16px 36px;
+  font-family: 'DM Mono', monospace; font-weight: 800;
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  box-shadow: 0 4px 40px rgba(0,229,255,0.4);
+  transition: box-shadow 0.3s, transform 0.25s;
+  min-height: 52px;
+}
+.btn-live:hover { transform: translateY(-3px); box-shadow: 0 12px 60px rgba(0,229,255,0.6); }
+.btn-live-pulse {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--m-dark);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: var(--fg);
+  padding: 14px 28px;
+  font-family: 'DM Mono', monospace; font-size: 10.5px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  box-shadow: 0 4px 24px rgba(81,245,0,0.3);
+  transition: box-shadow 0.3s, transform 0.3s; min-height: 52px;
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(81,245,0,0.45); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--muted);
+  padding: 14px 24px;
+  font-family: 'DM Mono', monospace; font-size: 10.5px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  border: 1px solid var(--border); transition: border-color 0.2s, color 0.2s; min-height: 52px;
+}
+.btn-ghost:hover { border-color: rgba(17,16,16,0.25); color: var(--fg); }
+
+/* ══ FOOTER ══ */
+footer {
+  padding: clamp(16px,3vw,24px) clamp(20px,5vw,80px);
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border); flex-wrap: wrap; gap: 12px;
+}
+.foot-copy {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+}
+.foot-links { display: flex; gap: 20px; }
+.foot-link {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.foot-link:hover { color: var(--fg); }
+
+/* ══ FADE-IN ANIMATION ══ */
+.fi { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fi.vis { opacity: 1; transform: translateY(0); }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1024px) {
+  .intro-grid { grid-template-columns: 1fr; gap: 36px; }
+  .brief-grid { grid-template-columns: 1fr; }
+  .brief-quote { grid-column: span 1; }
+  .results-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lookbook-grid { grid-template-columns: 1fr 1fr; }
+  .lb-frame.wide { grid-column: span 2; }
+}
+@media (max-width: 768px) {
+  .process-grid { grid-template-columns: 1fr 1fr; }
+  .studio-grid { grid-template-columns: 1fr; }
+  .app-grid { grid-template-columns: 1fr; }
+  .app-frame.full { grid-column: span 1; }
+  .live-strip { flex-direction: column; gap: 20px; }
+}
+@media (max-width: 520px) {
+  .results-grid { grid-template-columns: 1fr 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .lookbook-grid { grid-template-columns: 1fr; }
+  .lb-frame.wide { grid-column: span 1; }
+  .intro-stats { grid-template-columns: 1fr 1fr; }
+  .cta-actions { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Natalia Przybylska <span class="nav-dot"></span></a>
+  <a href="index.html#projects" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M5 12l7-7M5 12l7 7"/></svg>
+    Powrót do projektów
+  </a>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="cs-hero">
+
+  <!-- LEFT -->
+  <div class="cs-hero-left">
+    <div class="cs-hero-ghost" aria-hidden="true">MORT</div>
+
+    <div class="cs-hero-label">Case Study · Koncepcja marki &amp; Landing Page</div>
+
+    <h1 class="cs-hero-title">
+      <span class="cs-hero-title-name">Mortalis</span>
+      <span class="cs-hero-title-tagline">Twoja skóra. Interfejs.</span>
+    </h1>
+
+    <div class="cs-hero-rule"></div>
+
+    <p class="cs-hero-sub">Od koncepcji bio-reaktywnej marki tatuażu po gotowy landing page i lookbook — w całości z wykorzystaniem AI.</p>
+
+    <div class="cs-hero-meta">
+      <div class="cs-hero-meta-pill">
+        <span class="cs-hero-meta-key">Rok</span>
+        <span class="cs-hero-meta-val">2025–2026</span>
+      </div>
+      <div class="cs-hero-meta-pill">
+        <span class="cs-hero-meta-key">Rola</span>
+        <span class="cs-hero-meta-val">Koncepcja, design, AI</span>
+      </div>
+      <div class="cs-hero-meta-pill">
+        <span class="cs-hero-meta-key">Zakres</span>
+        <span class="cs-hero-meta-val">Brand + Landing + Lookbook</span>
+      </div>
+      <a href="https://ojnatalie.github.io/mortalis-skin/" target="_blank" rel="noopener" class="cs-hero-live-btn">
+        <span class="cs-hero-meta-key">Live →</span>
+        <span class="cs-hero-meta-val">mortalis-skin.github.io</span>
+      </a>
+    </div>
+
+    <div class="scroll-down">
+      <div class="scroll-down-line"></div>
+      <span class="scroll-down-label">Scroll</span>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="cs-hero-right">
+    <div class="cs-hero-photo">
+      <img src="../portfolio-nprzybylska/img/m5.jpg" alt="Mortalis Skin — bio-reaktywny tatuaż, neon cyan">
+    </div>
+    <div class="cs-hero-photo-vignette"></div>
+    <div class="cs-hero-photo-glow"></div>
+    <div class="cs-hero-photo-tag">
+      <div class="cs-hero-photo-tag-label">Bio-signal · Aktywny</div>
+      <div class="cs-hero-photo-tag-val">72 bpm · NEXUS_03</div>
+    </div>
+    <div class="cs-hero-vertical-text">Case Study · AI Brand · 2026</div>
+  </div>
+
+</header>
+
+<!-- ═══ LIVE STRIP — wyróżniony CTA ═══ -->
+<div class="live-strip">
+  <div class="live-strip-text">
+    <div class="live-strip-eyebrow">Strona live</div>
+    <div class="live-strip-title">Mortalis Skin Interface — działa na produkcji</div>
+  </div>
+  <a href="https://ojnatalie.github.io/mortalis-skin/" target="_blank" rel="noopener" class="live-strip-btn">
+    <span class="live-strip-btn-pulse"></span>
+    Otwórz live stronę →
+  </a>
+</div>
+
+<!-- ═══ INTRO ═══ -->
+<section class="cs-section">
+  <div class="section-label fi">O projekcie</div>
+  <div class="intro-grid">
+    <div>
+      <h2 class="section-hl fi">Marka, która<br><span class="ul-acc">żyje na skórze.</span></h2>
+      <div class="scope-list">
+        <div class="scope-chip fi"><span></span>Strategia marki</div>
+        <div class="scope-chip fi"><span></span>Naming & Hasło</div>
+        <div class="scope-chip fi"><span></span>Landing Page</div>
+        <div class="scope-chip fi"><span></span>Lookbook AI</div>
+        <div class="scope-chip fi"><span></span>UI Mockupy aplikacji</div>
+        <div class="scope-chip fi"><span></span>Studio Visuals</div>
+        <div class="scope-chip fi"><span></span>AI Visuals</div>
+        <div class="scope-chip fi"><span></span>Copywriting PL</div>
+      </div>
+      <div class="intro-stats">
+        <div class="intro-stat fi">
+          <div class="intro-stat-num">1<em>os.</em></div>
+          <div class="intro-stat-label">cały projekt</div>
+        </div>
+        <div class="intro-stat fi">
+          <div class="intro-stat-num">6<em>+</em></div>
+          <div class="intro-stat-label">narzędzi AI</div>
+        </div>
+        <div class="intro-stat fi">
+          <div class="intro-stat-num">10<em>+</em></div>
+          <div class="intro-stat-label">formatów kreacji</div>
+        </div>
+      </div>
+    </div>
+    <div class="intro-body fi">
+      <p>Mortalis Skin to fikcyjna marka bio-reaktywnych tatuaży łącząca ciało z technologią cyfrową. Projekt powstał jako proof of concept — od insightu strategicznego po kompletny ekosystem wizualny i live landing page.</p>
+      <p>Wyzwanie polegało na stworzeniu <strong>wiarygodnej, spójnej tożsamości</strong> dla kategorii produktowej, która nie istnieje — i sprawienie, żeby wyglądała jak realna marka premium z pogranicza biotechnology i streetwear.</p>
+      <p>Całość: koncepcja, naming, copywriting, AI visuals, lookbook, UI mockupy i strona — zrealizowana <strong>samodzielnie, bez budżetu produkcyjnego</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<div class="cs-divider"></div>
+
+<!-- ═══ BRIEF & STRATEGIA ═══ -->
+<section class="cs-section cs-dark">
+  <div class="section-label fi">Brief &amp; Strategia</div>
+  <h2 class="section-hl fi">Skóra jako<br><span style="color:var(--m-cyan)">interfejs.</span></h2>
+
+  <div class="brief-grid fi">
+    <div class="brief-block">
+      <div class="brief-block-title">Insight</div>
+      <div class="brief-block-text">Tatuaż to od dawna forma tożsamości — <strong>Mortalis przesuwa to w stronę danych</strong>. Jeśli zegarek może mierzyć tętno, a smartfon pokazuje emocje — czemu nie skóra? Bio-reaktywny tusz to nie science-fiction: to logiczne rozszerzenie wearable tech.</div>
+    </div>
+    <div class="brief-block">
+      <div class="brief-block-title">Pozycjonowanie</div>
+      <div class="brief-block-text"><strong>Nie tatuaż. Interfejs.</strong> Mortalis Skin pozycjonuje się na granicy luxury body art i biotech. Marka dla osób, które rozumieją, że ciało to dane, a dane to tożsamość. Cyberpunk nie jako estetyka — jako światopogląd.</div>
+    </div>
+    <div class="brief-block">
+      <div class="brief-block-title">Estetyka</div>
+      <div class="brief-block-text">Ciemne tło (#06050f), neon cyan (#00e5ff) jako kolor technologii, hot pink jako akcent emocji. Typografia monospace (tech) + Instrument Serif (ludzki wymiar). <strong>Kontrast binarności: dane vs. ciało, zimne vs. ciepłe.</strong></div>
+    </div>
+    <div class="brief-block">
+      <div class="brief-block-title">Target &amp; Ton</div>
+      <div class="brief-block-text">25–38 lat, urban, tech-aware, body positivity. Ton: <strong>pewny siebie, futurystyczny, nie tłumaczący się</strong>. Nie "nowa technologia tatuażu" — "twoja skóra staje się interfejsem". Różnica w presupozycji.</div>
+    </div>
+
+    <div class="brief-quote">
+      <div class="brief-quote-mark">"</div>
+      <div class="brief-quote-text">Bio-reaktywny tusz reaguje na tętno, poziom adrenaliny, temperaturę i impulsy elektrochemiczne — w czasie rzeczywistym. To nie tusz. To interfejs.</div>
+      <div class="brief-quote-src">— Mortalis Skin · Brand Manifesto · 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LIVE LANDING PAGE SHOWCASE ═══ -->
+<section class="cs-section cs-dark" style="padding-top:0;">
+  <div class="section-label fi" style="color:rgba(255,255,255,0.3);">Landing Page</div>
+  <h2 class="section-hl fi" style="color:#fff; margin-bottom:32px;">Live strona —<br><span style="color:var(--m-cyan)">gotowa do produkcji.</span></h2>
+
+  <div class="lp-browser fi">
+    <div class="lp-browser-bar">
+      <div class="lp-browser-dots">
+        <div class="lp-browser-dot"></div>
+        <div class="lp-browser-dot"></div>
+        <div class="lp-browser-dot"></div>
+      </div>
+      <div class="lp-browser-url">ojnatalie.github.io/mortalis-skin/</div>
+      <a href="https://ojnatalie.github.io/mortalis-skin/" target="_blank" rel="noopener" class="lp-browser-link">↗ Otwórz live</a>
+    </div>
+    <img class="lp-browser-img" src="../portfolio-nprzybylska/img/m7.jpg" alt="Mortalis Skin landing page — studio view">
+  </div>
+
+  <div style="display:flex; justify-content:center; margin-top:28px; position:relative; z-index:1;">
+    <a href="https://ojnatalie.github.io/mortalis-skin/" target="_blank" rel="noopener" class="btn-live fi">
+      <span class="btn-live-pulse"></span>
+      Mortalis Skin — Live →
+    </a>
+  </div>
+</section>
+
+<!-- ═══ LOOKBOOK ═══ -->
+<section class="cs-section">
+  <div class="section-label fi">Lookbook</div>
+  <h2 class="section-hl fi">Mortalis<br><span class="ul-acc">in motion.</span></h2>
+
+  <div class="gallery-sub fi">Lookbook — wizualizacje AI</div>
+
+  <div class="lookbook-grid fi" style="margin-bottom:20px;">
+    <!-- row 1 -->
+    <div class="lb-frame tall">
+      <img src="../portfolio-nprzybylska/img/m1.jpg" alt="Refleksja · Model I — neon lightning">
+      <div class="lb-label">Refleksja · Model I</div>
+    </div>
+    <div class="lb-frame tall">
+      <img src="../portfolio-nprzybylska/img/m10.jpg" alt="Rozmyślanie · Model II — circuit cyan">
+      <div class="lb-label">Rozmyślanie · Model II</div>
+    </div>
+    <div class="lb-frame tall">
+      <img src="../portfolio-nprzybylska/img/m3.jpg" alt="Fokus · Model III — circuit board arm">
+      <div class="lb-label">Fokus · Model III</div>
+    </div>
+  </div>
+
+  <div class="lookbook-grid fi" style="margin-bottom:20px;">
+    <!-- row 2: wide + tall -->
+    <div class="lb-frame wide">
+      <img src="../portfolio-nprzybylska/img/m9.jpg" alt="Nocna sekwencja — klub, neon tattoos">
+      <div class="lb-label-cyan">Nocna sekwencja · Klub</div>
+    </div>
+    <div class="lb-frame tall">
+      <img src="../portfolio-nprzybylska/img/m4a.jpg" alt="Emocja · niebieska sesja">
+      <div class="lb-label">Emocja · Model IV</div>
+    </div>
+  </div>
+
+  <div class="lookbook-grid fi">
+    <!-- row 3 -->
+    <div class="lb-frame sq">
+      <img src="../portfolio-nprzybylska/img/m2.jpg" alt="Burza · zegarek i neon lightning arm">
+      <div class="lb-label">Burza · Model V</div>
+    </div>
+    <div class="lb-frame sq">
+      <img src="../portfolio-nprzybylska/img/m6.jpg" alt="Studio — dark, neon pink mural">
+      <div class="lb-label">Studio Mortalis I</div>
+    </div>
+    <div class="lb-frame tall">
+      <img src="../portfolio-nprzybylska/img/m5.jpg" alt="Elegancja · evening, blue neon">
+      <div class="lb-label">Elegancja · Model VI</div>
+    </div>
+  </div>
+</section>
+
+<div class="cs-divider"></div>
+
+<!-- ═══ APP MOCKUPY ═══ -->
+<section class="cs-section">
+  <div class="section-label fi">Aplikacja</div>
+  <h2 class="section-hl fi">UI Mockupy —<br><span class="ul-acc">panel kreacji.</span></h2>
+
+  <div class="gallery-sub fi">Mortalis App — wizualizacje interfejsu</div>
+
+  <div class="app-grid fi">
+    <div class="app-frame full">
+      <img src="../portfolio-nprzybylska/img/m8.jpg" alt="Mortalis App — biometric body interface UI mockups">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STUDIO ═══ -->
+<section class="cs-section" style="padding-top:0;">
+  <div class="section-label fi">Studio</div>
+  <h2 class="section-hl fi">Laboratorium<br><span class="ul-acc">jutra.</span></h2>
+
+  <div class="studio-grid fi">
+    <div class="studio-frame">
+      <img src="../portfolio-nprzybylska/img/m6.jpg" alt="Mortalis Studio — dark cyberpunk interior">
+    </div>
+    <div class="studio-frame">
+      <img src="../portfolio-nprzybylska/img/m7.jpg" alt="Mortalis Studio — neon purple session room">
+    </div>
+  </div>
+</section>
+
+<div class="cs-divider"></div>
+
+<!-- ═══ PROCES ═══ -->
+<section class="cs-section">
+  <div class="section-label fi">Proces</div>
+  <h2 class="section-hl fi">Jak to<br><span class="ul-acc">powstało.</span></h2>
+
+  <div class="process-grid">
+    <div class="process-item fi">
+      <div class="process-num">01</div>
+      <div class="process-title">Insight & Naming</div>
+      <div class="process-desc">Analiza trendu wearable tech i body modification. Concept: tatuaż jako interfejs biometryczny. Naming "Mortalis" — łac. "śmiertelny" — ciało jako ostateczna platforma.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">02</div>
+      <div class="process-title">Paleta & System wizualny</div>
+      <div class="process-desc">Dark #06050f + cyan #00e5ff + hot pink #ff2d78. Kontrast zimna technologia vs. ciepło ciała. Grid lines jako motyw płytek drukowanych. DM Mono + Instrument Serif.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">03</div>
+      <div class="process-title">AI Lookbook — Midjourney</div>
+      <div class="process-desc">Generowanie modeli z neonowymi tatuażami w różnych kontekstach: studio, klub, outdoor. Spójność estetyczna przez --style raw i precyzyjne promptowanie palety barw.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">04</div>
+      <div class="process-title">Studio & App visuals</div>
+      <div class="process-desc">Wnętrza studia — Midjourney, architektura cyberunkowa z neonami. UI mockupy aplikacji mobilnej — Firefly + Photoshop compositing na realnych telefonach.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">05</div>
+      <div class="process-title">Copywriting & Oferta</div>
+      <div class="process-desc">3 pakiety: INIT_01 / CORE_02 / NEXUS_03. Struktura cenowa z rocznym subskrypcją jako modelem biznesowym. Copy pisane przez Claude z moimi wytycznymi tonu.</div>
+    </div>
+    <div class="process-item fi">
+      <div class="process-num">06</div>
+      <div class="process-title">Landing Page & Deploy</div>
+      <div class="process-desc">Pełna strona HTML/CSS z animacjami, scrollującym marquee, sekcją produktów. Deploy przez GitHub Pages. Bez CMS — gotowa do przekazania developerowi lub wdrożenia Webflow.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ NARZĘDZIA ═══ -->
+<section class="cs-section tools-used">
+  <div class="section-label">Narzędzia</div>
+  <h2 class="section-hl" style="margin-bottom:36px;">Czym<br>to zrobiłam.</h2>
+  <div class="tool-grid">
+    <div class="tool-pill fi"><span class="tool-dot"></span>Midjourney v6.1</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>Adobe Firefly</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>Claude (Anthropic)</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>ChatGPT</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>Adobe Photoshop</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>Adobe Illustrator</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>HTML &amp; CSS</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>GitHub Pages</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>Lightroom</div>
+    <div class="tool-pill fi"><span class="tool-dot"></span>Canva Pro</div>
+  </div>
+</section>
+
+<!-- ═══ WYNIKI ═══ -->
+<section class="cs-section">
+  <div class="section-label fi">Wyniki</div>
+  <h2 class="section-hl fi">Co<br><span class="ul-acc">dostarczyłam.</span></h2>
+  <div class="results-grid">
+    <div class="result-card fi">
+      <div class="result-num">1<em>×</em></div>
+      <div class="result-label">live landing page</div>
+    </div>
+    <div class="result-card fi">
+      <div class="result-num">10<em>+</em></div>
+      <div class="result-label">kreacji AI lookbook</div>
+    </div>
+    <div class="result-card fi">
+      <div class="result-num">3<em>×</em></div>
+      <div class="result-label">pakiety ofertowe</div>
+    </div>
+    <div class="result-card fi">
+      <div class="result-num">0<em>zł</em></div>
+      <div class="result-label">budżet foto</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cs-cta">
+  <div class="cta-label">Następny krok</div>
+  <h2 class="cta-hl fi">Porozmawiajmy<br>o Twoim projekcie.</h2>
+  <div class="cta-actions fi">
+    <a href="https://ojnatalie.github.io/mortalis-skin/" target="_blank" rel="noopener" class="btn-live">
+      <span class="btn-live-pulse"></span>
+      Live: Mortalis Skin →
+    </a>
+    <a href="index.html#contact" class="btn-primary">Napisz do mnie</a>
+    <a href="index.html#projects" class="btn-ghost">← Wszystkie projekty</a>
+  </div>
+</section>
+
+<footer>
+  <span class="foot-copy">© 2026 Natalia Przybylska</span>
+  <div class="foot-links">
+    <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
+    <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+}, { threshold: 0.06 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
