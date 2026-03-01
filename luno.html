@@ -93,63 +93,80 @@ nav {
 .nav-back:hover { color: var(--fg); }
 .nav-back svg { width: 14px; height: 14px; }
 
-/* ─── HERO ─── */
+/* ═══════════════════════════════════════════════════
+   HERO — Split editorial layout
+   ═══════════════════════════════════════════════════ */
 .cs-hero {
   min-height: 100svh;
-  display: flex;
-  align-items: flex-end;
-  padding: clamp(100px,14vw,150px) clamp(20px,5vw,80px) clamp(60px,8vw,90px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   position: relative;
   overflow: hidden;
-  background: var(--luno-dark);
+  background: #1a1208;
 }
-.cs-hero-bg {
+
+/* ── Left panel: text ── */
+.cs-hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(90px,12vw,140px) clamp(24px,5vw,80px) clamp(52px,7vw,80px);
+  position: relative;
+  z-index: 3;
+}
+
+/* Noise texture overlay */
+.cs-hero-left::before {
+  content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse 80% 60% at 60% 40%, rgba(193,122,58,0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(81,245,0,0.06) 0%, transparent 60%);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.5;
 }
-.cs-hero-grid {
+
+/* Warm amber glow bleeding from right */
+.cs-hero-left::after {
+  content: '';
   position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 20%, transparent 100%);
+  top: 0; right: -120px; bottom: 0;
+  width: 300px;
+  background: radial-gradient(ellipse 100% 80% at 100% 50%, rgba(232,168,74,0.12) 0%, transparent 70%);
   pointer-events: none;
 }
-.cs-hero-img {
+
+/* Giant ghost LUNO behind text */
+.cs-hero-ghost {
   position: absolute;
-  right: 0; bottom: 0;
-  width: clamp(320px, 45vw, 680px);
-  height: 100%;
-  overflow: hidden;
+  top: 50%; left: clamp(24px,5vw,80px);
+  transform: translateY(-55%);
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(140px, 22vw, 280px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(232,168,74,0.10);
   pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 0;
+  animation: ghostDrift 8s ease-in-out infinite;
 }
-.cs-hero-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  opacity: 0.55;
-  mix-blend-mode: luminosity;
-  filter: sepia(0.3) saturate(1.4);
-  mask-image: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.8) 0%, transparent 100%);
+@keyframes ghostDrift {
+  0%, 100% { transform: translateY(-55%) translateX(0); }
+  50%       { transform: translateY(-53%) translateX(6px); }
 }
-.cs-hero-inner {
+
+/* Case study breadcrumb */
+.cs-hero-label {
   position: relative;
   z-index: 2;
-  max-width: 680px;
-}
-.cs-hero-label {
   font-family: 'DM Mono', monospace;
-  font-size: 9.5px;
-  letter-spacing: 0.26em;
+  font-size: 9px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -160,60 +177,229 @@ nav {
   width: 6px; height: 6px;
   background: var(--accent);
   border-radius: 50%;
-  box-shadow: 0 0 8px rgba(81,245,0,0.7);
+  box-shadow: 0 0 10px rgba(81,245,0,0.8);
+  flex-shrink: 0;
 }
+
+/* Main title */
 .cs-hero-title {
+  position: relative;
+  z-index: 2;
   font-family: 'Instrument Serif', serif;
   font-weight: 400;
-  font-size: clamp(52px, 10vw, 110px);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  font-size: clamp(58px, 8.5vw, 120px);
+  line-height: 0.88;
+  letter-spacing: -0.025em;
   color: #fff;
-  margin-bottom: 14px;
-  animation: fadeUp 0.85s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+  margin-bottom: 0;
+  animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s both;
 }
-.cs-hero-title em {
+.cs-hero-title-name {
+  display: block;
+  color: #fff;
+}
+.cs-hero-title-tagline {
+  display: block;
   font-style: italic;
   color: var(--luno-amber);
+  margin-top: 6px;
 }
+
+/* Thin separator */
+.cs-hero-rule {
+  position: relative;
+  z-index: 2;
+  width: 48px;
+  height: 1px;
+  background: rgba(232,168,74,0.5);
+  margin: 28px 0 20px;
+  animation: expandLine 0.6s ease 0.7s both;
+}
+@keyframes expandLine {
+  from { width: 0; opacity: 0; }
+  to   { width: 48px; opacity: 1; }
+}
+
+/* Sub text */
 .cs-hero-sub {
+  position: relative;
+  z-index: 2;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 300;
-  font-size: clamp(15px, 1.8vw, 20px);
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 48px;
-  max-width: 440px;
-  line-height: 1.75;
-  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.32s both;
+  font-size: clamp(14px, 1.4vw, 17px);
+  color: rgba(255,255,255,0.45);
+  max-width: 360px;
+  line-height: 1.85;
+  margin-bottom: 44px;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.34s both;
 }
+
+/* Meta strip — horizontal pills */
 .cs-hero-meta {
+  position: relative;
+  z-index: 2;
   display: flex;
-  gap: 0;
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 14px;
-  overflow: hidden;
-  width: fit-content;
-  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.44s both;
+  flex-wrap: wrap;
+  gap: 8px;
+  animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.46s both;
 }
-.cs-hero-meta-item {
-  padding: 16px 28px;
-  border-right: 1px solid rgba(255,255,255,0.08);
+.cs-hero-meta-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 10px;
+  padding: 12px 18px;
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s, background 0.2s;
 }
-.cs-hero-meta-item:last-child { border-right: none; }
+.cs-hero-meta-pill:hover {
+  background: rgba(232,168,74,0.07);
+  border-color: rgba(232,168,74,0.22);
+}
 .cs-hero-meta-key {
   font-family: 'DM Mono', monospace;
-  font-size: 7.5px;
-  letter-spacing: 0.2em;
+  font-size: 7px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
-  margin-bottom: 4px;
+  color: rgba(255,255,255,0.28);
 }
 .cs-hero-meta-val {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 600;
-  font-size: 13px;
-  color: rgba(255,255,255,0.85);
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.82);
+  white-space: nowrap;
+}
+.cs-hero-meta-val.live {
+  color: var(--accent);
+}
+
+/* Scroll indicator */
+.scroll-down {
+  position: absolute;
+  bottom: 36px;
+  left: clamp(24px,5vw,80px);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeUp 0.7s ease 1s both;
+}
+.scroll-down-line {
+  width: 36px;
+  height: 1px;
+  background: linear-gradient(to right, var(--accent), transparent);
+  animation: scrollLine 2.4s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.3); opacity: 0.4; }
+}
+.scroll-down-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.22);
+}
+
+/* ── Right panel: product photo ── */
+.cs-hero-right {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Photo itself */
+.cs-hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.cs-hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  filter: saturate(1.15) contrast(1.05);
+  animation: photoReveal 1.4s cubic-bezier(0.16,1,0.3,1) 0.05s both;
+}
+@keyframes photoReveal {
+  from { opacity: 0; transform: scale(1.04); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Left vignette — blending the panel edge into dark */
+.cs-hero-photo-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to right, #1a1208 0%, transparent 18%),
+    linear-gradient(to bottom, #1a1208 0%, transparent 14%),
+    linear-gradient(to top, #1a1208 0%, transparent 10%);
+  pointer-events: none;
+}
+
+/* Amber glow emanating from photo */
+.cs-hero-photo-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(232,168,74,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glowPulse 5s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Small floating tag on photo */
+.cs-hero-photo-tag {
+  position: absolute;
+  bottom: clamp(28px,5vw,60px);
+  right: clamp(20px,4vw,52px);
+  z-index: 3;
+  background: rgba(26,18,8,0.75);
+  border: 1px solid rgba(232,168,74,0.3);
+  border-radius: 12px;
+  padding: 14px 20px;
+  backdrop-filter: blur(16px);
+  animation: fadeUp 0.7s ease 0.8s both;
+}
+.cs-hero-photo-tag-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(232,168,74,0.6);
+  margin-bottom: 4px;
+}
+.cs-hero-photo-tag-val {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: rgba(255,255,255,0.88);
+}
+
+/* Vertical "case study" rotated text */
+.cs-hero-vertical-text {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center center;
+  z-index: 3;
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+  white-space: nowrap;
+  animation: fadeUp 0.7s ease 1.1s both;
 }
 
 @keyframes fadeUp {
@@ -221,35 +407,27 @@ nav {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── SCROLL INDICATOR ─── */
-.scroll-down {
-  position: absolute;
-  bottom: 36px;
-  right: clamp(20px,5vw,80px);
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  animation: fadeUp 0.7s ease 0.9s both;
+/* ── HERO RESPONSIVE ── */
+@media (max-width: 900px) {
+  .cs-hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 56vw;
+  }
+  .cs-hero-left {
+    padding-top: calc(80px + env(safe-area-inset-top, 0px));
+    padding-bottom: 32px;
+  }
+  .cs-hero-ghost { display: none; }
+  .cs-hero-vertical-text { display: none; }
+  .cs-hero-photo-tag { bottom: 16px; right: 16px; }
+  .scroll-down { bottom: auto; top: calc(56vw + 20px); }
 }
-.scroll-down-line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, var(--accent), transparent);
-  animation: scrollLine 2s ease-in-out infinite;
-}
-@keyframes scrollLine {
-  0%, 100% { transform: scaleY(1); opacity: 1; }
-  50% { transform: scaleY(0.4); opacity: 0.4; }
-}
-.scroll-down-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 7.5px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  writing-mode: vertical-rl;
+@media (max-width: 520px) {
+  .cs-hero { grid-template-rows: auto 72vw; }
+  .cs-hero-title { font-size: clamp(48px, 14vw, 80px); }
+  .cs-hero-meta { gap: 6px; }
+  .cs-hero-meta-pill { padding: 10px 14px; }
+  .scroll-down { display: none; }
 }
 
 /* ─── LAYOUT UTILS ─── */
@@ -887,9 +1065,6 @@ footer {
   .feed-frame.wide { grid-column: span 1; }
   .process-grid { grid-template-columns: 1fr 1fr; }
   .results-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .cs-hero-img { display: none; }
-  .cs-hero-meta { flex-wrap: wrap; }
-  .cs-hero-meta-item { flex: 1 1 auto; }
   .intro-stats { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 480px) {
@@ -915,40 +1090,65 @@ footer {
 
 <!-- ═══ HERO ═══ -->
 <header class="cs-hero">
-  <div class="cs-hero-bg"></div>
-  <div class="cs-hero-grid"></div>
-  <div class="cs-hero-img" aria-hidden="true">
-    <img src="../portfolio-nprzybylska/img/luno-1.png" alt="">
-  </div>
 
-  <div class="cs-hero-inner">
-    <div class="cs-hero-label">Case Study · Koncepcja marki & Kampania</div>
-    <h1 class="cs-hero-title">LUNO<br><em>Sen, który czujesz.</em></h1>
+  <!-- LEFT: text panel -->
+  <div class="cs-hero-left">
+    <div class="cs-hero-ghost" aria-hidden="true">LUNO</div>
+
+    <div class="cs-hero-label">Case Study · Koncepcja marki &amp; Kampania</div>
+
+    <h1 class="cs-hero-title">
+      <span class="cs-hero-title-name">LUNO</span>
+      <span class="cs-hero-title-tagline">Sen, który czujesz.</span>
+    </h1>
+
+    <div class="cs-hero-rule"></div>
+
     <p class="cs-hero-sub">Od insightu strategicznego po gotowy landing page i kampanię social media — w całości z wykorzystaniem AI.</p>
+
     <div class="cs-hero-meta">
-      <div class="cs-hero-meta-item">
-        <div class="cs-hero-meta-key">Rok</div>
-        <div class="cs-hero-meta-val">2025–2026</div>
+      <div class="cs-hero-meta-pill">
+        <span class="cs-hero-meta-key">Rok</span>
+        <span class="cs-hero-meta-val">2025–2026</span>
       </div>
-      <div class="cs-hero-meta-item">
-        <div class="cs-hero-meta-key">Rola</div>
-        <div class="cs-hero-meta-val">Koncepcja, design, AI</div>
+      <div class="cs-hero-meta-pill">
+        <span class="cs-hero-meta-key">Rola</span>
+        <span class="cs-hero-meta-val">Koncepcja, design, AI</span>
       </div>
-      <div class="cs-hero-meta-item">
-        <div class="cs-hero-meta-key">Zakres</div>
-        <div class="cs-hero-meta-val">Brand + Landing + Kampania</div>
+      <div class="cs-hero-meta-pill">
+        <span class="cs-hero-meta-key">Zakres</span>
+        <span class="cs-hero-meta-val">Brand + Landing + Kampania</span>
       </div>
-      <div class="cs-hero-meta-item">
-        <div class="cs-hero-meta-key">Live</div>
-        <div class="cs-hero-meta-val" style="color:#51f500;">ojnatalie.github.io/luno</div>
-      </div>
+      <a href="https://ojnatalie.github.io/luno/" target="_blank" rel="noopener" style="text-decoration:none;">
+        <div class="cs-hero-meta-pill">
+          <span class="cs-hero-meta-key">Live →</span>
+          <span class="cs-hero-meta-val live">ojnatalie.github.io/luno</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="scroll-down">
+      <div class="scroll-down-line"></div>
+      <span class="scroll-down-label">Scroll</span>
     </div>
   </div>
 
-  <div class="scroll-down">
-    <div class="scroll-down-line"></div>
-    <span class="scroll-down-label">Scroll</span>
+  <!-- RIGHT: product photo -->
+  <div class="cs-hero-right">
+    <div class="cs-hero-photo">
+      <img src="../portfolio-nprzybylska/img/str-3.png" alt="LUNO — produkt w świetle amberu">
+    </div>
+    <div class="cs-hero-photo-vignette"></div>
+    <div class="cs-hero-photo-glow"></div>
+
+    <div class="cs-hero-photo-tag">
+      <div class="cs-hero-photo-tag-label">LUNO · Espresso Edition</div>
+      <div class="cs-hero-photo-tag-val">Cichy dyfuzor &amp; światło</div>
+    </div>
+
+    <div class="cs-hero-vertical-text">Case Study · AI Creative · 2026</div>
   </div>
+
 </header>
 
 <!-- ═══ INTRO ═══ -->
