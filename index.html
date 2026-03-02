@@ -1,4 +1,4 @@
-m<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
@@ -191,10 +191,7 @@ nav {
   margin-top: 24px;
 }
 
-/* ═══════════════════════════════════════════════════════
-   NEW HERO — Centered typographic layout
-   ═══════════════════════════════════════════════════════ */
-
+/* ═══ HERO ═══ */
 .hero {
   min-height: 100svh;
   display: flex;
@@ -207,7 +204,6 @@ nav {
   overflow: hidden;
 }
 
-/* Dot grid background */
 .hero-grid-bg {
   position: absolute;
   inset: 0;
@@ -219,7 +215,6 @@ nav {
   pointer-events: none;
 }
 
-/* Center blob */
 .hero .blob {
   width: 900px; height: 900px;
   top: 50%; left: 50%;
@@ -227,7 +222,6 @@ nav {
   opacity: 0.45;
 }
 
-/* Canvas bg */
 #hero-canvas {
   position: absolute;
   inset: 0;
@@ -236,7 +230,6 @@ nav {
   pointer-events: none;
 }
 
-/* ─── Corner decorations ─── */
 .hero-corner {
   position: absolute;
   z-index: 1;
@@ -244,15 +237,12 @@ nav {
   opacity: 0;
   animation: fadeCorner 1.2s ease 0.8s forwards;
 }
-@keyframes fadeCorner {
-  to { opacity: 1; }
-}
+@keyframes fadeCorner { to { opacity: 1; } }
 .hero-corner--tl { top: clamp(16px, 3vw, 36px); left: clamp(16px, 3vw, 36px); }
 .hero-corner--tr { top: clamp(16px, 3vw, 36px); right: clamp(16px, 3vw, 36px); }
 .hero-corner--bl { bottom: clamp(16px, 3vw, 36px); left: clamp(16px, 3vw, 36px); }
 .hero-corner--br { bottom: clamp(16px, 3vw, 36px); right: clamp(16px, 3vw, 36px); }
 
-/* Content wrapper */
 .hero-inner {
   position: relative;
   z-index: 2;
@@ -263,7 +253,6 @@ nav {
   align-items: center;
 }
 
-/* Status pill */
 .hero-status {
   display: inline-flex;
   align-items: center;
@@ -282,7 +271,6 @@ nav {
   box-shadow: 0 2px 16px rgba(17,16,16,0.06);
 }
 
-/* Tag line */
 .hero-tag {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
@@ -303,7 +291,6 @@ nav {
   flex-shrink: 0;
 }
 
-/* Huge name */
 .hero-name {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 800;
@@ -316,7 +303,6 @@ nav {
   animation: heroUp 0.85s cubic-bezier(0.16,1,0.3,1) 0.22s both;
 }
 
-/* Accent underline on second name */
 .hero-name-line2 {
   display: block;
   position: relative;
@@ -333,11 +319,8 @@ nav {
   animation: expandLine 0.6s cubic-bezier(0.16,1,0.3,1) 1.05s forwards;
   box-shadow: 0 0 18px rgba(81,245,0,0.5);
 }
-@keyframes expandLine {
-  to { width: 100%; }
-}
+@keyframes expandLine { to { width: 100%; } }
 
-/* Subtitle */
 .hero-title {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 300;
@@ -350,7 +333,6 @@ nav {
   animation: heroUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.34s both;
 }
 
-/* Description */
 .hero-desc {
   font-family: 'Inter', sans-serif;
   font-size: clamp(14.5px, 1.5vw, 16.5px);
@@ -362,7 +344,6 @@ nav {
 }
 .hero-desc strong { color: var(--fg); font-weight: 600; }
 
-/* CTA group */
 .hero-actions {
   display: flex;
   gap: 12px;
@@ -415,7 +396,6 @@ nav {
 }
 .hero-cta-ghost:hover { border-color: rgba(17,16,16,0.25); color: var(--fg); }
 
-/* Contact chips row */
 .hero-chips {
   display: flex;
   gap: 8px;
@@ -450,7 +430,6 @@ nav {
   box-shadow: 0 0 7px rgba(81,245,0,0.55);
 }
 
-/* Stats strip */
 .hero-stats {
   display: inline-flex;
   align-items: center;
@@ -543,55 +522,318 @@ section {
   flex-shrink: 0;
 }
 
-/* ─── ABOUT ─── */
-.about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+/* ═══════════════════════════════════════════════════
+   ABOUT — BENTO GRID (nowy design)
+   ═══════════════════════════════════════════════════ */
 
-.about-headline {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: clamp(30px, 4vw, 54px);
-  line-height: 1.06;
-  letter-spacing: -0.03em;
-  color: var(--fg);
-  margin-bottom: 32px;
-}
-.ul-acc {
-  background-image: linear-gradient(transparent 84%, var(--accent) 84%);
-  background-size: 100%;
+.ab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
 }
 
-.about-body {
-  font-family: 'Inter', sans-serif;
-  font-size: 15.5px;
-  line-height: 2;
-  color: rgba(17,16,16,0.72);
-}
-.about-body p { margin-bottom: 18px; }
-.about-body strong { color: var(--fg); font-weight: 600; }
-
-.stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 36px; }
-.stat {
-  padding: 24px 20px;
+/* ── base card ── */
+.ab-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  padding: 44px;
+  overflow: hidden;
+  transition: transform 0.25s ease;
 }
-.stat-num {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: 38px;
-  line-height: 1;
+.ab-card:hover { transform: translateY(-2px); }
+
+/* ── INTRO card (full width, dark) ── */
+.ab-intro {
+  grid-column: 1 / -1;
+  background: var(--fg);
+  border-color: var(--fg);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 52px;
+  align-items: center;
+  padding: 52px;
+  border-radius: 4px;
+}
+
+.ab-avatar-wrap { position: relative; flex-shrink: 0; }
+.ab-avatar-wrap img {
+  width: 200px;
+  height: 240px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  filter: grayscale(15%);
+  border-radius: 2px;
+}
+.ab-avatar-badge {
+  position: absolute;
+  bottom: -10px; left: -10px;
+  background: var(--accent);
   color: var(--fg);
-  letter-spacing: -0.03em;
-  margin-bottom: 6px;
-}
-.stat-num em { font-style: normal; color: var(--accent); }
-.stat-label {
   font-family: 'DM Mono', monospace;
   font-size: 9px;
+  font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 2px;
+}
+
+.ab-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ab-eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px; height: 1.5px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.ab-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 3.5vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: #fff;
+  margin-bottom: 22px;
+}
+.ab-heading span { color: var(--accent); }
+
+.ab-intro-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: rgba(255,255,255,0.62);
+  max-width: 500px;
+}
+.ab-intro-body strong { color: #fff; font-weight: 600; }
+
+.ab-stats-row {
+  display: flex;
+  gap: 36px;
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.ab-stat-val {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+}
+.ab-stat-val sup { font-size: 13px; vertical-align: super; }
+.ab-stat-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.38);
+  margin-top: 5px;
+}
+
+/* ── APPROACH card ── */
+.ab-approach {
+  background: rgba(81,245,0,0.05);
+  border-color: rgba(81,245,0,0.14);
+  border-radius: 4px;
+}
+
+/* ── AI card ── */
+.ab-ai {
+  background: var(--card);
+  border-radius: 4px;
+}
+
+/* ── shared card internals ── */
+.ab-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 100px;
+  margin-bottom: 26px;
+}
+.ab-tag--lime { background: var(--accent); color: var(--fg); }
+.ab-tag--dark { background: var(--fg); color: var(--accent); }
+
+.ab-card-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(18px, 1.8vw, 24px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--fg);
+  margin-bottom: 16px;
+}
+.ab-card-body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: rgba(17,16,16,0.65);
+}
+.ab-card-body strong { color: var(--fg); font-weight: 600; }
+
+/* scope list */
+.ab-scope-list {
+  list-style: none;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.ab-scope-list li {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--fg);
+}
+.ab-scope-list li::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(81,245,0,0.6);
+}
+
+/* AI bars widget */
+.ab-ai-bars {
+  background: var(--fg);
+  border-radius: 8px;
+  padding: 20px 22px;
+  margin-top: 24px;
+}
+.ab-ai-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.06em;
+}
+.ab-ai-bar-row:last-child { margin-bottom: 0; }
+.ab-ai-bar-name { min-width: 88px; }
+.ab-ai-bar-track {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.09);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.ab-ai-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transform-origin: left;
+  animation: barGrow 1.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.ab-ai-bar-val {
+  font-size: 10px;
+  color: var(--accent);
+  min-width: 28px;
+  text-align: right;
+}
+
+/* ── MISSION card (full width, split) ── */
+.ab-mission {
+  grid-column: 1 / -1;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.ab-mission-left {
+  background: var(--accent);
+  padding: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ab-mission-big {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+.ab-mission-right {
+  background: #fff;
+  padding: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  border-left: 1px solid var(--border);
+}
+.ab-mission-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.85;
+  color: rgba(17,16,16,0.65);
+}
+.ab-mission-text strong { color: var(--fg); font-weight: 600; }
+
+.ab-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.ab-pill {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 7px 15px;
+  border: 1.5px solid rgba(17,16,16,0.15);
+  color: var(--fg);
+  border-radius: 2px;
+  cursor: default;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.ab-pill:hover, .ab-pill.active {
+  background: var(--fg);
+  border-color: var(--fg);
+  color: var(--accent);
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .ab-intro { grid-template-columns: 1fr; text-align: center; padding: 40px 28px; gap: 32px; }
+  .ab-avatar-wrap { margin: 0 auto; }
+  .ab-avatar-wrap img { width: 140px; height: 170px; }
+  .ab-stats-row { justify-content: center; gap: 28px; }
+  .ab-eyebrow { justify-content: center; }
+  .ab-intro-body { max-width: 100%; }
+  .ab-mission { grid-template-columns: 1fr; }
+  .ab-mission-left, .ab-mission-right { padding: 40px 32px; }
+}
+@media (max-width: 640px) {
+  .ab-grid { grid-template-columns: 1fr; }
+  .ab-intro { grid-column: 1; }
+  .ab-mission { grid-column: 1; }
 }
 
 /* ─── COMPETENCIES ─── */
@@ -1250,26 +1492,24 @@ footer {
 .fi:nth-child(5) { transition-delay: 0.32s; }
 .fi:nth-child(6) { transition-delay: 0.40s; }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE — TABLET 1024px
-   ═══════════════════════════════════════════════════════ */
+/* ─── UL ACCENT ─── */
+.ul-acc {
+  background-image: linear-gradient(transparent 84%, var(--accent) 84%);
+  background-size: 100%;
+}
+
+/* ═══ RESPONSIVE ═══ */
 @media (max-width: 1024px) {
-  .about-layout { gap: 44px; }
   .tools-layout { grid-template-columns: 180px 1fr; gap: 48px; }
   .projects-grid { grid-template-columns: repeat(3,1fr); }
   .hero-stat { padding: 18px 24px; }
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE — MOBILE 768px
-   ═══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  /* NAV */
   .nav-links { display: none !important; }
   .nav-hamburger { display: flex; }
   .nav-mobile-overlay { display: flex; }
 
-  /* HERO */
   .hero { padding-top: calc(88px + var(--safe-top)); padding-bottom: 48px; }
   .hero-status { margin-bottom: 22px; font-size: 9px; }
   .hero-name { font-size: clamp(48px, 14vw, 80px); }
@@ -1283,54 +1523,26 @@ footer {
   .hero-stat-label { font-size: 8px; }
   .hero-corner { display: none; }
 
-  /* SECTIONS */
   .section-label { margin-bottom: 32px; }
-
-  /* ABOUT */
-  .about-layout { grid-template-columns: 1fr; gap: 28px; }
-  .about-headline { font-size: clamp(28px, 9vw, 42px); text-align: center; }
-  .stats-row { grid-template-columns: repeat(3,1fr); gap: 6px; margin-top: 24px; }
-  .stat { padding: 16px 10px; text-align: center; }
-  .stat-num { font-size: 28px; }
-  .about-body { text-align: left; }
-
-  /* COMPETENCIES */
   .comp-grid { grid-template-columns: 1fr; }
-
-  /* TOOLS */
   .tools-layout { grid-template-columns: 1fr; gap: 24px; }
   .tools-hl { position: static; font-size: clamp(26px, 8vw, 38px); text-align: center; }
   .proj-header-left h2 { font-size: clamp(26px, 8vw, 38px); }
-
-  /* PROJECTS */
   .projects-grid { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 44px; }
   .proj-card.span-2 { grid-column: span 2; }
   .proj-header { flex-direction: column; align-items: flex-start; gap: 6px; }
   .featured-grid { grid-template-columns: 1fr; }
   .feat-body { padding: 18px 18px 20px; }
-
-  /* MODAL */
   .modal-panel { width: 100vw; border-left: none; }
   .modal-content { padding: 24px 18px 60px; }
   .modal-close { padding: 14px 18px; }
   .modal-results-grid { grid-template-columns: repeat(2,1fr); }
-
-  /* EDU */
   .edu-row { grid-template-columns: 1fr; gap: 12px; }
-
-  /* OPINIONS */
   .ops-grid { grid-template-columns: 1fr; gap: 14px; }
-
-  /* FOOTER */
   footer { justify-content: center; text-align: center; }
-
-  /* MARQUEE */
   .marquee-item { padding: 0 16px; }
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE — SMALL MOBILE 480px
-   ═══════════════════════════════════════════════════════ */
 @media (max-width: 480px) {
   .hero { padding-top: calc(80px + var(--safe-top)); }
   .hero-name { font-size: clamp(40px, 15vw, 64px); }
@@ -1339,37 +1551,20 @@ footer {
   .hero-stats { flex-direction: column; width: 100%; }
   .hero-stat-sep { width: 80%; height: 1px; }
   .hero-stat { padding: 14px 20px; width: 100%; }
-
-  .stats-row { grid-template-columns: 1fr 1fr; }
-  .stat:last-child { grid-column: span 2; }
-  .stat { padding: 14px; }
-  .stat-num { font-size: 26px; }
-
   .comp-item { padding: 18px; }
-
   .projects-grid { grid-template-columns: 1fr 1fr; gap: 7px; }
   .proj-card.span-2 { grid-column: span 2; }
-  .proj-thumb-cat { font-size: 7px; padding: 2px 7px; }
-
   .modal-thumb-grid { grid-template-columns: 1fr; }
-
   .ops-grid { gap: 12px; }
   .op { padding: 22px 18px; }
-
   .cta-hl { font-size: clamp(30px, 12vw, 52px); }
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE — TINY 360px
-   ═══════════════════════════════════════════════════════ */
 @media (max-width: 360px) {
   .hero-name { font-size: clamp(36px, 14.5vw, 56px); }
 }
 
-/* ═══════════════════════════════════════════════════════
-   SIDE DECORATIONS — AI & Design panels
-   ═══════════════════════════════════════════════════════ */
-
+/* ═══ SIDE DECORATIONS ═══ */
 .side-deco {
   position: absolute;
   top: 50%;
@@ -1389,7 +1584,6 @@ footer {
 .side-deco--left  { left: clamp(12px, 2.5vw, 40px); align-items: flex-start; }
 .side-deco--right { right: clamp(12px, 2.5vw, 40px); align-items: flex-end; }
 
-/* Glass card base */
 .deco-card {
   background: rgba(255,255,255,0.75);
   border: 1px solid rgba(17,16,16,0.07);
@@ -1412,7 +1606,6 @@ footer {
   margin-bottom: 9px;
 }
 
-/* ── float animations ── */
 .deco-neural  { animation: floatA 6s ease-in-out infinite; }
 .deco-metrics { animation: floatB 7s ease-in-out 0.5s infinite; }
 .deco-prompt  { animation: floatC 8s ease-in-out 1s infinite; }
@@ -1429,7 +1622,6 @@ footer {
 @keyframes floatF { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
 @keyframes floatG { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
 
-/* ── LEFT: Neural card ── */
 .deco-neural { width: 168px; }
 .neural-node { animation: nodeGlow 3s ease-in-out infinite; }
 .neural-node:nth-child(2){animation-delay:.5s}
@@ -1442,7 +1634,6 @@ footer {
 .neural-edge { animation: edgePulse 2.5s ease-in-out infinite; }
 @keyframes edgePulse { 0%,100%{opacity:.15} 50%{opacity:.5} }
 
-/* ── LEFT: Metrics card ── */
 .deco-metrics { width: 148px; }
 .deco-metric-row {
   display: flex; align-items: center;
@@ -1455,7 +1646,6 @@ footer {
 .deco-metric-bar { height:100%; border-radius:2px; background:var(--accent); }
 .deco-metric-val { font-size:7.5px; color:var(--fg); font-weight:600; }
 
-/* ── LEFT: Prompt chip ── */
 .deco-prompt { width: 158px; }
 .deco-prompt-text {
   font-size:7.5px; letter-spacing:.04em; line-height:1.7;
@@ -1470,7 +1660,6 @@ footer {
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-/* ── RIGHT: Tool strip ── */
 .deco-tools { width:46px; }
 .deco-tools-inner {
   display:flex; flex-direction:column;
@@ -1483,13 +1672,11 @@ footer {
 .deco-tool-btn.active { background:rgba(81,245,0,.12); }
 .deco-tool-sep { width:18px; height:1px; background:var(--border); margin:2px 0; }
 
-/* ── RIGHT: Swatches ── */
 .deco-swatches { width:138px; }
 .deco-swatch-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; margin-top:9px; }
 .deco-swatch { aspect-ratio:1; border-radius:4px; border:1px solid rgba(17,16,16,.06); }
 .deco-swatch.active { box-shadow:0 0 0 2px #fff, 0 0 0 3.5px var(--accent); }
 
-/* ── RIGHT: Layers ── */
 .deco-layers { width:155px; }
 .deco-layer-row {
   display:flex; align-items:center; gap:6px;
@@ -1500,7 +1687,6 @@ footer {
 .deco-layer-name { font-size:7.5px; color:var(--fg); letter-spacing:.03em; flex:1; }
 .deco-layer-eye { width:8px; height:8px; opacity:.25; }
 
-/* ── RIGHT: Type specimen ── */
 .deco-type { width:152px; }
 .deco-type-sample {
   font-family:'Plus Jakarta Sans',sans-serif; font-weight:800;
@@ -1517,12 +1703,11 @@ footer {
   padding:2px 5px; border-radius:3px;
 }
 
-/* ── Hide on screens narrower than 1140px ── */
 @media (max-width: 1140px) {
   .side-deco { display: none !important; }
 }
 
-/* ─── HERO PHOTO (zmiana 3) ─── */
+/* ─── HERO PHOTO ─── */
 .hero-photo-wrap {
   width: 72px; height: 72px;
   border-radius: 50%;
@@ -1539,7 +1724,7 @@ footer {
   display: block;
 }
 
-/* ─── NAV AVAILABILITY BADGE (zmiana 4) ─── */
+/* ─── NAV AVAILABILITY BADGE ─── */
 .nav-available {
   display: inline-flex;
   align-items: center;
@@ -1565,7 +1750,7 @@ footer {
   .nav-available { display: none; }
 }
 
-/* ─── OPINION CONTEXT (zmiana 5) ─── */
+/* ─── OPINION CONTEXT ─── */
 .op-context {
   font-family: 'DM Mono', monospace;
   font-size: 8.5px;
@@ -1576,10 +1761,8 @@ footer {
   margin-top: 3px;
 }
 
-/* ─── AI INFLUENCER FEATURED CARD (zmiana 6) ─── */
-.proj-card-featured {
-  position: relative;
-}
+/* ─── PROJ CARD FEATURED ─── */
+.proj-card-featured { position: relative; }
 .proj-card-featured::before {
   content: 'WYRÓŻNIONY';
   position: absolute;
@@ -1601,7 +1784,6 @@ footer {
   color: var(--muted);
   margin-top: 5px;
 }
-
 </style>
 </head>
 <body>
@@ -1637,13 +1819,12 @@ footer {
   <span class="nav-mobile-close-label">kliknij link lub ESC, by zamknąć</span>
 </div>
 
-<!-- ═══ NEW HERO ═══ -->
+<!-- ═══ HERO ═══ -->
 <header class="hero">
   <canvas id="hero-canvas" aria-hidden="true"></canvas>
   <div class="blob" aria-hidden="true"></div>
   <div class="hero-grid-bg" aria-hidden="true"></div>
 
-  <!-- Corner decorations -->
   <div class="hero-corner hero-corner--tl" aria-hidden="true">
     <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
       <line x1="0" y1="38" x2="76" y2="38" stroke="rgba(81,245,0,0.28)" stroke-width="0.8"/>
@@ -1686,9 +1867,8 @@ footer {
     </svg>
   </div>
 
-  <!-- ═══ LEFT DECO: AI / Neural ═══ -->
+  <!-- LEFT DECO -->
   <div class="side-deco side-deco--left" aria-hidden="true">
-
     <div class="deco-card deco-neural">
       <div class="deco-label">Neural Network</div>
       <svg width="138" height="88" viewBox="0 0 138 88" fill="none">
@@ -1752,12 +1932,10 @@ footer {
         create bold campaign<br>for brand launch —<br>visual + copy<span class="deco-cursor"></span>
       </div>
     </div>
-
   </div>
 
-  <!-- ═══ RIGHT DECO: Adobe / Design ═══ -->
+  <!-- RIGHT DECO -->
   <div class="side-deco side-deco--right" aria-hidden="true">
-
     <div class="deco-card deco-tools">
       <div class="deco-tools-inner">
         <div class="deco-tool-btn active">
@@ -1790,12 +1968,7 @@ footer {
         </div>
         <div class="deco-tool-btn">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <defs>
-              <linearGradient id="gT" x1="0" y1="0" x2="12" y2="12" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="rgba(81,245,0,0.75)"/>
-                <stop offset="100%" stop-color="rgba(17,16,16,0.08)"/>
-              </linearGradient>
-            </defs>
+            <defs><linearGradient id="gT" x1="0" y1="0" x2="12" y2="12" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="rgba(81,245,0,0.75)"/><stop offset="100%" stop-color="rgba(17,16,16,0.08)"/></linearGradient></defs>
             <rect x="1" y="1" width="10" height="10" rx="2" fill="url(#gT)"/>
           </svg>
         </div>
@@ -1850,23 +2023,18 @@ footer {
         <span class="deco-type-tag">+Jakarta Sans</span>
       </div>
     </div>
-
   </div>
 
   <div class="hero-inner">
-
-    <!-- Photo -->
     <div class="hero-photo-wrap">
       <img src="../portfolio-nprzybylska/img/NP_av-2.png" alt="Natalia Przybylska" width="72" height="72">
     </div>
 
-    <!-- Status badge -->
     <div class="hero-status">
       <span class="nav-dot" style="width:6px;height:6px;"></span>
       Otwarta na nowe projekty · Opole
     </div>
 
-    <!-- Tag line -->
     <p class="hero-tag">
       Marketing
       <span class="hero-tag-dot"></span>
@@ -1875,29 +2043,24 @@ footer {
       Generatywna AI
     </p>
 
-    <!-- Main name -->
     <h1 class="hero-name">
       Natalia<br>
       <span class="hero-name-line2">Przybylska</span>
     </h1>
 
-    <!-- Subtitle -->
     <p class="hero-title">AI Creative &amp; Marketing Specialist</p>
 
-    <!-- Description -->
     <p class="hero-desc">
       Przez 8 lat szlifowałam warsztat w marketingu i grafice.
       Teraz wspieram się AI — co oznacza, że <strong>robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób: marketingowca i grafika.</strong>
       Wymyślam koncepcje. Projektuję. Dostarczam efekt.
     </p>
 
-    <!-- CTAs -->
     <div class="hero-actions">
       <a href="#contact" class="hero-cta">Napisz do mnie →</a>
       <a href="#projects" class="hero-cta-ghost">Zobacz projekty</a>
     </div>
 
-    <!-- Contact chips -->
     <div class="hero-chips">
       <a href="mailto:natalie.kreatywnie@gmail.com" class="hero-chip">
         <span class="cdot"></span><span>natalie.kreatywnie@gmail.com</span>
@@ -1910,7 +2073,6 @@ footer {
       </a>
     </div>
 
-    <!-- Stats strip -->
     <div class="hero-stats">
       <div class="hero-stat">
         <span class="hero-stat-num">8<em>+</em></span>
@@ -1927,7 +2089,6 @@ footer {
         <span class="hero-stat-label">szybciej · lepiej</span>
       </div>
     </div>
-
   </div>
 </header>
 
@@ -1952,37 +2113,126 @@ footer {
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     ABOUT — NOWY BENTO GRID
+     ═══════════════════════════════════════════ -->
 <section id="about">
   <div class="section-label">O mnie</div>
-  <div class="about-layout">
-    <div>
-      <h2 class="about-headline fi">
-        Jedna osoba.<br>
-        <span class="ul-acc">Dwa zestawy</span><br>
-        kompetencji.
-      </h2>
-      <div class="stats-row">
-        <div class="stat fi"><div class="stat-num">8<em>+</em></div><div class="stat-label">lat doświadczenia</div></div>
-        <div class="stat fi"><div class="stat-num">2<em>×1</em></div><div class="stat-label">marketing + design</div></div>
-        <div class="stat fi"><div class="stat-num">AI<em>↑</em></div><div class="stat-label">szybciej · lepiej</div></div>
+
+  <div class="ab-grid">
+
+    <!-- ── KARTA INTRO (pełna szerokość, ciemna) ── -->
+    <div class="ab-card ab-intro fi">
+      <div class="ab-avatar-wrap">
+        <img src="../portfolio-nprzybylska/img/NP_av-2.png" alt="Natalia Przybylska">
+        <div class="ab-avatar-badge">Opole · Dostępna</div>
+      </div>
+      <div>
+        <div class="ab-eyebrow">AI Creative &amp; Marketing Specialist</div>
+        <h2 class="ab-heading">
+          Jedna osoba.<br>
+          <span>Dwa zestawy</span><br>
+          kompetencji.
+        </h2>
+        <p class="ab-intro-body">
+          Przez 8 lat szlifowałam warsztat w marketingu i grafice.
+          Teraz wspieram się AI — co oznacza, że <strong>robię szybciej to, do czego firmy zazwyczaj potrzebują dwóch osób: marketingowca i grafika.</strong>
+          Wymyślam koncepcje. Projektuję. Dostarczam efekt.
+        </p>
+        <div class="ab-stats-row">
+          <div>
+            <div class="ab-stat-val">8<sup>+</sup></div>
+            <div class="ab-stat-lbl">lat doświadczenia</div>
+          </div>
+          <div>
+            <div class="ab-stat-val">2×1</div>
+            <div class="ab-stat-lbl">marketing + design</div>
+          </div>
+          <div>
+            <div class="ab-stat-val">AI↑</div>
+            <div class="ab-stat-lbl">szybciej · lepiej</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="about-body fi">
-      <p>Przez 8 lat szlifowałam warsztat w tradycyjnym marketingu i grafice, by teraz wejść na wyższy poziom dzięki sztucznej inteligencji.</p>
-      
-      <p>Dlaczego ja?</p>
-      <p><strong>➤ Jestem hybrydą kompetencyjną</strong> - moim wyróżnikiem jest łączenie umiejętności, które zazwyczaj wymagają zatrudnienia dwóch osób: Specjalisty ds. Marketingu oraz Grafika.</p>
-      <p><strong>➤ Jestem skrótem</strong> - jedna osoba, która potrafi wymyślić i wykonać. Która znając cel biznesowy, potrafi go zamienić w kreację.</p>
-      <p><strong>➤ Pracuję z AI</strong>, co oznacza, że działam szybciej.</p>
-      
-      <p><strong>Moje specjalizacje:</strong></p>
-      <p>- kreatywność poparta projektami. Ona służy mi do realizacji strategii, a nie jest celem sama w sobie.</p>
-      <p>- projektuję materiały o wysokiej estetyce, biorąc pełną odpowiedzialność za proces (od koncepcji po wykonanie),</p>
-      <p>- projektuję treści z potencjałem wirusowym, które naturalnie niosą się w sieci i budują zasięgi organiczne.</p>
-      <p>- potrafię słuchać rynku; wyłapuję autentyczne potrzeby odbiorców i przekuwam je w angażujące komunikaty.</p>
+
+    <!-- ── KARTA PODEJŚCIE ── -->
+    <div class="ab-card ab-approach fi">
+      <div class="ab-tag ab-tag--dark">Podejście</div>
+      <h3 class="ab-card-heading">Od insightu po plik gotowy do kampanii.</h3>
+      <p class="ab-card-body">
+        Znając cel biznesowy wiem, jak zamienić go w kreację.
+        <strong>Cały proces przechodzi przez moje ręce</strong> — od briefu do gotowego materiału.
+        Nie ma głuchego telefonu między strategią a wykonaniem.
+      </p>
+      <ul class="ab-scope-list">
+        <li>Koncepcje kreatywne i brief kampanii</li>
+        <li>Projektowanie i adaptacje graficzne</li>
+        <li>Materiały digital — social, ads, landing pages</li>
+        <li>DTP &amp; przygotowanie do druku</li>
+        <li>Key visual i linie graficzne</li>
+        <li>Meta Ads — konfiguracja i optymalizacja</li>
+      </ul>
     </div>
+
+    <!-- ── KARTA AI ── -->
+    <div class="ab-card ab-ai fi">
+      <div class="ab-tag ab-tag--lime">AI jako narzędzie</div>
+      <h3 class="ab-card-heading">Rozszerzenie warsztatu, nie jego zastępstwo.</h3>
+      <p class="ab-card-body">
+        Nie generuję masowo.
+        <strong>Każdy projekt przechodzi przez mój filtr estetyczny i strategiczny.</strong>
+        AI skraca czas — wrażliwość na odbiorcę i sens zostawiam sobie.
+      </p>
+      <div class="ab-ai-bars">
+        <div class="ab-ai-bar-row">
+          <span class="ab-ai-bar-name">Jakość</span>
+          <div class="ab-ai-bar-track"><div class="ab-ai-bar-fill" style="width:94%"></div></div>
+          <span class="ab-ai-bar-val">94%</span>
+        </div>
+        <div class="ab-ai-bar-row">
+          <span class="ab-ai-bar-name">Spójność</span>
+          <div class="ab-ai-bar-track"><div class="ab-ai-bar-fill" style="width:91%;animation-delay:.1s"></div></div>
+          <span class="ab-ai-bar-val">91%</span>
+        </div>
+        <div class="ab-ai-bar-row">
+          <span class="ab-ai-bar-name">Szybkość</span>
+          <div class="ab-ai-bar-track"><div class="ab-ai-bar-fill" style="width:82%;animation-delay:.2s"></div></div>
+          <span class="ab-ai-bar-val">82%</span>
+        </div>
+        <div class="ab-ai-bar-row">
+          <span class="ab-ai-bar-name">Kreatywność</span>
+          <div class="ab-ai-bar-track"><div class="ab-ai-bar-fill" style="width:88%;animation-delay:.3s"></div></div>
+          <span class="ab-ai-bar-val">88%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── KARTA MISJA (pełna szerokość, split) ── -->
+    <div class="ab-card ab-mission fi">
+      <div class="ab-mission-left">
+        <div class="ab-mission-big">Słucham<br>rynku.<br>Tworzę<br>z sensem.</div>
+      </div>
+      <div class="ab-mission-right">
+        <p class="ab-mission-text">
+          Wyłapuję autentyczne potrzeby i przekuwam je w treści,
+          które <strong>chcą się same roznosić.</strong>
+          Nie chodzi o efektowność dla efektowności — chodzi o rezonans z odbiorcą.
+        </p>
+        <div class="ab-pills">
+          <span class="ab-pill active">Generatywna AI</span>
+          <span class="ab-pill">Meta Ads</span>
+          <span class="ab-pill">Brand Strategy</span>
+          <span class="ab-pill">DTP &amp; Print</span>
+          <span class="ab-pill">Landing Pages</span>
+          <span class="ab-pill">Creative Direction</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
+<!-- ═══ KONIEC SEKCJI O MNIE ═══ -->
 
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -2070,230 +2320,115 @@ footer {
 
 <section id="projects">
   <div class="section-label">Wybrane projekty</div>
-
   <div class="proj-header fi vis">
-<div>
-<div class="tools-layout">
     <div>
-      <h2 class="tools-hl fi">Rzeczy,<br><span class="ul-acc">które zrobiłam.</span></h2>
-    <!-- <div class="proj-header-right">12 projektów · 2018–2026</div> -->
-  </div>
-  <div class="proj-divider"></div>
-    
-      <div class="featured-label fi">Rozbudowane case studies</div>
+      <div class="tools-layout">
+        <div>
+          <h2 class="tools-hl fi">Rzeczy,<br><span class="ul-acc">które zrobiłam.</span></h2>
+        </div>
+        <div class="proj-divider"></div>
+        <div class="featured-label fi">Rozbudowane case studies</div>
 
-  <div class="projects-grid">
-
-    <div class="proj-card span-2 fi">
-      <div class="proj-thumb proj-thumb-luno">
-        <img src="../portfolio-nprzybylska/img/luno-1.png"
-             alt=""
-             loading="lazy">
-        <span class="proj-thumb-cat">Web &amp; Design</span>
-        <a href="luno.html" target="_blank">
-          <div class="proj-thumb-overlay">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-          </div>
-        </a>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">Landing page produktowy — od konceptu po gotową stronę</div>
-        <div class="proj-card-sub">2026 · Photoshop, Claude, Midjourney</div>
-      </div>
-    </div>
-
-      
-      
-      
-<!--       ........
-       -->
-      
+        <div class="projects-grid">
           <div class="proj-card span-2 fi">
-      <div class="proj-thumb proj-thumb-luno">
-        <img src="../portfolio-nprzybylska/img/scr-ma.png"
-             alt=""
-             loading="lazy">
-        <span class="proj-thumb-cat">Web &amp; Design</span>
-        <a href="nd.html" target="_blank">
-          <div class="proj-thumb-overlay">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+            <div class="proj-thumb proj-thumb-luno">
+              <img src="../portfolio-nprzybylska/img/luno-1.png" alt="" loading="lazy">
+              <span class="proj-thumb-cat">Web &amp; Design</span>
+              <a href="luno.html" target="_blank">
+                <div class="proj-thumb-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </div>
+              </a>
+            </div>
+            <div class="proj-card-meta">
+              <div class="proj-card-title">Landing page produktowy — od konceptu po gotową stronę</div>
+              <div class="proj-card-sub">2026 · Photoshop, Claude, Midjourney</div>
+            </div>
           </div>
-        </a>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">Meta Ads Dashboard — AI-Driven Analytics</div>
-        <div class="proj-card-sub">2026 · Claude, GitHub</div>
+
+          <div class="proj-card span-2 fi">
+            <div class="proj-thumb proj-thumb-luno">
+              <img src="../portfolio-nprzybylska/img/scr-ma.png" alt="" loading="lazy">
+              <span class="proj-thumb-cat">Web &amp; Design</span>
+              <a href="nd.html" target="_blank">
+                <div class="proj-thumb-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </div>
+              </a>
+            </div>
+            <div class="proj-card-meta">
+              <div class="proj-card-title">Meta Ads Dashboard — AI-Driven Analytics</div>
+              <div class="proj-card-sub">2026 · Claude, GitHub</div>
+            </div>
+          </div>
+
+          <div class="proj-card proj-card-featured fi">
+            <div class="proj-thumb">
+              <img src="../portfolio-nprzybylska/img/flora-natalia.jpg" alt="" loading="lazy">
+              <span class="proj-thumb-cat">AI Influencer</span>
+              <a href="flora.html" target="_blank">
+                <div class="proj-thumb-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </div>
+              </a>
+            </div>
+            <div class="proj-card-meta">
+              <div class="proj-card-title">AI Influencer — Flora</div>
+              <div class="proj-card-desc">W pełni wygenerowana postać z własną tożsamością wizualną, feedem i osobowością. Projekt badający granicę między autentycznością a kreacją.</div>
+              <div class="proj-card-sub" style="margin-top:8px;">2025 · Higgsfield, Midjourney, Adobe CC, ChatGPT</div>
+            </div>
+          </div>
+
+          <div class="proj-card fi">
+            <div class="proj-thumb">
+              <img src="../portfolio-nprzybylska/img/yukimor-1.jpg" alt="" loading="lazy">
+              <span class="proj-thumb-cat">Branding</span>
+              <a href="yukimor.html" target="_blank">
+                <div class="proj-thumb-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </div>
+              </a>
+            </div>
+            <div class="proj-card-meta">
+              <div class="proj-card-title">YUKIMOR - projekt marki</div>
+              <div class="proj-card-sub">2025 · Adobe CC, ChatGPT, Midjourney</div>
+            </div>
+          </div>
+
+          <div class="proj-card fi">
+            <div class="proj-thumb">
+              <img src="../portfolio-nprzybylska/img/mort.jpg" alt="" loading="lazy">
+              <span class="proj-thumb-cat">Web &amp; Design</span>
+              <a href="mortalis.html" target="_blank">
+                <div class="proj-thumb-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </div>
+              </a>
+            </div>
+            <div class="proj-card-meta">
+              <div class="proj-card-title">Landing page produktowy — sprzedaż B2C</div>
+              <div class="proj-card-sub">2026 · Midjourney, Adobe CC, GitHub, Claude</div>
+            </div>
+          </div>
+
+          <div class="proj-card fi">
+            <div class="proj-thumb">
+              <img src="../portfolio-nprzybylska/img/karty-3.jpg" alt="" loading="lazy">
+              <span class="proj-thumb-cat">DTP &amp; Print</span>
+              <a href="karty.html" target="_blank">
+                <div class="proj-thumb-overlay">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                </div>
+              </a>
+            </div>
+            <div class="proj-card-meta">
+              <div class="proj-card-title">Autorskie karty do gry - DTP</div>
+              <div class="proj-card-sub">2025 · InDesign, Illustrator, Photoshop, Midjourney</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-    <!-- ── META ADS DASHBOARD ── -->
-<!--     <div class="proj-card span-2 fi" onclick="location.href='md.html'" style="cursor:pointer;">
-      <div class="proj-thumb-metaads">
-        <img src="../portfolio-nprzybylska/img/scr-ma.png"
-             alt="Meta Ads Dashboard — screenshot"
-             loading="lazy">
-        <span class="proj-thumb-cat dark">AI-Driven Analytics · Meta Ads</span>
-        <div class="proj-thumb-overlay" style="background:rgba(0,0,0,0.12);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="background:rgba(255,255,255,0.15);color:#fff;"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">Meta Ads Dashboard — AI-Driven Analytics</div>
-        <div class="proj-card-sub">2026 · Claude, React</div>
-      </div>
-    </div> -->
-
-        <div class="proj-card proj-card-featured fi">
-      <div class="proj-thumb">
-                <img src="../portfolio-nprzybylska/img/flora-natalia.jpg"
-             alt=""
-             loading="lazy">
-        <span class="proj-thumb-cat">AI Influencer</span>
-        <a href="flora.html" target="_blank">
-        <div class="proj-thumb-overlay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-        </a>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">AI Influencer — Flora</div>
-        <div class="proj-card-desc">W pełni wygenerowana postać z własną tożsamością wizualną, feedem i osobowością. Projekt badający granicę między autentycznością a kreacją.</div>
-        <div class="proj-card-sub" style="margin-top:8px;">2025 · Higgsfield, Midjourney, Adobe CC, ChatGPT</div>
-      </div>
-    </div>
-
-    <div class="proj-card fi">
-      <div class="proj-thumb">
-                <img src="../portfolio-nprzybylska/img/yukimor-1.jpg"
-             alt=""
-             loading="lazy">
-        <span class="proj-thumb-cat">Branding</span>
-        <a href="yukimor.html" target="_blank">
-        <div class="proj-thumb-overlay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-        </a>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">YUKIMOR - projekt marki</div>
-        <div class="proj-card-sub">2025 · Adobe CC, ChatGPT, Midjourney</div>
-      </div>
-    </div>
-
-    <div class="proj-card fi">
-      <div class="proj-thumb">
-                <img src="../portfolio-nprzybylska/img/mort.jpg"
-             alt=""
-             loading="lazy">
-        <span class="proj-thumb-cat">Web & Design</span>
-        <a href="mortalis.html" target="_blank">
-        <div class="proj-thumb-overlay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-        </a>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">Landing page produktowy — sprzedaż B2C</div>
-        <div class="proj-card-sub">2026 · Midjourney, Adobe CC, GitHub, Claude</div>
-      </div>
-    </div>
-
-
-    
-    <div class="proj-card fi">
-      <div class="proj-thumb">
-                <img src="../portfolio-nprzybylska/img/karty-3.jpg"
-             alt=""
-             loading="lazy">
-        <span class="proj-thumb-cat">DTP &amp; Print</span>
-        <a href="karty.html" target="_blank">
-        <div class="proj-thumb-overlay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-        </a>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">Autorskie karty do gry - DTP</div>
-        <div class="proj-card-sub">2025 · InDesign, Illustrator, Photoshop, Midjourney</div>
-      </div>
-    </div>    
-
-    <!-- <div class="proj-card fi">
-      <div class="proj-thumb">
-        <span class="proj-thumb-cat">Key Visual</span>
-        <div class="proj-thumb-overlay">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-      </div>
-      <div class="proj-card-meta">
-        <div class="proj-card-title">Key visual kampanii eventowej — wielki format</div>
-        <div class="proj-card-sub">2023 · Illustrator, Midjourney</div>
-      </div>
-    </div> -->
-
-  </div>
-
-
-<!-- 
-  <div class="featured-grid">
-
-    <div class="feat-card fi" onclick="openModal('modal-1')">
-      <div class="feat-thumb">
-        <div class="feat-thumb-inner"></div>
-        <div class="feat-thumb-label">
-          <span class="feat-thumb-chip">Meta Ads · Creative Strategy</span>
-        </div>
-      </div>
-      <div class="feat-body">
-        <div class="feat-top">
-          <span class="feat-num">01</span>
-          <svg class="feat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-        <h3 class="feat-title">Kampania wirusowa<br>dla marki e-commerce</h3>
-        <p class="feat-desc">Od strategii przez brief, kreację AI i montaż, aż po wyniki kampanii. Projekt, który w 3 tygodnie zmienił sposób komunikacji marki.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Meta Ads</span>
-          <span class="feat-tag">Midjourney</span>
-          <span class="feat-tag">Higgsfield</span>
-          <span class="feat-tag">Creative Brief</span>
-        </div>
-        <span class="feat-cta">Zobacz case study →</span>
-      </div>
-    </div>
-
-    <div class="feat-card fi" onclick="openModal('modal-2')">
-      <div class="feat-thumb" style="background:#d8e3df;">
-        <div class="feat-thumb-inner"></div>
-        <div class="feat-thumb-label">
-          <span class="feat-thumb-chip">Brand Experience · DTP</span>
-        </div>
-      </div>
-      <div class="feat-body">
-        <div class="feat-top">
-          <span class="feat-num">02</span>
-          <svg class="feat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-        </div>
-        <h3 class="feat-title">Rebranding od zera —<br>marka B2B</h3>
-        <p class="feat-desc">Pełne przeprojektowanie identyfikacji wizualnej: logo, kolorystyka, typografia, system brandingowy, materiały drukowane i digital.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Illustrator</span>
-          <span class="feat-tag">InDesign</span>
-          <span class="feat-tag">Photoshop</span>
-          <span class="feat-tag">Brand System</span>
-        </div>
-        <span class="feat-cta">Zobacz case study →</span>
-      </div>
-    </div>
- -->
   </div>
 </section>
 
@@ -2321,10 +2456,8 @@ footer {
     <div class="modal-section-title">Podejście</div>
     <p class="modal-body-text">Zaproponowałam strategię opartą na AI-generated visuals w spójnej linii estetycznej. Wygenerowałam bank grafik i materiałów wideo w Midjourney i Higgsfield, które następnie montowałam i dostosowywałam do formatu social i ads.</p>
     <div class="modal-thumb-grid">
-      <div class="modal-thumb-sm"></div>
-      <div class="modal-thumb-sm"></div>
-      <div class="modal-thumb-sm"></div>
-      <div class="modal-thumb-sm"></div>
+      <div class="modal-thumb-sm"></div><div class="modal-thumb-sm"></div>
+      <div class="modal-thumb-sm"></div><div class="modal-thumb-sm"></div>
     </div>
     <div class="modal-section-title">Wyniki</div>
     <div class="modal-results-grid">
@@ -2361,10 +2494,8 @@ footer {
     <div class="modal-section-title">Podejście</div>
     <p class="modal-body-text">Zaczęłam od warsztatu briefingowego i analizy konkurencji. Zaprojektowałam logo, paletę kolorów i typografię, stworzyłam brand book z zasadami użycia, a na końcu przygotowałam wszystkie szablony — od prezentacji po rollup.</p>
     <div class="modal-thumb-grid">
-      <div class="modal-thumb-sm" style="background:#d8e3df;"></div>
-      <div class="modal-thumb-sm"></div>
-      <div class="modal-thumb-sm"></div>
-      <div class="modal-thumb-sm" style="background:#d8e3df;"></div>
+      <div class="modal-thumb-sm" style="background:#d8e3df;"></div><div class="modal-thumb-sm"></div>
+      <div class="modal-thumb-sm"></div><div class="modal-thumb-sm" style="background:#d8e3df;"></div>
     </div>
     <div class="modal-section-title">Zakres prac</div>
     <p class="modal-body-text">Logo i warianty · Paleta kolorów i typografia · Brand book (24 strony) · Szablony prezentacji PowerPoint · Papier firmowy i wizytówki · Rollup i materiały eventowe · Bannery digital.</p>
@@ -2402,7 +2533,6 @@ footer {
 <section id="opinions">
   <div class="section-label">Opinie o współpracy ze mną</div>
   <div class="ops-grid">
-
     <div class="op fi">
       <p class="op-text">„Natalia to jest osoba z pozytywną aurą i totalna comfort person. Dowozi wyniki z uśmiechem na twarzy, osoba która ją zatrudni zyska nie tylko świetnego eksperta, ale i super energię w biurze."</p>
       <div class="op-author">
@@ -2414,19 +2544,17 @@ footer {
         </div>
       </div>
     </div>
-
     <div class="op fi">
-      <p class="op-text">"Natalia zdecydowanie wyróżnia się na rynku marketingowym. Na imponującym poziomie łączy świat grafiki z social mediami - dla niej branding to nie tylko ładne projekty, ale spójna historia marki, emocje i realny wpływ na odbiorcę. Jest przy tym bardzo relacyjna, otwarta i po prostu świetna we współpracy. Taka osoba, z którą chce się pracować. Polecam współpracę z Natalią każdemu!"</p>
+      <p class="op-text">"Natalia zdecydowanie wyróżnia się na rynku marketingowym. Na imponującym poziomie łączy świat grafiki z social mediami - dla niej branding to nie tylko ładne projekty, ale spójna historia marki, emocje i realny wpływ na odbiorcę. Jest przy tym bardzo relacyjna, otwarta i po prostu świetna we współpracy. Polecam współpracę z Natalią każdemu!"</p>
       <div class="op-author">
         <img src="../portfolio-nprzybylska/img/JMK.jpg" alt="Avatar" class="op-avatar">
         <div>
           <div class="op-name">Julianna Malinowska-Kostuś</div>
-          <div class="op-context">współpraca w Human & Hunter Pro</div>
+          <div class="op-context">współpraca w Human &amp; Hunter Pro</div>
           <a href="https://www.linkedin.com/in/julianna-malinowska-kostus/" class="op-linkedin" target="_blank">Profil LinkedIn</a>
         </div>
       </div>
     </div>
-
     <div class="op fi">
       <p class="op-text">"Kreatywna bestia i wulkan pozytywnej energii w jednym 🌋! Natka to osoba, przy której każdy projekt wydaje się prostszy. Ma niesamowity dar do wymyślania, a przy tym jest turbo odpowiedzialna. To ten typ eksperta, który jest świetny w tym, co robi ale i ma najmilszą aurę w całym biurze."</p>
       <div class="op-author">
@@ -2438,10 +2566,8 @@ footer {
         </div>
       </div>
     </div>
-
     <div class="op fi">
-      <p class="op-text">"Praca z Natką to czysta przyjemność i ogromna dawka inspiracji każdego dnia.
-Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, to bez wątpienia jest to Natalka. Jej energia sprawia, że niemożliwe staje się możliwe, a zespół zyskuje wiatr w żagle nawet w trudniejszych momentach. Wyróżnia ją niesamowite podejście do projektów – Natalia nie idzie na łatwiznę. Jej kampanie są dopracowane, świeże i idealnie trafiają w potrzeby ludzi, co wynika z jej biegłości w świecie mediów. To rzadki typ profesjonalistki, która łączy twarde kompetencje z niespotykaną osobowością. Z Natką sukces projektu jest po prostu formalnością!"</p>
+      <p class="op-text">"Praca z Natką to czysta przyjemność i ogromna dawka inspiracji każdego dnia. Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, to bez wątpienia jest to Natalka. Wyróżnia ją niesamowite podejście do projektów — Natalia nie idzie na łatwiznę. Jej kampanie są dopracowane, świeże i idealnie trafiają w potrzeby ludzi. Z Natką sukces projektu jest po prostu formalnością!"</p>
       <div class="op-author">
         <img src="../portfolio-nprzybylska/img/CZ.jpg" alt="Avatar" class="op-avatar">
         <div>
@@ -2451,29 +2577,6 @@ Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, 
         </div>
       </div>
     </div>
-
-    <!-- <div class="op fi">
-      <p class="op-text">Wkrótce.</p>
-      <div class="op-author">
-        <img src="https://i.pinimg.com/736x/8b/09/e3/8b09e312a4cca87c28b69747f78376c3.jpg" alt="Avatar" class="op-avatar">
-        <div>
-          <div class="op-name">Piotr Zieliński</div>
-          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="op fi">
-      <p class="op-text">Wkrótce.</p>
-      <div class="op-author">
-        <img src="https://i.pinimg.com/1200x/f4/63/6c/f4636c91a2c029c7686a8d11fa527b54.jpg" alt="Avatar" class="op-avatar">
-        <div>
-          <div class="op-name">Magda Wójcik</div>
-          <a href="#" class="op-linkedin" target="_blank">Profil LinkedIn</a>
-        </div>
-      </div>
-    </div> -->
-
   </div>
 </section>
 
@@ -2496,13 +2599,11 @@ Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, 
 <script>
   lucide.createIcons();
 
-  // IntersectionObserver scroll animations
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
   }, { threshold: 0.08 });
   document.querySelectorAll('.fi').forEach(el => obs.observe(el));
 
-  // Hamburger
   const hamburger = document.getElementById('js-hamburger');
   const mobileNav = document.getElementById('js-mobile-nav');
   function openMenu() {
@@ -2522,7 +2623,6 @@ Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, 
     link.addEventListener('click', closeMenu);
   });
 
-  // Modals
   function openModal(id) {
     document.getElementById(id).classList.add('open');
     document.getElementById('backdrop-' + id).classList.add('open');
@@ -2540,13 +2640,11 @@ Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, 
     }
   });
 
-  // Hero canvas
   (function() {
     const canvas = document.getElementById('hero-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let W, H;
-
     function resize() {
       W = canvas.width  = canvas.offsetWidth;
       H = canvas.height = canvas.offsetHeight;
@@ -2571,7 +2669,6 @@ Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, 
       { y: 0.58, speed: -0.00004, phase: 1.4, color: 'rgba(17,16,16,0.02)'  },
       { y: 0.82, speed: 0.000035, phase: 2.8, color: 'rgba(81,245,0,0.032)' },
     ];
-
     let t = 0;
     function draw() {
       ctx.clearRect(0, 0, W, H);
@@ -2604,13 +2701,3 @@ Jeśli miałbym wskazać osobę, która jest sercem i motorem napędowym biura, 
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
