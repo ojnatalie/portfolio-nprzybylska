@@ -1784,6 +1784,218 @@ footer {
   color: var(--muted);
   margin-top: 5px;
 }
+
+
+
+
+  
+/* ─── COMPETENCIES — BENTO REDESIGN ─── */
+.cx-grid {
+  display: grid;
+  grid-template-columns: 280px repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 4px;
+}
+
+/* HERO CARD */
+.cx-hero {
+  grid-row: 1 / 3;
+  background: var(--fg);
+  border-radius: 4px;
+  padding: 44px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+.cx-hero::before {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.12) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.cx-hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+}
+.cx-hero-num {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgba(255,255,255,0.08);
+  user-select: none;
+}
+.cx-hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid rgba(81,245,0,0.3);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.cx-hero-hl {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #fff;
+  flex: 1;
+  margin-bottom: 20px;
+}
+.cx-hero-hl span { color: var(--accent); }
+
+.cx-hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 28px;
+}
+
+.cx-hero-dots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.cx-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+.cx-dot--on {
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(81,245,0,0.6);
+}
+
+/* COMP CARDS */
+.cx-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.cx-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, transparent);
+  transition: background 0.3s;
+}
+.cx-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(17,16,16,0.08);
+}
+.cx-card:hover::after {
+  background: linear-gradient(90deg, var(--accent), rgba(81,245,0,0.2));
+}
+
+/* ACCENT CARD */
+.cx-card--accent {
+  background: rgba(81,245,0,0.05);
+  border-color: rgba(81,245,0,0.18);
+}
+.cx-card--accent::after {
+  background: linear-gradient(90deg, var(--accent), rgba(81,245,0,0.3));
+}
+
+.cx-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.cx-ico {
+  width: 26px; height: 26px;
+  color: var(--fg);
+  flex-shrink: 0;
+}
+.cx-card--accent .cx-ico { color: var(--fg); }
+
+.cx-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+.cx-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--fg);
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.cx-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.75;
+  color: rgba(17,16,16,0.55);
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.cx-bar {
+  height: 2px;
+  background: rgba(17,16,16,0.07);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-top: auto;
+}
+.cx-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 1px;
+  transform-origin: left;
+  animation: cxBarGrow 1s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes cxBarGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* responsive */
+@media (max-width: 1024px) {
+  .cx-grid {
+    grid-template-columns: 240px repeat(2, 1fr);
+  }
+  .cx-hero { grid-row: 1 / 4; }
+}
+@media (max-width: 768px) {
+  .cx-grid { grid-template-columns: 1fr 1fr; }
+  .cx-hero { grid-row: auto; grid-column: 1 / -1; min-height: 280px; }
+}
+@media (max-width: 480px) {
+  .cx-grid { grid-template-columns: 1fr; }
+  .cx-hero { grid-column: 1; }
+}
+
 </style>
 </head>
 <body>
@@ -2236,51 +2448,96 @@ footer {
 
 <script src="https://unpkg.com/lucide@latest"></script>
 
+<!-- ═══════════════════════════════════════════
+     KOMPETENCJE — nowy design
+     Zastąp całą sekcję #competencies tym kodem
+     ═══════════════════════════════════════════ -->
 <section id="competencies">
   <div class="section-label">Zakres kompetencji</div>
-  <div class="comp-grid">
-    <div class="comp-item fi">
-      <div class="comp-ico"><i data-lucide="lightbulb" class="flat-icon"></i></div>
-      <div>
-        <div class="comp-title">Koncepcje kreatywne</div>
-        <div class="comp-desc">Przygotowywanie koncepcji kreatywnych dla działań marketingowych i komunikacyjnych — od briefu po gotową ideę kampanii.</div>
+
+  <div class="cx-grid">
+
+    <!-- ── HERO CARD (ciemna, pełna lewa kolumna) ── -->
+    <div class="cx-hero fi">
+      <div class="cx-hero-top">
+        <div class="cx-hero-num">06</div>
+        <div class="cx-hero-tag">specjalizacji</div>
+      </div>
+      <h2 class="cx-hero-hl">
+        Robię to,<br>do czego<br>zazwyczaj<br><span>trzeba dwóch.</span>
+      </h2>
+      <p class="cx-hero-sub">Od koncepcji strategicznej po gotowy plik — marketing i design w jednych rękach.</p>
+      <div class="cx-hero-dots">
+        <span class="cx-dot cx-dot--on"></span>
+        <span class="cx-dot"></span>
+        <span class="cx-dot"></span>
+        <span class="cx-dot cx-dot--on"></span>
+        <span class="cx-dot"></span>
+        <span class="cx-dot cx-dot--on"></span>
       </div>
     </div>
-    <div class="comp-item fi">
-      <div class="comp-ico"><i data-lucide="palette" class="flat-icon"></i></div>
-      <div>
-        <div class="comp-title">Projektowanie &amp; adaptacje graficzne</div>
-        <div class="comp-desc">Projektowanie oraz adaptacja materiałów graficznych zgodnych ze standardami marki — spójnie i na czas.</div>
+
+    <!-- ── 6 kart kompetencji ── -->
+    <div class="cx-card fi" data-num="01">
+      <div class="cx-card-top">
+        <svg class="cx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12s1-2 4-2 4 2 4 2"/><path d="M9 9h.01M15 9h.01"/><path d="M12 17c2 0 3-1 3-1"/></svg>
+        <span class="cx-num">01</span>
       </div>
+      <h3 class="cx-title">Koncepcje kreatywne</h3>
+      <p class="cx-desc">Od briefu po gotową ideę kampanii. Strategia, która ma sens i estetykę.</p>
+      <div class="cx-bar"><div class="cx-bar-fill" style="width:92%"></div></div>
     </div>
-    <div class="comp-item fi">
-      <div class="comp-ico"><i data-lucide="smartphone" class="flat-icon"></i></div>
-      <div>
-        <div class="comp-title">Materiały digital</div>
-        <div class="comp-desc">Grafiki do social mediów, kampanii reklamowych, landing pages, mailingów, banerów i prezentacji.</div>
+
+    <div class="cx-card fi" data-num="02">
+      <div class="cx-card-top">
+        <svg class="cx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        <span class="cx-num">02</span>
       </div>
+      <h3 class="cx-title">Projektowanie &amp; adaptacje</h3>
+      <p class="cx-desc">Materiały graficzne spójne ze standardami marki — na czas i bez kompromisów.</p>
+      <div class="cx-bar"><div class="cx-bar-fill" style="width:96%"></div></div>
     </div>
-    <div class="comp-item fi">
-      <div class="comp-ico"><i data-lucide="printer" class="flat-icon"></i></div>
-      <div>
-        <div class="comp-title">DTP &amp; materiały drukowane</div>
-        <div class="comp-desc">Ulotki, plakaty, zaproszenia, materiały eventowe, dokumenty firmowe — z pełnym przygotowaniem technicznym do druku.</div>
+
+    <div class="cx-card fi" data-num="03">
+      <div class="cx-card-top">
+        <svg class="cx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        <span class="cx-num">03</span>
       </div>
+      <h3 class="cx-title">Materiały digital</h3>
+      <p class="cx-desc">Social media, ads, landing pages, mailingi — cały digital w jednym workflow.</p>
+      <div class="cx-bar"><div class="cx-bar-fill" style="width:88%"></div></div>
     </div>
-    <div class="comp-item fi">
-      <div class="comp-ico"><i data-lucide="sparkles" class="flat-icon"></i></div>
-      <div>
-        <div class="comp-title">Key visual &amp; linie graficzne</div>
-        <div class="comp-desc">Opracowywanie key visuali kampanii i spójnych linii graficznych — od social po outdoor.</div>
+
+    <div class="cx-card cx-card--accent fi" data-num="04">
+      <div class="cx-card-top">
+        <svg class="cx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        <span class="cx-num">04</span>
       </div>
+      <h3 class="cx-title">DTP &amp; materiały drukowane</h3>
+      <p class="cx-desc">Ulotki, plakaty, zaproszenia, brand booki — z pełnym przygotowaniem do druku.</p>
+      <div class="cx-bar"><div class="cx-bar-fill" style="width:94%"></div></div>
     </div>
-    <div class="comp-item fi">
-      <div class="comp-ico"><i data-lucide="camera" class="flat-icon"></i></div>
-      <div>
-        <div class="comp-title">Retusz &amp; obróbka zdjęć</div>
-        <div class="comp-desc">Retusz zdjęć, korekcja kolorystyczna oraz podstawowa obróbka materiałów wizualnych zgodna ze standardami marki.</div>
+
+    <div class="cx-card fi" data-num="05">
+      <div class="cx-card-top">
+        <svg class="cx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span class="cx-num">05</span>
       </div>
+      <h3 class="cx-title">Key visual &amp; linie graficzne</h3>
+      <p class="cx-desc">Spójne kampanie od social po outdoor. Jeden język wizualny, wiele formatów.</p>
+      <div class="cx-bar"><div class="cx-bar-fill" style="width:90%"></div></div>
     </div>
+
+    <div class="cx-card fi" data-num="06">
+      <div class="cx-card-top">
+        <svg class="cx-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span class="cx-num">06</span>
+      </div>
+      <h3 class="cx-title">Retusz &amp; obróbka zdjęć</h3>
+      <p class="cx-desc">Korekcja kolorystyczna i retusz zgodne ze standardami marki — gotowe do publikacji.</p>
+      <div class="cx-bar"><div class="cx-bar-fill" style="width:85%"></div></div>
+    </div>
+
   </div>
 </section>
 
@@ -2701,4 +2958,5 @@ footer {
 </script>
 </body>
 </html>
+
 
