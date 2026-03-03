@@ -1996,229 +1996,6 @@ footer {
   .cx-hero { grid-column: 1; }
 }
 
-/* ═══════════════════════════════════
-   TOOLS SECTION — redesign
-   ═══════════════════════════════════ */
-
-#tools { padding: 100px clamp(20px, 6vw, 80px); }
-
-.tools-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  margin-bottom: 72px;
-  flex-wrap: wrap;
-}
-.tools-hl {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800;
-  font-size: clamp(36px, 5vw, 68px);
-  line-height: 1.0;
-  letter-spacing: -0.035em;
-  color: var(--fg);
-}
-.tools-hl .ul-acc {
-  position: relative;
-  display: inline-block;
-}
-.tools-hl .ul-acc::after {
-  content: '';
-  position: absolute;
-  left: 0; bottom: -4px;
-  width: 100%; height: 5px;
-  background: var(--accent);
-  border-radius: 2px;
-}
-.tools-sub {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.7;
-  max-width: 240px;
-  text-align: right;
-}
-
-.tools-tracks { display: flex; flex-direction: column; gap: 0; }
-
-.tools-track {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 0;
-  position: relative;
-  padding: 40px 0;
-  border-top: 1px solid var(--border);
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
-}
-.tools-track:last-child { border-bottom: 1px solid var(--border); }
-.tools-track.vis { opacity: 1; transform: none; }
-.tools-track:nth-child(2) { transition-delay: 0.1s; }
-.tools-track:nth-child(3) { transition-delay: 0.2s; }
-
-.tools-track::before {
-  content: attr(data-num);
-  position: absolute;
-  right: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(80px, 10vw, 140px);
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  color: rgba(81,245,0,0.08);
-  pointer-events: none;
-  line-height: 1;
-  user-select: none;
-}
-
-.tools-track-meta { padding-right: 40px; padding-top: 4px; }
-.tools-track-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  margin-bottom: 10px;
-}
-.tools-track-name {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
-  font-size: clamp(16px, 1.6vw, 20px);
-  color: var(--fg);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-.tools-track-count {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
-}
-
-.tools-track-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-content: flex-start;
-  padding-top: 4px;
-}
-
-.tchip {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border: 1.5px solid var(--border);
-  border-radius: 100px;
-  padding: 7px 14px 7px 10px;
-  font-size: 12.5px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 500;
-  color: var(--fg);
-  background: var(--card);
-  cursor: default;
-  transition: border-color 0.18s, background 0.18s, transform 0.15s;
-  position: relative;
-  overflow: hidden;
-}
-.tchip::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  opacity: 0;
-  transition: opacity 0.18s;
-  z-index: 0;
-}
-.tchip > * { position: relative; z-index: 1; }
-.tchip:hover { border-color: var(--accent); transform: translateY(-2px); }
-.tchip:hover::before { opacity: 0.09; }
-
-.tchip--feat {
-  background: var(--fg);
-  border-color: var(--fg);
-  color: var(--accent);
-}
-.tchip--feat::before { background: var(--accent); }
-.tchip--feat:hover { border-color: var(--accent); }
-.tchip--feat:hover::before { opacity: 0.15; }
-
-.tchip-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: rgba(17,16,16,0.15);
-  transition: background 0.18s;
-}
-.tchip:hover .tchip-dot { background: var(--accent); }
-.tchip--feat .tchip-dot { background: var(--accent); opacity: 0.6; }
-.tchip--feat:hover .tchip-dot { background: var(--accent); opacity: 1; }
-
-.tchip-icon {
-  width: 15px; height: 15px;
-  flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-}
-.tchip-icon svg { width: 100%; height: 100%; }
-
-.tools-bar {
-  margin-top: 56px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px 24px;
-  background: var(--fg);
-  border-radius: 14px;
-  flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
-}
-.tools-bar.vis { opacity: 1; transform: none; }
-.tools-bar-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  white-space: nowrap;
-}
-.tools-bar-pills { display: flex; flex-wrap: wrap; gap: 8px; flex: 1; }
-.tools-bar-pill {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  background: rgba(255,255,255,0.07);
-  color: rgba(255,255,255,0.85);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 100px;
-  padding: 5px 12px;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-  cursor: default;
-}
-.tools-bar-pill:hover { background: var(--accent); border-color: var(--accent); color: var(--fg); }
-.tools-bar-pill--lime { background: var(--accent); border-color: var(--accent); color: var(--fg); }
-.tools-bar-total {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  color: rgba(255,255,255,0.25);
-  white-space: nowrap;
-  margin-left: auto;
-}
-
-@media (max-width: 768px) {
-  #tools { padding: 64px 20px; }
-  .tools-track { grid-template-columns: 1fr; gap: 16px; padding: 32px 0; }
-  .tools-track-meta { padding-right: 0; }
-  .tools-track::before { font-size: 80px; right: 0; top: 24px; transform: none; }
-  .tools-head { margin-bottom: 48px; }
-  .tools-sub { max-width: 100%; text-align: left; }
-}
-@media (max-width: 480px) {
-  .tools-track::before { display: none; }
-}
-
 </style>
 </head>
 <body>
@@ -2497,8 +2274,8 @@ footer {
     </div>
 
     <div class="hero-chips">
-      <a href="/cdn-cgi/l/email-protection#f896998c9994919dd6938a9d998c818f96919db89f95999194d69b9795" class="hero-chip">
-        <span class="cdot"></span><span><span class="__cf_email__" data-cfemail="e28c8396838e8b87cc89908783969b958c8b87a2858f838b8ecc818d8f">[email&#160;protected]</span></span>
+      <a href="mailto:natalie.kreatywnie@gmail.com" class="hero-chip">
+        <span class="cdot"></span><span>natalie.kreatywnie@gmail.com</span>
       </a>
       <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" rel="noopener" class="hero-chip">
         <span class="cdot"></span>LinkedIn
@@ -2669,7 +2446,7 @@ footer {
 </section>
 <!-- ═══ KONIEC SEKCJI O MNIE ═══ -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <!-- ═══════════════════════════════════════════
      KOMPETENCJE — nowy design
@@ -2766,108 +2543,36 @@ footer {
 
 <section id="tools" style="overflow:hidden;">
   <div class="section-label">Narzędzia</div>
-
-  <div class="tools-head">
-    <h2 class="tools-hl">Warsztat,<br>który <span class="ul-acc">działa.</span></h2>
-    <p class="tools-sub">23 narzędzia, 3 obszary.<br>Wszystko czego potrzebujesz<br>w jednej osobie.</p>
+  <div class="tools-layout">
+    <div>
+      <h2 class="tools-hl fi">Warsztat,<br>który <span class="ul-acc">działa.</span></h2>
+    </div>
+    <div class="tools-cats">
+      <div class="tools-cat fi">
+        <div class="tools-cat-title">Grafika &amp; Design</div>
+        <div class="tool-chips">
+          <div class="chip">Illustrator</div><div class="chip">Photoshop</div><div class="chip">InDesign</div>
+          <div class="chip">After Effects</div><div class="chip">Lightroom</div><div class="chip">Adobe XD</div>
+          <div class="chip">Figma</div><div class="chip">Canva</div>
+        </div>
+      </div>
+      <div class="tools-cat fi">
+        <div class="tools-cat-title">Generatywna AI</div>
+        <div class="tool-chips">
+          <div class="chip">Midjourney</div><div class="chip">Adobe Firefly</div><div class="chip">Higgsfield</div>
+          <div class="chip">Nano Banana</div><div class="chip">ElevenLabs</div><div class="chip">ChatGPT</div>
+          <div class="chip">Claude</div><div class="chip">Gemini</div>
+        </div>
+      </div>
+      <div class="tools-cat fi">
+        <div class="tools-cat-title">Marketing &amp; Web &amp; Performance</div>
+        <div class="tool-chips">
+          <div class="chip">WordPress</div><div class="chip">Meta Ads</div><div class="chip">LinkedIn Ads</div>
+          <div class="chip">After Effects</div><div class="chip">Landingi</div><div class="chip">CapCut</div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="tools-tracks">
-
-    <!-- 01 — Marketing -->
-    <div class="tools-track" data-num="01">
-      <div class="tools-track-meta">
-        <div class="tools-track-num">01 / 03</div>
-        <div class="tools-track-name">Marketing</div>
-        <div class="tools-track-count">5 narzędzi</div>
-      </div>
-      <div class="tools-track-chips">
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="4" cy="7.5" r="2" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="4" r="2" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="11" r="2" stroke="currentColor" stroke-width="1.4"/><path d="M6 7l3-2M6 8l3 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
-          Meta Ads
-        </div>
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1.5" y="3.5" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 3.5V2.5a1 1 0 011-1h3a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.4"/></svg></span>
-          LinkedIn Ads
-        </div>
-        <div class="tchip"><span class="tchip-dot"></span>Landingi</div>
-        <div class="tchip"><span class="tchip-dot"></span>WordPress</div>
-        <div class="tchip"><span class="tchip-dot"></span>CapCut</div>
-      </div>
-    </div>
-
-    <!-- 02 — Grafika & DTP -->
-    <div class="tools-track" data-num="02">
-      <div class="tools-track-meta">
-        <div class="tools-track-num">02 / 03</div>
-        <div class="tools-track-name">Grafika<br>&amp; DTP</div>
-        <div class="tools-track-count">9 narzędzi</div>
-      </div>
-      <div class="tools-track-chips">
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 7.5h5M7.5 5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-          Adobe CC
-        </div>
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2-2 1 1 2-2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          Photoshop
-        </div>
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 2L13 12H2L7.5 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
-          Figma
-        </div>
-        <div class="tchip"><span class="tchip-dot"></span>Illustrator</div>
-        <div class="tchip"><span class="tchip-dot"></span>InDesign</div>
-        <div class="tchip"><span class="tchip-dot"></span>After Effects</div>
-        <div class="tchip"><span class="tchip-dot"></span>Lightroom</div>
-        <div class="tchip"><span class="tchip-dot"></span>Adobe XD</div>
-        <div class="tchip"><span class="tchip-dot"></span>Canva</div>
-      </div>
-    </div>
-
-    <!-- 03 — Generatywna AI -->
-    <div class="tools-track" data-num="03">
-      <div class="tools-track-meta">
-        <div class="tools-track-num">03 / 03</div>
-        <div class="tools-track-name">Generatywna<br>AI</div>
-        <div class="tools-track-count">9 narzędzi</div>
-      </div>
-      <div class="tools-track-chips">
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1.5C4.186 1.5 1.5 4.186 1.5 7.5S4.186 13.5 7.5 13.5 13.5 10.814 13.5 7.5 10.814 1.5 7.5 1.5z" stroke="currentColor" stroke-width="1.5"/><path d="M5 7.5c0-1.38 1.12-2.5 2.5-2.5S10 6.12 10 7.5 8.88 10 7.5 10 5 8.88 5 7.5z" fill="currentColor" opacity=".5"/></svg></span>
-          Midjourney
-        </div>
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 2C4.5 2 2 4.2 2 7c0 1.4.6 2.6 1.5 3.5L3 13l2.5-.8C6.3 12.7 6.9 13 7.5 13c3 0 5.5-2.2 5.5-5s-2.5-6-5.5-6z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-          Claude
-        </div>
-        <div class="tchip tchip--feat">
-          <span class="tchip-icon"><svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 11V4.5L7.5 2 13 4.5V11L7.5 13.5 2 11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
-          ChatGPT
-        </div>
-        <div class="tchip"><span class="tchip-dot"></span>Gemini</div>
-        <div class="tchip"><span class="tchip-dot"></span>Nano Banana</div>
-        <div class="tchip"><span class="tchip-dot"></span>Adobe Firefly</div>
-        <div class="tchip"><span class="tchip-dot"></span>Higgsfield</div>
-        <div class="tchip"><span class="tchip-dot"></span>ElevenLabs</div>
-        <div class="tchip"><span class="tchip-dot"></span>HeyGen</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="tools-bar">
-    <span class="tools-bar-label">Specjalizacje</span>
-    <div class="tools-bar-pills">
-      <span class="tools-bar-pill tools-bar-pill--lime">Generatywna AI</span>
-      <span class="tools-bar-pill">Design</span>
-      <span class="tools-bar-pill">Brand Strategy</span>
-      <span class="tools-bar-pill">Landing Pages</span>
-      <span class="tools-bar-pill">Creative Direction</span>
-    </div>
-    <span class="tools-bar-total">23 narzędzia</span>
-  </div>
-
 </section>
 
 <section id="projects">
@@ -3136,7 +2841,7 @@ footer {
   <div class="blob"></div>
   <h2 class="cta-hl fi">Szukam pracy.<br>Porozmawiajmy.</h2>
   <p class="cta-sub fi">Otwarta na propozycje full-time i freelance. Najchętniej odpiszę na maila.</p>
-  <a href="/cdn-cgi/l/email-protection#99f7f8edf8f5f0fcb7f2ebfcf8ede0eef7f0fcd9fef4f8f0f5b7faf6f4" class="cta-email fi"><span class="__cf_email__" data-cfemail="432d2237222f2a266d28312622373a342d2a2603242e222a2f6d202c2e">[email&#160;protected]</span></a>
+  <a href="mailto:natalie.kreatywnie@gmail.com" class="cta-email fi">natalie.kreatywnie@gmail.com</a>
 </section>
 
 <footer>
@@ -3144,22 +2849,17 @@ footer {
   <div class="foot-links">
     <a href="https://linkedin.com/in/nat-przybylska/" target="_blank" class="foot-link">LinkedIn</a>
     <a href="https://instagram.com/natalie.kreatywnie" target="_blank" class="foot-link">Instagram</a>
-    <a href="/cdn-cgi/l/email-protection#630d0217020f0a064d08110602171a140d0a0623040e020a0f4d000c0e" class="foot-link">Email</a>
+    <a href="mailto:natalie.kreatywnie@gmail.com" class="foot-link">Email</a>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   lucide.createIcons();
 
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
   }, { threshold: 0.08 });
   document.querySelectorAll('.fi').forEach(el => obs.observe(el));
-
-  const toolsObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); toolsObs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.tools-track, .tools-bar').forEach(el => toolsObs.observe(el));
 
   const hamburger = document.getElementById('js-hamburger');
   const mobileNav = document.getElementById('js-mobile-nav');
@@ -3239,4 +2939,24 @@ footer {
         const scale = 1 + Math.sin(t * c.speed * 1000 + c.phase) * 0.08;
         const r = c.r * Math.min(W, H) * scale;
         ctx.beginPath(); ctx.arc(c.x * W, c.y * H, r, 0, Math.PI * 2);
-        ctx.strokeStyle = c.color; ctx.li
+        ctx.strokeStyle = c.color; ctx.lineWidth = 0.75; ctx.stroke();
+      });
+      pivots.forEach(p => {
+        p.angle += p.speed * 16;
+        const len = p.len * Math.min(W, H);
+        const cx = p.x * W, cy = p.y * H;
+        ctx.beginPath();
+        ctx.moveTo(cx - Math.cos(p.angle) * len, cy - Math.sin(p.angle) * len);
+        ctx.lineTo(cx + Math.cos(p.angle) * len, cy + Math.sin(p.angle) * len);
+        ctx.strokeStyle = p.color; ctx.lineWidth = 0.8; ctx.stroke();
+      });
+      t++;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+</script>
+</body>
+</html>
+
+
