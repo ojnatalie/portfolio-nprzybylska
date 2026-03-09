@@ -706,6 +706,101 @@ nav {
   color: rgba(245,240,232,0.35);
 }
 
+
+/* ═══════════════════════════════════════
+   FOOTER CTA
+   ═══════════════════════════════════════ */
+.footer-cta {
+  padding: clamp(80px, 10vw, 140px) clamp(24px, 5vw, 80px);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.footer-cta::before {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,245,0,0.07) 0%, transparent 65%);
+  filter: blur(80px);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.footer-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-cta h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 20px;
+}
+
+.footer-cta p {
+  font-size: clamp(14px, 1.4vw, 17px);
+  color: var(--muted);
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--fg);
+  color: var(--bg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 100px;
+  transition: background 0.2s, transform 0.2s;
+}
+.btn-primary:hover { background: #222; transform: translateY(-2px); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 24px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  transition: color 0.2s, border-color 0.2s;
+  margin-left: 12px;
+}
+.btn-ghost:hover { color: var(--fg); border-color: rgba(17,16,16,0.25); }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px clamp(24px, 5vw, 80px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+
+  
 /* ─── FOOTER ─── */
 .footer {
   padding: clamp(48px,6vw,80px) clamp(24px,5vw,80px);
@@ -1046,6 +1141,7 @@ nav {
 
 </body>
 </html>
+
 
 
 
